@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "lib": ["es6", "es5", "esnext", "dom"],
+        "types": ["typescript"],
+        "module": "commonjs",
+        "outDir": "../dist"
+    },
+    "include": [
+        "./**/*.ts"
+    ],
+    "exclude": [
+        "../node_modules"
+    ]
+}

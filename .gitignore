@@ -1,0 +1,5 @@
+.nyc_output/
+coverage/
+node_modules/
+package_lock.json
+dist/
