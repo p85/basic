@@ -24,4 +24,16 @@ describe('Tokenizer', () => {
     const result = tokenizer.expr();
     expect(result).to.equal(-75);
   });
+
+  it('Multiple Signs: 7 - 3 + 2 - 1', () => {
+    tokenizer = new Tokenizer('7 - 3 + 2 - 1');
+    const result = tokenizer.expr();
+    expect(result).to.equal(5);
+  });
+
+  it('Multiple Signs: 10 + 1 + 2 - 3 + 4 + 6 - 15', () => {
+    tokenizer = new Tokenizer('10 + 1 + 2 - 3 + 4 + 6 - 15');
+    const result = tokenizer.expr();
+    expect(result).to.equal(5);
+  });
 });

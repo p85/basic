@@ -25,9 +25,9 @@ export class Tokenizer {
   currentChar: string;
 
   constructor(text: string) {
-    this.text = text.replace(/ /g, '');
+    this.text = text;
     this.position = 0;
-    this.currentToken = {token: TOKENS.NONE, value: null};
+    this.currentToken = { token: TOKENS.NONE, value: null };
     this.currentChar = this.text.charAt(this.position);
   }
 
@@ -65,18 +65,19 @@ export class Tokenizer {
         continue;
       }
       if (this.isNumeric(this.currentChar)) {
-        return {token: TOKENS.INTEGER, value: this.integer()};
+        return { token: TOKENS.INTEGER, value: this.integer() };
       }
       if (this.currentChar === SYMBOLS.PLUS) {
         this.advance();
-        return {token: TOKENS.PLUS, value: SYMBOLS.PLUS};
+        return { token: TOKENS.PLUS, value: SYMBOLS.PLUS };
       }
       if (this.currentChar === SYMBOLS.MINUS) {
         this.advance();
-        return {token: TOKENS.MINUS, value: SYMBOLS.MINUS};
+        return { token: TOKENS.MINUS, value: SYMBOLS.MINUS };
       }
       throw new Error('Parsing Error');
     }
+    return {token: TOKENS.EOF, value: null};
   }
 
   protected eat(token: TOKENS): void {
@@ -87,23 +88,24 @@ export class Tokenizer {
     throw new Error('Parsing Error, expected: ' + token + ' got: ' + this.currentToken);
   }
 
+  protected term(): string | number {
+    const token = this.currentToken;
+    this.eat(TOKENS.INTEGER);
+    return token.value;
+  }
+
   public expr() {
     this.currentToken = this.getNextToken();
-    const left: token = this.currentToken;
-    this.eat(TOKENS.INTEGER);
-    const op: token = this.currentToken;
-    if (op.token === TOKENS.PLUS) {
-      this.eat(TOKENS.PLUS);
-    } else {
-      this.eat(TOKENS.MINUS);
-    }
-    const right: token = this.currentToken;
-    this.eat(TOKENS.INTEGER);
-    let result: number;
-    if (op.token === TOKENS.PLUS) {
-      result = <number>left.value + <number>right.value;
-    } else {
-      result = <number>left.value - <number>right.value;
+    let result = this.term();
+    while (this.currentToken.token === TOKENS.PLUS || this.currentToken.token === TOKENS.MINUS) {
+      const token = this.currentToken;
+      if (token.token === TOKENS.PLUS) {
+        this.eat(TOKENS.PLUS);
+        result = <number>result + <number>this.term();
+      } else if (token.token === TOKENS.MINUS) {
+        this.eat(TOKENS.MINUS);
+        result = <number>result - <number>this.term();
+      }
     }
     return result;
   }
