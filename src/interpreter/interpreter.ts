@@ -24,9 +24,9 @@ export class Interpreter {
     return <number>token.value;
   }
 
-  public expr() {
+  protected term(): number {
     let result = this.factor();
-    while (this.currentToken.token === TOKENS.MUL || this.currentToken.token === TOKENS.DIV || this.currentToken.token === TOKENS.PLUS || this.currentToken.token === TOKENS.MINUS) {
+    while (this.currentToken.token === TOKENS.MUL || this.currentToken.token === TOKENS.DIV) {
       const token = this.currentToken;
       if (token.token === TOKENS.MUL) {
         this.eat(TOKENS.MUL);
@@ -34,12 +34,21 @@ export class Interpreter {
       } else if (token.token === TOKENS.DIV) {
         this.eat(TOKENS.DIV);
         result = result / this.factor();
-      } else if (token.token === TOKENS.PLUS) {
+      }
+    }
+    return result;
+  }
+
+  public expr() {
+    let result = this.term();
+    while (this.currentToken.token === TOKENS.PLUS || this.currentToken.token === TOKENS.MINUS) {
+      const token = this.currentToken;
+      if (token.token === TOKENS.PLUS) {
         this.eat(TOKENS.PLUS);
-        result = <number>result + <number>this.factor();
+        result = result + this.term();
       } else if (token.token === TOKENS.MINUS) {
         this.eat(TOKENS.MINUS);
-        result = <number>result - <number>this.factor();
+        result = result - this.term();
       }
     }
     return result;
