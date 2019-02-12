@@ -20,8 +20,16 @@ export class Interpreter {
 
   protected factor(): number {
     const token = this.currentToken;
-    this.eat(TOKENS.INTEGER);
-    return <number>token.value;
+    if (token.token === TOKENS.INTEGER) {
+      this.eat(TOKENS.INTEGER);
+      return <number>token.value;
+    } else if (token.token === TOKENS.LPAREN) {
+      this.eat(TOKENS.LPAREN);
+      const result = this.expr();
+      this.eat(TOKENS.RPAREN);
+      return result;
+    }
+
   }
 
   protected term(): number {

@@ -65,6 +65,14 @@ export class Tokenizer {
         this.advance();
         return { token: TOKENS.DIV, value: SYMBOLS.DIV };
       }
+      if (this.currentChar === SYMBOLS.LPAREN) {
+        this.advance();
+        return { token: TOKENS.LPAREN, value: SYMBOLS.LPAREN };
+      }
+      if (this.currentChar === SYMBOLS.RPAREN) {
+        this.advance();
+        return { token: TOKENS.RPAREN, value: SYMBOLS.RPAREN };
+      }
       throw new Error('Parsing Error');
     }
     return {token: TOKENS.EOF, value: null};

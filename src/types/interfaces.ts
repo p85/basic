@@ -9,6 +9,8 @@ export enum TOKENS {
   MINUS = '-',
   MUL = '*',
   DIV = '/',
+  LPAREN = '(',
+  RPAREN = ')',
   EOF = 'EOF',
   INTEGER = 'INTEGER'
 }
@@ -18,5 +20,7 @@ export enum SYMBOLS {
   MINUS = '-',
   MUL = '*',
   DIV = '/',
+  LPAREN = '(',
+  RPAREN = ')',
   NONE = '',
 }
