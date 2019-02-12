@@ -1,5 +1,5 @@
-import {token, TOKENS} from './interfaces';
-import {Tokenizer} from './tokenizer';
+import {token, TOKENS} from '../types/interfaces';
+import {Tokenizer} from '../tokenizer/tokenizer';
 
 export class Interpreter {
   tokenizer: Tokenizer;

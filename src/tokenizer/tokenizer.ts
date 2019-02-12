@@ -1,4 +1,4 @@
-import {token, TOKENS, SYMBOLS } from './interfaces';
+import {token, TOKENS, SYMBOLS } from '../types/interfaces';
 
 export class Tokenizer {
   text: string;
