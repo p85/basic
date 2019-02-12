@@ -1,7 +1,8 @@
 import { expect } from 'chai';
 import 'mocha';
 
-import { Tokenizer, Interpreter } from './tokenizer';
+import { Tokenizer } from './tokenizer';
+import { Interpreter } from './interpreter';
 
 let tokenizer: Tokenizer;
 let interpreter: Interpreter;
