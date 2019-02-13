@@ -1,65 +1,47 @@
-import {token, TOKENS} from '../types/interfaces';
-import {Tokenizer} from '../tokenizer/tokenizer';
+import { Parser } from "../Parser/Parser";
+import { TOKENS } from "../types/interfaces";
+import { BinOP, Num, nodes } from "../ast/ast";
+
 
 export class Interpreter {
-  tokenizer: Tokenizer;
-  currentToken: token;
-
-  constructor(tokenizer: Tokenizer) {
-    this.tokenizer = tokenizer;
-    this.currentToken = this.tokenizer.getNextToken();
+  parser: Parser;
+  tree;
+  constructor(parser: Parser) {
+    this.parser = parser;
   }
 
-  protected eat(token: TOKENS): void {
-    if (this.currentToken.token === token) {
-      this.currentToken = this.tokenizer.getNextToken();
-      return;
+  protected visit(node: nodes): number {
+    if (node instanceof BinOP) {
+      return this.visitBinOp(node);
+    } else if (node instanceof Num) {
+      return this.visitNum(node);
+    } else {
+      this.genericVisit(node);
     }
-    throw new Error('Parsing Error, expected: ' + token + ' got: ' + this.currentToken.token);
+  }
+  
+  protected genericVisit(node: nodes): void {
+    throw new Error('No visit method: ' + node);
   }
 
-  protected factor(): number {
-    const token = this.currentToken;
-    if (token.token === TOKENS.INTEGER) {
-      this.eat(TOKENS.INTEGER);
-      return <number>token.value;
-    } else if (token.token === TOKENS.LPAREN) {
-      this.eat(TOKENS.LPAREN);
-      const result = this.expr();
-      this.eat(TOKENS.RPAREN);
-      return result;
+  protected visitBinOp(node: BinOP): number {
+    if (node.token === TOKENS.PLUS) {
+      return this.visit(node.left) + this.visit(node.right);
+    } else if (node.token === TOKENS.MINUS) {
+      return this.visit(node.left) - this.visit(node.right);
+    } else if (node.token === TOKENS.MUL) {
+      return this.visit(node.left) * this.visit(node.right);
+    } else if (node.token === TOKENS.DIV) {
+      return this.visit(node.left) / this.visit(node.right);
     }
-
   }
 
-  protected term(): number {
-    let result = this.factor();
-    while (this.currentToken.token === TOKENS.MUL || this.currentToken.token === TOKENS.DIV) {
-      const token = this.currentToken;
-      if (token.token === TOKENS.MUL) {
-        this.eat(TOKENS.MUL);
-        result = result * this.factor();
-      } else if (token.token === TOKENS.DIV) {
-        this.eat(TOKENS.DIV);
-        result = result / this.factor();
-      }
-    }
-    return result;
+  protected visitNum(node: Num): number {
+    return node.value;
   }
 
-  public expr() {
-    let result = this.term();
-    while (this.currentToken.token === TOKENS.PLUS || this.currentToken.token === TOKENS.MINUS) {
-      const token = this.currentToken;
-      if (token.token === TOKENS.PLUS) {
-        this.eat(TOKENS.PLUS);
-        result = result + this.term();
-      } else if (token.token === TOKENS.MINUS) {
-        this.eat(TOKENS.MINUS);
-        result = result - this.term();
-      }
-    }
-    return result;
+  public interpret() {
+    this.tree = this.parser.parse();
+    return this.visit(this.tree);
   }
-
 }
