@@ -1,6 +1,6 @@
 import {token, TOKENS} from '../types/interfaces';
 import {Tokenizer} from '../tokenizer/tokenizer';
-import { BinOP, Num, nodes } from '../ast/ast';
+import { BinOP, Num, nodes, UnaryOP } from '../ast/ast';
 
 export class Parser {
   tokenizer: Tokenizer;
@@ -19,9 +19,17 @@ export class Parser {
     throw new Error('Parsing Error, expected: ' + token + ' got: ' + this.currentToken.token);
   }
 
-  protected factor(): Num | BinOP {
+  protected factor(): nodes {
     const token = this.currentToken;
-    if (token.token === TOKENS.INTEGER) {
+    if (token.token === TOKENS.PLUS) {
+      this.eat(TOKENS.PLUS);
+      const node = new UnaryOP(token, this.factor());
+      return node;
+    } else if (token.token === TOKENS.MINUS) {
+      this.eat(TOKENS.MINUS);
+      const node = new UnaryOP(token, this.factor());
+      return node;
+    } else if (token.token === TOKENS.INTEGER) {
       this.eat(TOKENS.INTEGER);
       return new Num(token);
     } else if (token.token === TOKENS.LPAREN) {
@@ -33,7 +41,7 @@ export class Parser {
 
   }
 
-  protected term() {
+  protected term(): BinOP {
     let node: any = this.factor();
     while (this.currentToken.token === TOKENS.MUL || this.currentToken.token === TOKENS.DIV) {
       const token = this.currentToken;

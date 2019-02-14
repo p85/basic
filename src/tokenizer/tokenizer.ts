@@ -37,7 +37,7 @@ export class Tokenizer {
       result += this.currentChar;
       this.advance();
     }
-    return +result;
+    return parseInt(result);
   }
 
   public getNextToken(): token {

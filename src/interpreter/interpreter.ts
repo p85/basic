@@ -1,6 +1,6 @@
 import { Parser } from "../Parser/Parser";
 import { TOKENS } from "../types/interfaces";
-import { BinOP, Num, nodes } from "../ast/ast";
+import { BinOP, Num, nodes, UnaryOP } from "../ast/ast";
 
 
 export class Interpreter {
@@ -15,6 +15,8 @@ export class Interpreter {
       return this.visitBinOp(node);
     } else if (node instanceof Num) {
       return this.visitNum(node);
+    } else if (node instanceof UnaryOP) {
+      return this.visitUnaryOp(node);
     } else {
       this.genericVisit(node);
     }
@@ -38,6 +40,15 @@ export class Interpreter {
 
   protected visitNum(node: Num): number {
     return node.value;
+  }
+
+  protected visitUnaryOp(node: UnaryOP): number {
+    const type = node.token.token;
+    if (type === TOKENS.PLUS) {
+      return +this.visit(node.value);
+    } else if (type === TOKENS.MINUS) {
+      return -this.visit(node.value);
+    }
   }
 
   public interpret() {
