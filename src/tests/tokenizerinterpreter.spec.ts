@@ -30,8 +30,7 @@ const testValues: string[] = [
   '5 - - - + - (3 + 4) - +2'
 ];
 
-describe('Tokenizer / Interpreter', () => {
-
+describe('calculus', () => {
   testValues.forEach((testExpr, index) => {
     it(testExpr, () => {
       tokenizer = new Tokenizer(testExpr);
@@ -40,6 +39,43 @@ describe('Tokenizer / Interpreter', () => {
       const result = interpreter.interpret();
       expect(result).to.equal(eval(testExpr));
     })
+  });
+});
+
+describe('Variables', () => {
+  it('set a variable', () => {
+    tokenizer = new Tokenizer('foobar = 12345');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    interpreter.interpret();
+    expect(interpreter.vars).to.eql({foobar: 12345});
+  });
+
+  it('calculation using one existing variable and one set', () => {
+    tokenizer = new Tokenizer('a = (b * 2 + 2) / 2');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    interpreter.vars = {b: 6};
+    interpreter.interpret();
+    expect(interpreter.vars).to.eql({b: 6, a: 7});
+  });
+
+  it('calculation using two existing variables', () => {
+    tokenizer = new Tokenizer('a = b + c');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    interpreter.vars = {b: 6, c: 1};
+    interpreter.interpret();
+    expect(interpreter.vars).to.eql({b: 6, c: 1, a: 7});
+  });
+
+  it('calculation using two existing variables and one set with parentheses', () => {
+    tokenizer = new Tokenizer('a = (b + c + 10) * 2');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    interpreter.vars = {b: 6, c: 1};
+    interpreter.interpret();
+    expect(interpreter.vars).to.eql({b: 6, c: 1, a: 34});
   });
 
 });

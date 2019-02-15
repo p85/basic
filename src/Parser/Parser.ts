@@ -1,6 +1,6 @@
-import {token, TOKENS} from '../types/interfaces';
-import {Tokenizer} from '../tokenizer/tokenizer';
-import { BinOP, Num, nodes, UnaryOP } from '../ast/ast';
+import { token, TOKENS, SYMBOLS } from '../types/interfaces';
+import { Tokenizer } from '../tokenizer/tokenizer';
+import { BinOP, Num, UnaryOP, Var, Assign } from '../ast/ast';
 
 export class Parser {
   tokenizer: Tokenizer;
@@ -11,6 +11,21 @@ export class Parser {
     this.currentToken = this.tokenizer.getNextToken();
   }
 
+  protected assign(): Assign {
+    const left: Var = this.variable();
+    const token: token = this.currentToken;
+    this.eat(TOKENS.ASSIGN);
+    const right = this.expr();
+    const node = new Assign(left, token, right);
+    return node;
+  }
+
+  protected variable(): Var {
+    const node = new Var(this.currentToken);
+    this.eat(TOKENS.IDENTIFIER);
+    return node;
+  }
+
   protected eat(token: TOKENS): void {
     if (this.currentToken.token === token) {
       this.currentToken = this.tokenizer.getNextToken();
@@ -19,7 +34,7 @@ export class Parser {
     throw new Error('Parsing Error, expected: ' + token + ' got: ' + this.currentToken.token);
   }
 
-  protected factor(): nodes {
+  protected factor(): Num | BinOP | UnaryOP | Var | Assign {
     const token = this.currentToken;
     if (token.token === TOKENS.PLUS) {
       this.eat(TOKENS.PLUS);
@@ -37,8 +52,22 @@ export class Parser {
       const node = this.expr();
       this.eat(TOKENS.RPAREN);
       return node;
+    } else if (token.token === TOKENS.IDENTIFIER && this.peek() === SYMBOLS.ASSIGN) {
+      const node = this.assign();
+      return node;
+    } else {
+      const node = this.variable();
+      return node;
     }
+  }
 
+  protected peek(): string {
+    const peekPos = this.tokenizer.position + 1;
+    if (peekPos > this.tokenizer.text.length - 1) {
+      return SYMBOLS.NONE;
+    } else {
+      return this.tokenizer.text.charAt(peekPos);
+    }
   }
 
   protected term(): BinOP {
@@ -55,8 +84,8 @@ export class Parser {
     return node;
   }
 
-  protected expr(): nodes {
-    let node: nodes = this.term();
+  protected expr(): Num | BinOP | UnaryOP {
+    let node: Num | BinOP | UnaryOP = this.term();
     while (this.currentToken.token === TOKENS.PLUS || this.currentToken.token === TOKENS.MINUS) {
       const token = this.currentToken;
       if (token.token === TOKENS.PLUS) {
@@ -69,7 +98,7 @@ export class Parser {
     return node;
   }
 
-  public parse(): nodes {
+  public parse(): Num | BinOP | UnaryOP {
     return this.expr();
   }
 

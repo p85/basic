@@ -12,7 +12,9 @@ export enum TOKENS {
   LPAREN = '(',
   RPAREN = ')',
   EOF = 'EOF',
-  INTEGER = 'INTEGER'
+  INTEGER = 'INTEGER',
+  IDENTIFIER = 'IDENTIFIER',
+  ASSIGN = 'ASSIGN',
 }
 
 export enum SYMBOLS {
@@ -23,4 +25,5 @@ export enum SYMBOLS {
   LPAREN = '(',
   RPAREN = ')',
   NONE = '',
+  ASSIGN = '=',
 }

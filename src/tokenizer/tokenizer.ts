@@ -15,6 +15,7 @@ export class Tokenizer {
 
   protected isNumeric = (value: string): boolean => /^\d+$/.test(value);
   protected isSpace = (value: string): boolean => /^ +$/.test(value);
+  protected isAlphaNumeric = (value: string): boolean => /^[a-zA-Z0-9]+$/.test(value);
 
   protected advance(): void {
     this.position += 1;
@@ -40,6 +41,15 @@ export class Tokenizer {
     return parseInt(result);
   }
 
+  protected _id(): string {
+    let result = '';
+    while (this.currentChar !== SYMBOLS.NONE && this.isAlphaNumeric(this.currentChar)) {
+      result += this.currentChar;
+      this.advance();
+    }
+    return result;
+  }
+
   public getNextToken(): token {
     while (this.currentChar !== SYMBOLS.NONE) {
       if (this.isSpace(this.currentChar)) {
@@ -48,6 +58,13 @@ export class Tokenizer {
       }
       if (this.isNumeric(this.currentChar)) {
         return { token: TOKENS.INTEGER, value: this.integer() };
+      }
+      if (this.isAlphaNumeric(this.currentChar)) {
+        return { token: TOKENS.IDENTIFIER, value: this._id() };
+      }
+      if (this.currentChar === SYMBOLS.ASSIGN) {
+        this.advance();
+        return { token: TOKENS.ASSIGN, value: SYMBOLS.ASSIGN };
       }
       if (this.currentChar === SYMBOLS.PLUS) {
         this.advance();
