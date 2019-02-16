@@ -76,12 +76,14 @@ export class Parser {
 
   protected term(): BinOP {
     let node: any = this.factor();
-    while (this.currentToken.token === TOKENS.MUL || this.currentToken.token === TOKENS.DIV) {
+    while (this.currentToken.token === TOKENS.MUL || this.currentToken.token === TOKENS.DIV || this.currentToken.token === TOKENS.MOD) {
       const token = this.currentToken;
       if (token.token === TOKENS.MUL) {
         this.eat(TOKENS.MUL);
       } else if (token.token === TOKENS.DIV) {
         this.eat(TOKENS.DIV);
+      } else if (token.token === TOKENS.MOD) {
+        this.eat(TOKENS.MOD);
       }
       node = new BinOP(node, token.token, this.factor());
     }

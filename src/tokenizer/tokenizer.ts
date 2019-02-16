@@ -67,6 +67,12 @@ export class Tokenizer {
       if (this.isNumeric(this.currentChar)) {
         return { token: TOKENS.INTEGER, value: this.integer() };
       }
+      if (this.text.substring(this.position, this.position + 3) === SYMBOLS.MOD) {
+        for (let i = 0; i < SYMBOLS.MOD.length; i++) {
+          this.advance();
+        }
+        return { token: TOKENS.MOD, value: SYMBOLS.MOD };
+      }
       if (this.isAlphaNumeric(this.currentChar)) {
         return { token: TOKENS.IDENTIFIER, value: this._id() };
       }

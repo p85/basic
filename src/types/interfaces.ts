@@ -9,6 +9,7 @@ export enum TOKENS {
   MINUS = '-',
   MUL = '*',
   DIV = '/',
+  MOD = 'MOD',
   LPAREN = '(',
   RPAREN = ')',
   EOF = 'EOF',
@@ -18,6 +19,7 @@ export enum TOKENS {
   EOL = 'EOL',
   DOUBLEQUOTE = 'DOUBLEQUOTE',
   STRING = 'STRING',
+  LINENR = 'LINENR',
 }
 
 export enum SYMBOLS {
@@ -25,6 +27,7 @@ export enum SYMBOLS {
   MINUS = '-',
   MUL = '*',
   DIV = '/',
+  MOD = 'MOD',
   LPAREN = '(',
   RPAREN = ')',
   NONE = '',

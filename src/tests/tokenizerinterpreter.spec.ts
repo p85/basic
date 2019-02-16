@@ -27,17 +27,19 @@ const testValues: string[] = [
   '- 3',
   '+ 3',
   '5 - - - + - 3',
-  '5 - - - + - (3 + 4) - +2'
+  '5 - - - + - (3 + 4) - +2',
+  '290 MOD 7',
+  '290 MOD 7 + 3 * 8 / 2 - 5 MOD 2'
 ];
 
 describe('calculus', () => {
-  testValues.forEach((testExpr, index) => {
+  testValues.forEach(testExpr => {
     it(testExpr, () => {
       tokenizer = new Tokenizer(testExpr);
       parser = new Parser(tokenizer);
       interpreter = new Interpreter(parser);
       const result = interpreter.interpret();
-      expect(result[0]).to.equal(eval(testExpr));
+      expect(result[0]).to.equal(eval(testExpr.replace(/MOD/g, '%')));
     })
   });
 });
