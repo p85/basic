@@ -42,7 +42,7 @@ describe('calculus', () => {
   });
 });
 
-describe('Variables', () => {
+describe('Integer Variables', () => {
   it('set a variable', () => {
     tokenizer = new Tokenizer('foobar = 12345');
     parser = new Parser(tokenizer);
@@ -78,4 +78,23 @@ describe('Variables', () => {
     expect(interpreter.vars).to.eql({b: 6, c: 1, a: 34});
   });
 
+});
+
+describe('String Variables', () => {
+  it('Set a String Variable', () => {
+    tokenizer = new Tokenizer('foobar = "foby"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    interpreter.interpret();
+    expect(interpreter.vars).to.eql({foobar: "foby"});
+  });
+
+  it('Read a string Variable', () => {
+    tokenizer = new Tokenizer('varx');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    interpreter.vars = {varx: 'foobar'}
+    const result = interpreter.interpret();
+    expect(result).to.equal('foobar');
+  });
 });

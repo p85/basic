@@ -1,6 +1,6 @@
 import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 import { Tokenizer } from '../tokenizer/tokenizer';
-import { BinOP, Num, UnaryOP, Var, Assign } from '../ast/ast';
+import { BinOP, Num, UnaryOP, Var, Assign, Str } from '../ast/ast';
 
 export class Parser {
   tokenizer: Tokenizer;
@@ -39,6 +39,10 @@ export class Parser {
     if (token.token === TOKENS.PLUS) {
       this.eat(TOKENS.PLUS);
       const node = new UnaryOP(token, this.factor());
+      return node;
+    } else if (token.token === TOKENS.STRING) {
+      this.eat(TOKENS.STRING);
+      const node = new Str(token);
       return node;
     } else if (token.token === TOKENS.MINUS) {
       this.eat(TOKENS.MINUS);

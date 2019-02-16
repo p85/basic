@@ -34,6 +34,16 @@ export class Num extends AST {
   }
 }
 
+export class Str extends AST {
+  token: token;
+  value: string;
+  constructor(token: token) {
+    super();
+    this.token = token;
+    this.value = <string>token.value;
+  }
+}
+
 export class Assign extends AST {
   left;
   token: token;

@@ -15,6 +15,9 @@ export enum TOKENS {
   INTEGER = 'INTEGER',
   IDENTIFIER = 'IDENTIFIER',
   ASSIGN = 'ASSIGN',
+  EOL = 'EOL',
+  DOUBLEQUOTE = 'DOUBLEQUOTE',
+  STRING = 'STRING',
 }
 
 export enum SYMBOLS {
@@ -26,4 +29,6 @@ export enum SYMBOLS {
   RPAREN = ')',
   NONE = '',
   ASSIGN = '=',
+  EOL = '\n',
+  DOUBLEQUOTE = '"',
 }

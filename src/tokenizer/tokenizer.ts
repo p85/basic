@@ -1,4 +1,4 @@
-import {token, TOKENS, SYMBOLS } from '../types/interfaces';
+import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 
 export class Tokenizer {
   text: string;
@@ -40,6 +40,14 @@ export class Tokenizer {
     }
     return parseInt(result);
   }
+  protected str(): string {
+    let result: string = '';
+    while (this.currentChar !== SYMBOLS.DOUBLEQUOTE && this.isAlphaNumeric(this.currentChar)) {
+      result += this.currentChar;
+      this.advance();
+    }
+    return result;
+  }
 
   protected _id(): string {
     let result = '';
@@ -61,6 +69,10 @@ export class Tokenizer {
       }
       if (this.isAlphaNumeric(this.currentChar)) {
         return { token: TOKENS.IDENTIFIER, value: this._id() };
+      }
+      if (this.currentChar === SYMBOLS.DOUBLEQUOTE) {
+        this.advance();
+        return { token: TOKENS.STRING, value: this.str() };
       }
       if (this.currentChar === SYMBOLS.ASSIGN) {
         this.advance();
@@ -92,7 +104,7 @@ export class Tokenizer {
       }
       throw new Error('Parsing Error');
     }
-    return {token: TOKENS.EOF, value: null};
+    return { token: TOKENS.EOF, value: null };
   }
 
 }
