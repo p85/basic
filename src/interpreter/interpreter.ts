@@ -28,7 +28,7 @@ export class Interpreter {
       this.genericVisit(node);
     }
   }
-  
+
   protected genericVisit(node: Num | BinOP | UnaryOP | Var | Assign): void {
     throw new Error('No visit method: ' + node);
   }
@@ -71,14 +71,18 @@ export class Interpreter {
     const varName = node.value;
     const val = this.vars[varName];
     if (!val) {
-      throw new Error('var not set: ' + node.token.token);
+      throw new Error('var not set: ' + varName);
     } else {
       return val;
     }
   }
 
-  public interpret() {
-    this.tree = this.parser.parse();
-    return this.visit(this.tree);
+  public interpret(): any {
+    const tree: (Num | BinOP | UnaryOP | Str)[] = this.parser.parse();
+    const result = [];
+    for (let i = 0; i < tree.length; i++) {
+      result.push(this.visit(tree[i]));
+    }
+    return result;
   }
 }

@@ -37,7 +37,7 @@ describe('calculus', () => {
       parser = new Parser(tokenizer);
       interpreter = new Interpreter(parser);
       const result = interpreter.interpret();
-      expect(result).to.equal(eval(testExpr));
+      expect(result[0]).to.equal(eval(testExpr));
     })
   });
 });
@@ -95,7 +95,7 @@ describe('String Variables', () => {
     interpreter = new Interpreter(parser);
     interpreter.vars = {varx: 'foobar'}
     const result = interpreter.interpret();
-    expect(result).to.equal('foobar');
+    expect(result[0]).to.equal('foobar');
   });
 
   it('Concatenation: Num + Str', () => {
@@ -132,5 +132,15 @@ describe('String Variables', () => {
     interpreter.vars = {varx: 'foobar', b: 5, vary: 'HELLO'}
     interpreter.interpret();
     expect(interpreter.vars).to.eql({varx: 'foobar', b:5, vary: 'HELLO', a: 'foobar52HELLO'});
+  });
+});
+
+describe('other', () => {
+  it('Multiple Statements', () => {
+    tokenizer = new Tokenizer('a = 56 c = 1234 xyz = "fooly" newvar = xyz + c + a');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    interpreter.interpret();
+    expect(interpreter.vars).to.eql({a: 56, c: 1234, xyz: 'fooly', newvar: 'fooly123456'});
   });
 });

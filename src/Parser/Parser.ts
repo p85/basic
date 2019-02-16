@@ -102,8 +102,13 @@ export class Parser {
     return node;
   }
 
-  public parse(): Num | BinOP | UnaryOP {
-    return this.expr();
+  public parse(): (Num | BinOP | UnaryOP | Str)[] {
+    const asts: (Num | BinOP | UnaryOP | Str)[] = [];
+    asts.push(this.expr());
+    while (this.tokenizer.position !== this.tokenizer.text.length) {
+      asts.push(this.expr());
+    }
+    return asts;
   }
 
 }
