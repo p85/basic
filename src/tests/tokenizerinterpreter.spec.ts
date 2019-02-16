@@ -97,4 +97,40 @@ describe('String Variables', () => {
     const result = interpreter.interpret();
     expect(result).to.equal('foobar');
   });
+
+  it('Concatenation: Num + Str', () => {
+    tokenizer = new Tokenizer('a = 2 + varx');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    interpreter.vars = {varx: 'foobar'}
+    interpreter.interpret();
+    expect(interpreter.vars).to.eql({varx: 'foobar', a: '2foobar'});
+  });
+
+  it('Concatenation: Str + Num', () => {
+    tokenizer = new Tokenizer('a = varx + 2');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    interpreter.vars = {varx: 'foobar'}
+    interpreter.interpret();
+    expect(interpreter.vars).to.eql({varx: 'foobar', a: 'foobar2'});
+  });
+
+  it('Concatenation: Str + NumVar + Num', () => {
+    tokenizer = new Tokenizer('a = varx + b + 2');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    interpreter.vars = {varx: 'foobar', b: 5}
+    interpreter.interpret();
+    expect(interpreter.vars).to.eql({varx: 'foobar', b:5, a: 'foobar52'});
+  });
+
+  it('Concatenation: Str + NumVar + Num + Str', () => {
+    tokenizer = new Tokenizer('a = varx + b + 2 + vary');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    interpreter.vars = {varx: 'foobar', b: 5, vary: 'HELLO'}
+    interpreter.interpret();
+    expect(interpreter.vars).to.eql({varx: 'foobar', b:5, vary: 'HELLO', a: 'foobar52HELLO'});
+  });
 });
