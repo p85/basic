@@ -15,11 +15,19 @@
     "@types/node": "10.12.18",
     "@types/typescript": "2.0.0",
     "chai": "4.2.0",
-    "mathjs": "^5.4.2",
-    "mocha": "5.2.0"
+    "mathjs": "5.4.2",
+    "mocha": "5.2.0",
+    "nyc": "13.3.0",
+    "source-map-support": "0.5.10"
   },
   "scripts": {
-    "test": "mocha -r ts-node/register src/**/*.spec.ts"
+    "test": "nyc mocha -r ts-node/register src/**/*.spec.ts"
+  },
+  "nyc": {
+    "extension": [".ts"],
+    "exclude": ["**/*.spec.ts", "**/*.js"],
+    "reporter": ["html", "lcov"],
+    "all": true
   },
   "author": "",
   "license": "ISC"
