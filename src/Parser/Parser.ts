@@ -1,6 +1,6 @@
 import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 import { Tokenizer } from '../tokenizer/tokenizer';
-import { BinOP, Num, UnaryOP, Var, Assign, Str } from '../ast/ast';
+import { BinOP, Num, UnaryOP, Var, Assign, Str, Print } from '../ast/ast';
 
 export class Parser {
   tokenizer: Tokenizer;
@@ -58,6 +58,11 @@ export class Parser {
       return node;
     } else if (token.token === TOKENS.IDENTIFIER && this.peek() === SYMBOLS.ASSIGN) {
       const node = this.assign();
+      return node;
+    } else if (token.token === TOKENS.PRINT) {
+      this.eat(TOKENS.PRINT);
+      const values = this.expr();
+      const node = new Print(token, values);
       return node;
     } else {
       const node = this.variable();

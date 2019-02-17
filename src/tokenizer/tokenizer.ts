@@ -45,7 +45,7 @@ export class Tokenizer {
   }
   protected str(): string {
     let result: string = '';
-    while (this.currentChar !== SYMBOLS.DOUBLEQUOTE && this.isAlphaNumeric(this.currentChar)) {
+    while (this.currentChar !== SYMBOLS.DOUBLEQUOTE) {
       result += this.currentChar;
       this.advance();
     }
@@ -62,6 +62,17 @@ export class Tokenizer {
     return result;
   }
 
+
+  protected isToken(symbol: SYMBOLS): boolean {
+    return this.text.substring(this.position, this.position + symbol.length) === symbol;
+  }
+
+  protected consumeToken(symbol: SYMBOLS): void {
+    for (let i = 0; i < symbol.length; i++) {
+      this.advance();
+    }
+  }
+
   public getNextToken(): token {
     while (this.currentChar !== SYMBOLS.NONE) {
       if (this.isSpace(this.currentChar)) {
@@ -71,49 +82,53 @@ export class Tokenizer {
       if (this.isNumeric(this.currentChar)) {
         return { token: TOKENS.INTEGER, line: this.currentLine, value: this.integer() };
       }
-      if (this.text.substring(this.position, this.position + 3) === SYMBOLS.MOD) {
-        for (let i = 0; i < SYMBOLS.MOD.length; i++) {
-          this.advance();
-        }
+      if (this.isToken(SYMBOLS.MOD)) {
+        this.consumeToken(SYMBOLS.MOD);
         return { token: TOKENS.MOD, line: this.currentLine, value: SYMBOLS.MOD };
       }
+      // Commands
+      if (this.isToken(SYMBOLS.PRINT)) {
+        this.consumeToken(SYMBOLS.PRINT);
+        return { token: TOKENS.PRINT, line: this.currentLine, value: SYMBOLS.PRINT };
+      }
+      // Commands end
       if (this.isAlphaNumeric(this.currentChar)) {
         return { token: TOKENS.IDENTIFIER, line: this.currentLine, value: this._id() };
       }
-      if (this.currentChar === SYMBOLS.DOUBLEQUOTE) {
-        this.advance();
+      if (this.isToken(SYMBOLS.DOUBLEQUOTE)) {
+        this.consumeToken(SYMBOLS.DOUBLEQUOTE);
         return { token: TOKENS.STRING, line: this.currentLine, value: this.str() };
       }
-      if (this.currentChar === SYMBOLS.ASSIGN) {
-        this.advance();
+      if (this.isToken(SYMBOLS.ASSIGN)) {
+        this.consumeToken(SYMBOLS.ASSIGN);
         return { token: TOKENS.ASSIGN, line: this.currentLine, value: SYMBOLS.ASSIGN };
       }
-      if (this.currentChar === SYMBOLS.PLUS) {
-        this.advance();
+      if (this.isToken(SYMBOLS.PLUS)) {
+        this.consumeToken(SYMBOLS.PLUS);
         return { token: TOKENS.PLUS, line: this.currentLine, value: SYMBOLS.PLUS };
       }
-      if (this.currentChar === SYMBOLS.MINUS) {
-        this.advance();
+      if (this.isToken(SYMBOLS.MINUS)) {
+        this.consumeToken(SYMBOLS.MINUS);
         return { token: TOKENS.MINUS, line: this.currentLine, value: SYMBOLS.MINUS };
       }
-      if (this.currentChar === SYMBOLS.MUL) {
-        this.advance();
+      if (this.isToken(SYMBOLS.MUL)) {
+        this.consumeToken(SYMBOLS.MUL);
         return { token: TOKENS.MUL, line: this.currentLine, value: SYMBOLS.MUL };
       }
-      if (this.currentChar === SYMBOLS.DIV) {
-        this.advance();
+      if (this.isToken(SYMBOLS.DIV)) {
+        this.consumeToken(SYMBOLS.DIV);
         return { token: TOKENS.DIV, line: this.currentLine, value: SYMBOLS.DIV };
       }
-      if (this.currentChar === SYMBOLS.LPAREN) {
-        this.advance();
+      if (this.isToken(SYMBOLS.LPAREN)) {
+        this.consumeToken(SYMBOLS.LPAREN);
         return { token: TOKENS.LPAREN, line: this.currentLine, value: SYMBOLS.LPAREN };
       }
-      if (this.currentChar === SYMBOLS.RPAREN) {
-        this.advance();
+      if (this.isToken(SYMBOLS.RPAREN)) {
+        this.consumeToken(SYMBOLS.RPAREN);
         return { token: TOKENS.RPAREN, line: this.currentLine, value: SYMBOLS.RPAREN };
       }
       if (this.currentChar.charCodeAt(0) === SYMBOLS.EOL.charCodeAt(0)) {
-        this.advance();
+        this.consumeToken(SYMBOLS.EOL);
         this.currentLine = this.integer();
         continue;
       }

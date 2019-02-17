@@ -155,5 +155,14 @@ describe('other', () => {
     expect(interpreter.vars).to.eql({a: 56, c: 1234, xyz: 'fooly', newvar: 'fooly123456'});
     expect(result).to.eql([undefined, undefined, undefined, undefined, 'fooly123456']);
   });
+});
 
+describe('Commands', () => {
+  it('PRINT string with spaces and numeric expression', () => {
+    tokenizer = new Tokenizer('10 PRINT "Hello World" + 3 + 5');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[0]).to.equal('Hello World35');
+  });
 });

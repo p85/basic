@@ -1,7 +1,7 @@
 export interface token {
   token: TOKENS,
   line: number,
-  value: string | number,
+  value: string | number | any,
 }
 
 export enum TOKENS {
@@ -20,6 +20,8 @@ export enum TOKENS {
   EOL = 'EOL',
   DOUBLEQUOTE = 'DOUBLEQUOTE',
   STRING = 'STRING',
+  // Commands
+  PRINT = 'PRINT',
 }
 
 export enum SYMBOLS {
@@ -34,4 +36,7 @@ export enum SYMBOLS {
   ASSIGN = '=',
   EOL = '\n',
   DOUBLEQUOTE = '"',
+  SPACE = ' ',
+  // Commands
+  PRINT = 'PRINT',
 }

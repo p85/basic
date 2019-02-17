@@ -1,11 +1,14 @@
 import { token, TOKENS } from "../types/interfaces";
 
-class AST {}
+class AST {
+  line: number;
+}
 
 export class BinOP extends AST {
   left: Num | BinOP | UnaryOP | Assign;
   token: TOKENS;
   right: Num | BinOP | UnaryOP | Assign;
+  value;
   constructor(left: Num | BinOP | UnaryOP | Assign, op: TOKENS, right: Num | BinOP | UnaryOP | Assign) {
     super();
     this.left = left;
@@ -63,5 +66,15 @@ export class Var extends AST {
     super();
     this.token = token;
     this.value = token.value;
+  }
+}
+
+export class Print extends AST {
+  token: token;
+  value: Str | BinOP | UnaryOP | Num | Var;
+  constructor(token: token, value: Str | BinOP | UnaryOP | Num | Var) {
+    super();
+    this.token = token;
+    this.value = value;
   }
 }
