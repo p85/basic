@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "target": "es6",
-        "lib": ["es6", "es5", "esnext", "dom"],
+        "lib": ["es6", "dom"],
         "types": ["typescript"],
         "module": "commonjs",
         "outDir": "../dist"

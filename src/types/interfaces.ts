@@ -22,6 +22,7 @@ export enum TOKENS {
   STRING = 'STRING',
   // Commands
   PRINT = 'PRINT',
+  GOTO = 'GOTO',
 }
 
 export enum SYMBOLS {
@@ -39,4 +40,5 @@ export enum SYMBOLS {
   SPACE = ' ',
   // Commands
   PRINT = 'PRINT',
+  GOTO = 'GOTO'
 }

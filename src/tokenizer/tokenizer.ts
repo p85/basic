@@ -91,6 +91,10 @@ export class Tokenizer {
         this.consumeToken(SYMBOLS.PRINT);
         return { token: TOKENS.PRINT, line: this.currentLine, value: SYMBOLS.PRINT };
       }
+      if (this.isToken(SYMBOLS.GOTO)) {
+        this.consumeToken(SYMBOLS.GOTO);
+        return { token: TOKENS.GOTO, line: this.currentLine, value: SYMBOLS.GOTO };
+      }
       // Commands end
       if (this.isAlphaNumeric(this.currentChar)) {
         return { token: TOKENS.IDENTIFIER, line: this.currentLine, value: this._id() };

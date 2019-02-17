@@ -165,4 +165,12 @@ describe('Commands', () => {
     const result = interpreter.interpret();
     expect(result[0]).to.equal('Hello World35');
   });
+
+  it('GOTO', () => {
+    tokenizer = new Tokenizer('10 PRINT "Hello World!" + 7 + 3\n20 GOTO 40\n30 PRINT "UH-OH!"\n40 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql(["Hello World!73", undefined, "FIN"]);
+  });
 });

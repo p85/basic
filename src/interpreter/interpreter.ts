@@ -1,17 +1,18 @@
 import { Parser } from "../Parser/Parser";
 import { TOKENS } from "../types/interfaces";
-import { BinOP, Num, UnaryOP, Assign, Var, Str, Print } from "../ast/ast";
+import { BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto } from "../ast/ast";
 
 
 export class Interpreter {
   parser: Parser;
-  tree;
+  tree = [];
   vars = {};
+  currentLine: number = null;
   constructor(parser: Parser) {
     this.parser = parser;
   }
 
-  protected visit(node: Num | BinOP | UnaryOP | Var | Assign | Str | Print): number | void | string {
+  protected visit(node: Num | BinOP | UnaryOP | Var | Assign | Str | Print | Goto): number | void | string {
     if (node instanceof BinOP) {
       return this.visitBinOp(node);
     } else if (node instanceof Num) {
@@ -26,6 +27,8 @@ export class Interpreter {
       return this.visitStr(node);
     } else if (node instanceof Print) {
       return this.visitPrint(node);
+    } else if (node instanceof Goto) {
+      return this.visitGoto(node);
     } else {
       this.genericVisit(node);
     }
@@ -87,11 +90,35 @@ export class Interpreter {
     return result;
   }
 
+  protected visitGoto(node: Goto): void {
+    const newLine = node.value.value;
+    const newIndex = this.resolveLineToIndex(newLine);
+    if (newIndex == null) throw new Error('visitGoto did not return a index number');
+    this.currentLine = newIndex;
+  }
+
+  protected resolveLineToIndex(line: number): number {
+    let newIndex: number;
+    for (let i = 0; i < this.tree.length; i++) {
+      if (this.tree[i].token.line === line) {
+        newIndex = i;
+        break;
+      }
+    }
+    return newIndex;
+  }
+
+  protected goToLine(): number {
+    const li = this.currentLine;
+    this.currentLine = null;
+    return li;
+  }
+
   public interpret(): any {
-    const tree: (Num | BinOP | UnaryOP | Str)[] = this.parser.parse();
+    this.tree = this.parser.parse();
     const result = [];
-    for (let i = 0; i < tree.length; i++) {
-      result.push(this.visit(tree[i]));
+    for (let i = 0; i < this.tree.length; i = this.currentLine == null ? i + 1 : this.goToLine()) {
+      result.push(this.visit(this.tree[i]));
     }
     return result;
   }
