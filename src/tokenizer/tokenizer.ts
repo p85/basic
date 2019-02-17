@@ -5,12 +5,15 @@ export class Tokenizer {
   position: number;
   currentToken: token;
   currentChar: string;
+  currentLine: number;
 
   constructor(text: string) {
+    if (text.charCodeAt(text.length) !== 10) text += SYMBOLS.EOL;
     this.text = text;
     this.position = 0;
-    this.currentToken = { token: TOKENS.NONE, value: null };
+    this.currentToken = { token: TOKENS.NONE, line: null, value: null };
     this.currentChar = this.text.charAt(this.position);
+    this.currentLine = this.integer();
   }
 
   protected isNumeric = (value: string): boolean => /^\d+$/.test(value);
@@ -46,6 +49,7 @@ export class Tokenizer {
       result += this.currentChar;
       this.advance();
     }
+    if (this.currentChar === SYMBOLS.DOUBLEQUOTE) this.advance();
     return result;
   }
 
@@ -65,52 +69,57 @@ export class Tokenizer {
         continue;
       }
       if (this.isNumeric(this.currentChar)) {
-        return { token: TOKENS.INTEGER, value: this.integer() };
+        return { token: TOKENS.INTEGER, line: this.currentLine, value: this.integer() };
       }
       if (this.text.substring(this.position, this.position + 3) === SYMBOLS.MOD) {
         for (let i = 0; i < SYMBOLS.MOD.length; i++) {
           this.advance();
         }
-        return { token: TOKENS.MOD, value: SYMBOLS.MOD };
+        return { token: TOKENS.MOD, line: this.currentLine, value: SYMBOLS.MOD };
       }
       if (this.isAlphaNumeric(this.currentChar)) {
-        return { token: TOKENS.IDENTIFIER, value: this._id() };
+        return { token: TOKENS.IDENTIFIER, line: this.currentLine, value: this._id() };
       }
       if (this.currentChar === SYMBOLS.DOUBLEQUOTE) {
         this.advance();
-        return { token: TOKENS.STRING, value: this.str() };
+        return { token: TOKENS.STRING, line: this.currentLine, value: this.str() };
       }
       if (this.currentChar === SYMBOLS.ASSIGN) {
         this.advance();
-        return { token: TOKENS.ASSIGN, value: SYMBOLS.ASSIGN };
+        return { token: TOKENS.ASSIGN, line: this.currentLine, value: SYMBOLS.ASSIGN };
       }
       if (this.currentChar === SYMBOLS.PLUS) {
         this.advance();
-        return { token: TOKENS.PLUS, value: SYMBOLS.PLUS };
+        return { token: TOKENS.PLUS, line: this.currentLine, value: SYMBOLS.PLUS };
       }
       if (this.currentChar === SYMBOLS.MINUS) {
         this.advance();
-        return { token: TOKENS.MINUS, value: SYMBOLS.MINUS };
+        return { token: TOKENS.MINUS, line: this.currentLine, value: SYMBOLS.MINUS };
       }
       if (this.currentChar === SYMBOLS.MUL) {
         this.advance();
-        return { token: TOKENS.MUL, value: SYMBOLS.MUL };
+        return { token: TOKENS.MUL, line: this.currentLine, value: SYMBOLS.MUL };
       }
       if (this.currentChar === SYMBOLS.DIV) {
         this.advance();
-        return { token: TOKENS.DIV, value: SYMBOLS.DIV };
+        return { token: TOKENS.DIV, line: this.currentLine, value: SYMBOLS.DIV };
       }
       if (this.currentChar === SYMBOLS.LPAREN) {
         this.advance();
-        return { token: TOKENS.LPAREN, value: SYMBOLS.LPAREN };
+        return { token: TOKENS.LPAREN, line: this.currentLine, value: SYMBOLS.LPAREN };
       }
       if (this.currentChar === SYMBOLS.RPAREN) {
         this.advance();
-        return { token: TOKENS.RPAREN, value: SYMBOLS.RPAREN };
+        return { token: TOKENS.RPAREN, line: this.currentLine, value: SYMBOLS.RPAREN };
+      }
+      if (this.currentChar.charCodeAt(0) === SYMBOLS.EOL.charCodeAt(0)) {
+        this.advance();
+        this.currentLine = this.integer();
+        continue;
       }
       throw new Error('Parsing Error');
     }
-    return { token: TOKENS.EOF, value: null };
+    return { token: TOKENS.EOF, line: this.currentLine,  value: null };
   }
 
 }

@@ -1,5 +1,6 @@
 export interface token {
   token: TOKENS,
+  line: number,
   value: string | number,
 }
 
@@ -19,7 +20,6 @@ export enum TOKENS {
   EOL = 'EOL',
   DOUBLEQUOTE = 'DOUBLEQUOTE',
   STRING = 'STRING',
-  LINENR = 'LINENR',
 }
 
 export enum SYMBOLS {
