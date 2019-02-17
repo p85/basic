@@ -67,6 +67,7 @@ export class Parser {
     } else if (token.token === TOKENS.GOTO) {
       this.eat(TOKENS.GOTO);
       const value = this.factor();
+      if (!(value instanceof Num)) throw new Error('GOTO expects a number');
       const node = new Goto(token, <Num>value);
       return node;
     } else {
