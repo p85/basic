@@ -1,6 +1,6 @@
 import { Parser } from "../Parser/Parser";
 import { TOKENS } from "../types/interfaces";
-import { BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto, Abs } from "../ast/ast";
+import { BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto, Abs, Atn } from "../ast/ast";
 
 
 export class Interpreter {
@@ -12,7 +12,7 @@ export class Interpreter {
     this.parser = parser;
   }
 
-  protected visit(node: Num | BinOP | UnaryOP | Var | Assign | Str | Print | Goto | Abs): number | void | string {
+  protected visit(node: Num | BinOP | UnaryOP | Var | Assign | Str | Print | Goto | Abs | Atn): number | void | string {
     if (node instanceof BinOP) {
       return this.visitBinOp(node);
     } else if (node instanceof Num) {
@@ -31,6 +31,8 @@ export class Interpreter {
       return this.visitGoto(node);
     } else if (node instanceof Abs) {
       return this.visitAbs(node);
+    } else if (node instanceof Atn) {
+      return this.visitAtn(node);
     } else {
       this.genericVisit(node);
     }
@@ -118,6 +120,10 @@ export class Interpreter {
 
   protected visitAbs(node: Abs): number {
     return Math.abs(<number>this.visit(node.value));
+  }
+
+  protected visitAtn(node: Atn): number {
+    return Math.atan(<number>this.visit(node.value));
   }
 
   public interpret(): any {

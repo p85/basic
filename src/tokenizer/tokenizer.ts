@@ -99,6 +99,10 @@ export class Tokenizer {
         this.consumeToken(SYMBOLS.ABS);
         return { token: TOKENS.ABS, line: this.currentLine, value: SYMBOLS.ABS };
       }
+      if (this.isToken(SYMBOLS.ATN)) {
+        this.consumeToken(SYMBOLS.ATN);
+        return { token: TOKENS.ATN, line: this.currentLine, value: SYMBOLS.ATN };
+      }
       // Commands end
       if (this.isAlphaNumeric(this.currentChar)) {
         return { token: TOKENS.IDENTIFIER, line: this.currentLine, value: this._id() };

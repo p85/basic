@@ -1,6 +1,6 @@
 import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 import { Tokenizer } from '../tokenizer/tokenizer';
-import { BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs } from '../ast/ast';
+import { BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn } from '../ast/ast';
 
 export class Parser {
   tokenizer: Tokenizer;
@@ -76,6 +76,14 @@ export class Parser {
       const value = this.factor();
       if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP)) throw new Error('ABS expects a number/Variable');
       const node = new Abs(token, <Num>value);
+      this.eat(TOKENS.RPAREN);
+      return node;
+    } else if (token.token === TOKENS.ATN) {
+      this.eat(TOKENS.ATN);
+      this.eat(TOKENS.LPAREN);
+      const value = this.factor();
+      if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP)) throw new Error('ATN expects a number/Variable');
+      const node = new Atn(token, <Num>value);
       this.eat(TOKENS.RPAREN);
       return node;
     } else {

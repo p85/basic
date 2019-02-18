@@ -98,3 +98,13 @@ export class Abs extends AST {
     this.value = value;
   }
 }
+
+export class Atn extends AST {
+  token: token;
+  value: Num;
+  constructor(token: token, value: Num) {
+    super();
+    this.token = token;
+    this.value = value;
+  }
+}

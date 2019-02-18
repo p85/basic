@@ -205,4 +205,20 @@ describe('Commands', () => {
     const result = interpreter.interpret();
     expect(result[1]).to.equal(13);
   });
+
+  it('ATN with Number', () => {
+    tokenizer = new Tokenizer('10 VARX = 10\n20 PRINT ATN(56)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[1]).to.equal(1.5529410816553442);
+  });
+
+  it('ATN with Variable', () => {
+    tokenizer = new Tokenizer('10 VARX = 56\n20 PRINT ATN(VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[1]).to.equal(1.5529410816553442);
+  });
 });

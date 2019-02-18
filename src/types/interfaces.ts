@@ -24,6 +24,7 @@ export enum TOKENS {
   PRINT = 'PRINT',
   GOTO = 'GOTO',
   ABS = 'ABS',
+  ATN = 'ATN',
 }
 
 export enum SYMBOLS {
@@ -43,4 +44,5 @@ export enum SYMBOLS {
   PRINT = 'PRINT',
   GOTO = 'GOTO',
   ABS = 'ABS',
+  ATN = 'ATN',
 }
