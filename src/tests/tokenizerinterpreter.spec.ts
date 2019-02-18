@@ -173,4 +173,36 @@ describe('Commands', () => {
     const result = interpreter.interpret();
     expect(result).to.eql(["Hello World!73", undefined, "FIN"]);
   });
+
+  it('ABS with positive Variable', () => {
+    tokenizer = new Tokenizer('10 VARX = 10\n20 PRINT ABS(VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[1]).to.equal(10);
+  });
+
+  it('ABS with positive Number', () => {
+    tokenizer = new Tokenizer('10 VARX = 10\n20 PRINT ABS(13)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[1]).to.equal(13);
+  });
+
+  it('ABS with negative Variable', () => {
+    tokenizer = new Tokenizer('10 VARX = -10\n20 PRINT ABS(VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[1]).to.equal(10);
+  });
+
+  it('ABS with negative Number', () => {
+    tokenizer = new Tokenizer('10 VARX = 10\n20 PRINT ABS(-13)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[1]).to.equal(13);
+  });
 });

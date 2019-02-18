@@ -95,6 +95,10 @@ export class Tokenizer {
         this.consumeToken(SYMBOLS.GOTO);
         return { token: TOKENS.GOTO, line: this.currentLine, value: SYMBOLS.GOTO };
       }
+      if (this.isToken(SYMBOLS.ABS)) {
+        this.consumeToken(SYMBOLS.ABS);
+        return { token: TOKENS.ABS, line: this.currentLine, value: SYMBOLS.ABS };
+      }
       // Commands end
       if (this.isAlphaNumeric(this.currentChar)) {
         return { token: TOKENS.IDENTIFIER, line: this.currentLine, value: this._id() };
@@ -138,7 +142,7 @@ export class Tokenizer {
       }
       throw new Error('Parsing Error');
     }
-    return { token: TOKENS.EOF, line: this.currentLine,  value: null };
+    return { token: TOKENS.EOF, line: this.currentLine, value: null };
   }
 
 }
