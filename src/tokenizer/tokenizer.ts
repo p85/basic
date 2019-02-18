@@ -145,8 +145,9 @@ export class Tokenizer {
       }
       if (this.currentChar.charCodeAt(0) === SYMBOLS.EOL.charCodeAt(0)) {
         this.consumeToken(SYMBOLS.EOL);
+        const oldLine: number = this.currentLine;
         this.currentLine = this.integer();
-        continue;
+        return { token: TOKENS.EOL, line: oldLine, value: SYMBOLS.EOL };
       }
       throw new Error('Parsing Error');
     }

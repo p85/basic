@@ -2,14 +2,17 @@ import { token, TOKENS } from "../types/interfaces";
 
 class AST {
   line: number;
+  value;
 }
 
+export type nodes = BinOP | UnaryOP | Num | Str | Assign | Var | Print | Goto | Abs | Atn | Beep;
+
 export class BinOP extends AST {
-  left: Num | BinOP | UnaryOP | Assign;
+  left: Num | BinOP | UnaryOP | Assign | Var;
   token: TOKENS;
-  right: Num | BinOP | UnaryOP | Assign;
+  right: Num | BinOP | UnaryOP | Assign | Var;
   value;
-  constructor(left: Num | BinOP | UnaryOP | Assign, op: TOKENS, right: Num | BinOP | UnaryOP | Assign) {
+  constructor(left: Num | BinOP | UnaryOP | Assign | Var, op: TOKENS, right: Num | BinOP | UnaryOP | Assign | Var) {
     super();
     this.left = left;
     this.token = op;
@@ -19,8 +22,8 @@ export class BinOP extends AST {
 
 export class UnaryOP extends AST {
   token: token;
-  value: Num | BinOP | UnaryOP | Assign;
-  constructor(token: token, value: Num | BinOP | UnaryOP | Assign) {
+  value: Num | BinOP | UnaryOP | Assign | Var;
+  constructor(token: token, value: Num | BinOP | UnaryOP | Assign | Var) {
     super();
     this.token = token;
     this.value = value;
@@ -115,5 +118,12 @@ export class Beep extends AST {
   constructor(token: token) {
     super();
     this.token = token;
+  }
+}
+
+export class NOP extends AST {
+  token: token;
+  constructor() {
+    super();
   }
 }

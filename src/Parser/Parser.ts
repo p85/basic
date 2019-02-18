@@ -1,6 +1,6 @@
 import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 import { Tokenizer } from '../tokenizer/tokenizer';
-import { BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn, Beep } from '../ast/ast';
+import { BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn, Beep, nodes, NOP } from '../ast/ast';
 
 export class Parser {
   tokenizer: Tokenizer;
@@ -34,7 +34,7 @@ export class Parser {
     throw new Error('Parsing Error, expected: ' + token + ' got: ' + this.currentToken.token);
   }
 
-  protected factor(): Num | BinOP | UnaryOP | Var | Assign {
+  protected factor(): nodes {
     const token = this.currentToken;
     if (token.token === TOKENS.PLUS) {
       this.eat(TOKENS.PLUS);
@@ -62,6 +62,7 @@ export class Parser {
     } else if (token.token === TOKENS.PRINT) {
       this.eat(TOKENS.PRINT);
       const values = this.expr();
+      this.eat(TOKENS.EOL);
       const node = new Print(token, values);
       return node;
     } else if (token.token === TOKENS.GOTO) {
@@ -90,6 +91,10 @@ export class Parser {
       this.eat(TOKENS.BEEP);
       const node = new Beep(token);
       return node;
+    } else if (token.token === TOKENS.EOL) {
+      this.eat(TOKENS.EOL);
+      const node = new NOP();
+      return node;
     } else {
       const node = this.variable();
       return node;
@@ -105,7 +110,7 @@ export class Parser {
     }
   }
 
-  protected term(): BinOP {
+  protected term(): nodes {
     let node: any = this.factor();
     while (this.currentToken.token === TOKENS.MUL || this.currentToken.token === TOKENS.DIV || this.currentToken.token === TOKENS.MOD) {
       const token = this.currentToken;
@@ -121,8 +126,8 @@ export class Parser {
     return node;
   }
 
-  protected expr(): Num | BinOP | UnaryOP {
-    let node: Num | BinOP | UnaryOP = this.term();
+  protected expr(): nodes {
+    let node: nodes = this.term();
     while (this.currentToken.token === TOKENS.PLUS || this.currentToken.token === TOKENS.MINUS) {
       const token = this.currentToken;
       if (token.token === TOKENS.PLUS) {
@@ -135,8 +140,8 @@ export class Parser {
     return node;
   }
 
-  public parse(): (Num | BinOP | UnaryOP | Str)[] {
-    const asts: (Num | BinOP | UnaryOP | Str)[] = [];
+  public parse(): nodes[] {
+    const asts: nodes[] = [];
     asts.push(this.expr());
     while (this.tokenizer.position !== this.tokenizer.text.length) {
       asts.push(this.expr());

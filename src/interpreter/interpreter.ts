@@ -1,6 +1,6 @@
 import { Parser } from "../Parser/Parser";
 import { TOKENS } from "../types/interfaces";
-import { BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto, Abs, Atn, Beep } from "../ast/ast";
+import { BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto, Abs, Atn, Beep, NOP } from "../ast/ast";
 
 
 export class Interpreter {
@@ -33,6 +33,8 @@ export class Interpreter {
       return this.visitAbs(node);
     } else if (node instanceof Atn) {
       return this.visitAtn(node);
+    } else if (node instanceof NOP) {
+      return;
     } else {
       this.genericVisit(node);
     }
@@ -104,7 +106,7 @@ export class Interpreter {
   protected resolveLineToIndex(line: number): number {
     let newIndex: number;
     for (let i = 0; i < this.tree.length; i++) {
-      if (this.tree[i].token.line === line) {
+      if (this.tree[i].token && this.tree[i].token.line && this.tree[i].token.line === line) {
         newIndex = i;
         break;
       }

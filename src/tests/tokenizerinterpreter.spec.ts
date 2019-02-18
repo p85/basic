@@ -5,6 +5,7 @@ import 'mocha';
 import { Tokenizer } from '../tokenizer/tokenizer';
 import { Parser } from '../Parser/Parser';
 import { Interpreter } from '../Interpreter/Interpreter';
+import { TOKENS } from '../types/interfaces';
 
 let tokenizer: Tokenizer;
 let parser: Parser;
@@ -144,7 +145,7 @@ describe('other', () => {
     interpreter = new Interpreter(parser);
     const result = interpreter.interpret();
     expect(interpreter.vars).to.eql({a: 56, c: 1234, xyz: 'fooly', newvar: 'fooly123456'});
-    expect(result).to.eql([undefined, undefined, undefined, undefined, 'fooly123456']);
+    expect(result).to.eql([undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, 'fooly123456', undefined]);
   });
 
   it('Multiple Statements with Line Numbers without LINEBREAK at End', () => {
@@ -153,7 +154,7 @@ describe('other', () => {
     interpreter = new Interpreter(parser);
     const result = interpreter.interpret();
     expect(interpreter.vars).to.eql({a: 56, c: 1234, xyz: 'fooly', newvar: 'fooly123456'});
-    expect(result).to.eql([undefined, undefined, undefined, undefined, 'fooly123456']);
+    expect(result).to.eql([undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, 'fooly123456', undefined]);
   });
 });
 
@@ -164,6 +165,13 @@ describe('Commands', () => {
     interpreter = new Interpreter(parser);
     const result = interpreter.interpret();
     expect(result[0]).to.equal('Hello World35');
+  });
+
+  it('PRINT string with spaces and numeric expression CANNOT follow another PRINT', () => {
+    tokenizer = new Tokenizer('10 PRINT "Hello World" PRINT "foo bar"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    expect(interpreter.interpret.bind(interpreter.interpret)).to.throw();
   });
 
   it('GOTO', () => {
@@ -179,7 +187,7 @@ describe('Commands', () => {
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
     const result = interpreter.interpret();
-    expect(result[1]).to.equal(10);
+    expect(result[2]).to.equal(10);
   });
 
   it('ABS with positive Number', () => {
@@ -187,7 +195,7 @@ describe('Commands', () => {
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
     const result = interpreter.interpret();
-    expect(result[1]).to.equal(13);
+    expect(result[2]).to.equal(13);
   });
 
   it('ABS with negative Variable', () => {
@@ -195,7 +203,7 @@ describe('Commands', () => {
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
     const result = interpreter.interpret();
-    expect(result[1]).to.equal(10);
+    expect(result[2]).to.equal(10);
   });
 
   it('ABS with negative Number', () => {
@@ -203,7 +211,7 @@ describe('Commands', () => {
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
     const result = interpreter.interpret();
-    expect(result[1]).to.equal(13);
+    expect(result[2]).to.equal(13);
   });
 
   it('ATN with Number', () => {
@@ -211,7 +219,7 @@ describe('Commands', () => {
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
     const result = interpreter.interpret();
-    expect(result[1]).to.equal(1.5529410816553442);
+    expect(result[2]).to.equal(1.5529410816553442);
   });
 
   it('ATN with Variable', () => {
@@ -219,6 +227,6 @@ describe('Commands', () => {
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
     const result = interpreter.interpret();
-    expect(result[1]).to.equal(1.5529410816553442);
+    expect(result[2]).to.equal(1.5529410816553442);
   });
 });
