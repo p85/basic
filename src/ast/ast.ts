@@ -108,3 +108,12 @@ export class Atn extends AST {
     this.value = value;
   }
 }
+
+export class Beep extends AST {
+  token: token;
+  value;
+  constructor(token: token) {
+    super();
+    this.token = token;
+  }
+}

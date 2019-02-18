@@ -103,6 +103,10 @@ export class Tokenizer {
         this.consumeToken(SYMBOLS.ATN);
         return { token: TOKENS.ATN, line: this.currentLine, value: SYMBOLS.ATN };
       }
+      if (this.isToken(SYMBOLS.BEEP)) {
+        this.consumeToken(SYMBOLS.BEEP);
+        return { token: TOKENS.BEEP, line: this.currentLine, value: SYMBOLS.BEEP };
+      }
       // Commands end
       if (this.isAlphaNumeric(this.currentChar)) {
         return { token: TOKENS.IDENTIFIER, line: this.currentLine, value: this._id() };
