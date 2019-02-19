@@ -18,7 +18,7 @@ export class Tokenizer {
 
   protected isNumeric = (value: string): boolean => /^\d+$/.test(value);
   protected isSpace = (value: string): boolean => /^ +$/.test(value);
-  protected isAlphaNumeric = (value: string): boolean => /^[a-zA-Z0-9]+$/.test(value);
+  protected isAlphaNumeric = (value: string): boolean => /^[a-zA-Z0-9$]+$/.test(value);
 
   protected advance(): void {
     this.position += 1;
@@ -106,6 +106,10 @@ export class Tokenizer {
       if (this.isToken(SYMBOLS.BEEP)) {
         this.consumeToken(SYMBOLS.BEEP);
         return { token: TOKENS.BEEP, line: this.currentLine, value: SYMBOLS.BEEP };
+      }
+      if (this.isToken(SYMBOLS.CHR$)) {
+        this.consumeToken(SYMBOLS.CHR$);
+        return { token: TOKENS.CHR$, line: this.currentLine, value: SYMBOLS.CHR$ };
       }
       // Commands end
       if (this.isAlphaNumeric(this.currentChar)) {

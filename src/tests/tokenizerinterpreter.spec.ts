@@ -247,4 +247,28 @@ describe('Commands', () => {
     const result = interpreter.interpret();
     expect(result[2]).to.equal(3.073779012728298);
   });
+
+  it('CHR$ with Variable and Number', () => {
+    tokenizer = new Tokenizer('10 VARX = 65\n20 PRINT CHR$(VARX) + CHR$(65)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.equal('AA');
+  });
+
+  it('CHR$ with Number', () => {
+    tokenizer = new Tokenizer('10 VARX = 65\n20 PRINT CHR$(65)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.equal('A');
+  });
+
+  it('CHR$ with Variable', () => {
+    tokenizer = new Tokenizer('10 VARX = 65\n20 PRINT CHR$(VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.equal('A');
+  });
 });

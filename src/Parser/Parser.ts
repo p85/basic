@@ -1,6 +1,6 @@
 import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 import { Tokenizer } from '../tokenizer/tokenizer';
-import { BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn, Beep, nodes, NOP } from '../ast/ast';
+import { BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr } from '../ast/ast';
 
 export class Parser {
   tokenizer: Tokenizer;
@@ -59,7 +59,7 @@ export class Parser {
     } else if (token.token === TOKENS.IDENTIFIER && this.peek() === SYMBOLS.ASSIGN) {
       const node = this.assign();
       return node;
-    } else if (token.token === TOKENS.PRINT) {
+    } else if (token.token === TOKENS.PRINT) { // Commands
       this.eat(TOKENS.PRINT);
       const values = this.expr();
       this.eat(TOKENS.EOL);
@@ -91,7 +91,15 @@ export class Parser {
       this.eat(TOKENS.BEEP);
       const node = new Beep(token);
       return node;
-    } else if (token.token === TOKENS.EOL) {
+    } else if (token.token === TOKENS.CHR$) {
+      this.eat(TOKENS.CHR$);
+      this.eat(TOKENS.LPAREN);
+      const value = this.factor();
+      if (!(value instanceof Num) && !(value instanceof Var)) throw new Error('CHR$ expects a number/Variable');
+      const node = new Chr(token, <Num>value);
+      this.eat(TOKENS.RPAREN);
+      return node;
+    } else if (token.token === TOKENS.EOL) { // Commands End
       this.eat(TOKENS.EOL);
       const node = new NOP();
       return node;
