@@ -214,6 +214,15 @@ describe('Commands', () => {
     expect(result[2]).to.equal(13);
   });
 
+  it('ABS with positive Number and Variable', () => {
+    tokenizer = new Tokenizer('10 VARX = 10\n20 PRINT ABS(13) + ABS(VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.equal(23);
+    console.log(result);
+  });
+
   it('ATN with Number', () => {
     tokenizer = new Tokenizer('10 VARX = 10\n20 PRINT ATN(56)\n30 PRINT "FIN"');
     parser = new Parser(tokenizer);
@@ -228,5 +237,14 @@ describe('Commands', () => {
     interpreter = new Interpreter(parser);
     const result = interpreter.interpret();
     expect(result[2]).to.equal(1.5529410816553442);
+  });
+
+  
+  it('ATN with Variable and Number', () => {
+    tokenizer = new Tokenizer('10 VARX = 56\n20 PRINT ATN(VARX) + ATN(20)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.equal(3.073779012728298);
   });
 });
