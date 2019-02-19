@@ -27,6 +27,7 @@ export enum TOKENS {
   ATN = 'ATN',
   BEEP = 'BEEP',
   CHR$ = 'CHR$',
+  CINT = 'CINT',
 }
 
 export enum SYMBOLS {
@@ -49,4 +50,5 @@ export enum SYMBOLS {
   ATN = 'ATN',
   BEEP = 'BEEP',
   CHR$ = 'CHR$',
+  CINT = 'CINT',
 }

@@ -51,34 +51,34 @@ describe('Integer Variables', () => {
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
     interpreter.interpret();
-    expect(interpreter.vars).to.eql({foobar: 12345});
+    expect(interpreter.vars).to.eql({ foobar: 12345 });
   });
 
   it('calculation using one existing variable and one set', () => {
     tokenizer = new Tokenizer('10 a = (b * 2 + 2) / 2');
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
-    interpreter.vars = {b: 6};
+    interpreter.vars = { b: 6 };
     interpreter.interpret();
-    expect(interpreter.vars).to.eql({b: 6, a: 7});
+    expect(interpreter.vars).to.eql({ b: 6, a: 7 });
   });
 
   it('calculation using two existing variables', () => {
     tokenizer = new Tokenizer('10 a = b + c');
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
-    interpreter.vars = {b: 6, c: 1};
+    interpreter.vars = { b: 6, c: 1 };
     interpreter.interpret();
-    expect(interpreter.vars).to.eql({b: 6, c: 1, a: 7});
+    expect(interpreter.vars).to.eql({ b: 6, c: 1, a: 7 });
   });
 
   it('calculation using two existing variables and one set with parentheses', () => {
     tokenizer = new Tokenizer('10 a = (b + c + 10) * 2');
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
-    interpreter.vars = {b: 6, c: 1};
+    interpreter.vars = { b: 6, c: 1 };
     interpreter.interpret();
-    expect(interpreter.vars).to.eql({b: 6, c: 1, a: 34});
+    expect(interpreter.vars).to.eql({ b: 6, c: 1, a: 34 });
   });
 
 });
@@ -89,14 +89,14 @@ describe('String Variables', () => {
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
     interpreter.interpret();
-    expect(interpreter.vars).to.eql({foobar: "foby"});
+    expect(interpreter.vars).to.eql({ foobar: "foby" });
   });
 
   it('Read a string Variable', () => {
     tokenizer = new Tokenizer('10 varx\n');
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
-    interpreter.vars = {varx: 'foobar'}
+    interpreter.vars = { varx: 'foobar' }
     const result = interpreter.interpret();
     expect(result[0]).to.equal('foobar');
   });
@@ -105,36 +105,36 @@ describe('String Variables', () => {
     tokenizer = new Tokenizer('10 a = 2 + varx');
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
-    interpreter.vars = {varx: 'foobar'}
+    interpreter.vars = { varx: 'foobar' }
     interpreter.interpret();
-    expect(interpreter.vars).to.eql({varx: 'foobar', a: '2foobar'});
+    expect(interpreter.vars).to.eql({ varx: 'foobar', a: '2foobar' });
   });
 
   it('Concatenation: Str + Num', () => {
     tokenizer = new Tokenizer('10 a = varx + 2');
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
-    interpreter.vars = {varx: 'foobar'}
+    interpreter.vars = { varx: 'foobar' }
     interpreter.interpret();
-    expect(interpreter.vars).to.eql({varx: 'foobar', a: 'foobar2'});
+    expect(interpreter.vars).to.eql({ varx: 'foobar', a: 'foobar2' });
   });
 
   it('Concatenation: Str + NumVar + Num', () => {
     tokenizer = new Tokenizer('10 a = varx + b + 2');
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
-    interpreter.vars = {varx: 'foobar', b: 5}
+    interpreter.vars = { varx: 'foobar', b: 5 }
     interpreter.interpret();
-    expect(interpreter.vars).to.eql({varx: 'foobar', b:5, a: 'foobar52'});
+    expect(interpreter.vars).to.eql({ varx: 'foobar', b: 5, a: 'foobar52' });
   });
 
   it('Concatenation: Str + NumVar + Num + Str', () => {
     tokenizer = new Tokenizer('10 a = varx + b + 2 + vary');
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
-    interpreter.vars = {varx: 'foobar', b: 5, vary: 'HELLO'}
+    interpreter.vars = { varx: 'foobar', b: 5, vary: 'HELLO' }
     interpreter.interpret();
-    expect(interpreter.vars).to.eql({varx: 'foobar', b:5, vary: 'HELLO', a: 'foobar52HELLO'});
+    expect(interpreter.vars).to.eql({ varx: 'foobar', b: 5, vary: 'HELLO', a: 'foobar52HELLO' });
   });
 });
 
@@ -144,7 +144,7 @@ describe('other', () => {
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
     const result = interpreter.interpret();
-    expect(interpreter.vars).to.eql({a: 56, c: 1234, xyz: 'fooly', newvar: 'fooly123456'});
+    expect(interpreter.vars).to.eql({ a: 56, c: 1234, xyz: 'fooly', newvar: 'fooly123456' });
     expect(result).to.eql([undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, 'fooly123456', undefined]);
   });
 
@@ -153,7 +153,7 @@ describe('other', () => {
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
     const result = interpreter.interpret();
-    expect(interpreter.vars).to.eql({a: 56, c: 1234, xyz: 'fooly', newvar: 'fooly123456'});
+    expect(interpreter.vars).to.eql({ a: 56, c: 1234, xyz: 'fooly', newvar: 'fooly123456' });
     expect(result).to.eql([undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, 'fooly123456', undefined]);
   });
 });
@@ -239,7 +239,7 @@ describe('Commands', () => {
     expect(result[2]).to.equal(1.5529410816553442);
   });
 
-  
+
   it('ATN with Variable and Number', () => {
     tokenizer = new Tokenizer('10 VARX = 56\n20 PRINT ATN(VARX) + ATN(20)\n30 PRINT "FIN"');
     parser = new Parser(tokenizer);
@@ -270,5 +270,37 @@ describe('Commands', () => {
     interpreter = new Interpreter(parser);
     const result = interpreter.interpret();
     expect(result[2]).to.equal('A');
+  });
+
+  it('CINT with Variable, should floor', () => {
+    tokenizer = new Tokenizer('10 VARX = 9.4\n20 PRINT CINT(VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.equal(9);
+  });
+
+  it('CINT with Variable, should Ceil', () => {
+    tokenizer = new Tokenizer('10 VARX = 9.5\n20 PRINT CINT(VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.equal(10);
+  });
+
+  it('CINT with Number, should floor', () => {
+    tokenizer = new Tokenizer('10 VARX = 9.4\n20 PRINT CINT(9.4)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.equal(9);
+  });
+
+  it('CINT with Number, should Ceil', () => {
+    tokenizer = new Tokenizer('10 VARX = 9.5\n20 PRINT CINT(9.5)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.equal(10);
   });
 });

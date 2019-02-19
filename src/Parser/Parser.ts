@@ -1,6 +1,6 @@
 import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 import { Tokenizer } from '../tokenizer/tokenizer';
-import { BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr } from '../ast/ast';
+import { BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint } from '../ast/ast';
 
 export class Parser {
   tokenizer: Tokenizer;
@@ -97,6 +97,14 @@ export class Parser {
       const value = this.factor();
       if (!(value instanceof Num) && !(value instanceof Var)) throw new Error('CHR$ expects a number/Variable');
       const node = new Chr(token, <Num>value);
+      this.eat(TOKENS.RPAREN);
+      return node;
+    } else if (token.token === TOKENS.CINT) {
+      this.eat(TOKENS.CINT);
+      this.eat(TOKENS.LPAREN);
+      const value = this.factor();
+      if (!(value instanceof Num) && !(value instanceof Var)) throw new Error('CINT expects a number/Variable');
+      const node = new Cint(token, value);
       this.eat(TOKENS.RPAREN);
       return node;
     } else if (token.token === TOKENS.EOL) { // Commands End

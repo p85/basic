@@ -16,7 +16,7 @@ export class Tokenizer {
     this.currentLine = this.integer();
   }
 
-  protected isNumeric = (value: string): boolean => /^\d+$/.test(value);
+  protected isNumeric = (value: string): boolean => /^[\d\.]+$/.test(value);
   protected isSpace = (value: string): boolean => /^ +$/.test(value);
   protected isAlphaNumeric = (value: string): boolean => /^[a-zA-Z0-9$]+$/.test(value);
 
@@ -41,7 +41,7 @@ export class Tokenizer {
       result += this.currentChar;
       this.advance();
     }
-    return parseInt(result);
+    return parseFloat(result);
   }
   protected str(): string {
     let result: string = '';
@@ -110,6 +110,10 @@ export class Tokenizer {
       if (this.isToken(SYMBOLS.CHR$)) {
         this.consumeToken(SYMBOLS.CHR$);
         return { token: TOKENS.CHR$, line: this.currentLine, value: SYMBOLS.CHR$ };
+      }
+      if (this.isToken(SYMBOLS.CINT)) {
+        this.consumeToken(SYMBOLS.CINT);
+        return { token: TOKENS.CINT, line: this.currentLine, value: SYMBOLS.CINT };
       }
       // Commands end
       if (this.isAlphaNumeric(this.currentChar)) {

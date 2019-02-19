@@ -79,7 +79,7 @@ export class Goto extends AST {
 }
 
 export class Abs extends AST {
-  constructor(token: token, value: Num) {
+  constructor(token: token, value: Num | Var | UnaryOP) {
     super();
     this.token = token;
     this.value = value;
@@ -87,7 +87,7 @@ export class Abs extends AST {
 }
 
 export class Atn extends AST {
-  constructor(token: token, value: Num) {
+  constructor(token: token, value: Num | Var | UnaryOP) {
     super();
     this.token = token;
     this.value = value;
@@ -108,7 +108,15 @@ export class NOP extends AST {
 }
 
 export class Chr extends AST {
-  constructor(token: token, value: Num) {
+  constructor(token: token, value: Num | Var) {
+    super();
+    this.token = token;
+    this.value = value;
+  }
+}
+
+export class Cint extends AST {
+  constructor(token: token, value: Num | Var) {
     super();
     this.token = token;
     this.value = value;
