@@ -272,6 +272,14 @@ describe('Commands', () => {
     expect(result[2]).to.equal('A');
   });
 
+  it('CHR$ with Number Concat Variable', () => {
+    tokenizer = new Tokenizer('10 VARX = 32.5\n20 PRINT CHR$(32.5 + VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.equal('A');
+  });
+
   it('CINT with Variable, should floor', () => {
     tokenizer = new Tokenizer('10 VARX = 9.4\n20 PRINT CINT(VARX)\n30 PRINT "FIN"');
     parser = new Parser(tokenizer);
@@ -298,6 +306,22 @@ describe('Commands', () => {
 
   it('CINT with Number, should Ceil', () => {
     tokenizer = new Tokenizer('10 VARX = 9.5\n20 PRINT CINT(9.5)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.equal(10);
+  });
+
+  it('CINT with Number and Variable, should floor', () => {
+    tokenizer = new Tokenizer('10 VARX = 4.7\n20 PRINT CINT(4.7 + VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.equal(9);
+  });
+
+  it('CINT with Number and Variable, should Ceil', () => {
+    tokenizer = new Tokenizer('10 VARX = 4.8\n20 PRINT CINT(4.8 + VARX)\n30 PRINT "FIN"');
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
     const result = interpreter.interpret();

@@ -74,7 +74,7 @@ export class Parser {
     } else if (token.token === TOKENS.ABS) {
       this.eat(TOKENS.ABS);
       this.eat(TOKENS.LPAREN);
-      const value = this.factor();
+      const value = this.expr();
       if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP)) throw new Error('ABS expects a number/Variable');
       const node = new Abs(token, <Num>value);
       this.eat(TOKENS.RPAREN);
@@ -82,7 +82,7 @@ export class Parser {
     } else if (token.token === TOKENS.ATN) {
       this.eat(TOKENS.ATN);
       this.eat(TOKENS.LPAREN);
-      const value = this.factor();
+      const value = this.expr();
       if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP)) throw new Error('ATN expects a number/Variable');
       const node = new Atn(token, <Num>value);
       this.eat(TOKENS.RPAREN);
@@ -94,16 +94,16 @@ export class Parser {
     } else if (token.token === TOKENS.CHR$) {
       this.eat(TOKENS.CHR$);
       this.eat(TOKENS.LPAREN);
-      const value = this.factor();
-      if (!(value instanceof Num) && !(value instanceof Var)) throw new Error('CHR$ expects a number/Variable');
+      const value = this.expr();
+      if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof BinOP) && !(value instanceof UnaryOP)) throw new Error('CHR$ expects a number/Variable');
       const node = new Chr(token, <Num>value);
       this.eat(TOKENS.RPAREN);
       return node;
     } else if (token.token === TOKENS.CINT) {
       this.eat(TOKENS.CINT);
       this.eat(TOKENS.LPAREN);
-      const value = this.factor();
-      if (!(value instanceof Num) && !(value instanceof Var)) throw new Error('CINT expects a number/Variable');
+      const value = this.expr();
+      if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof BinOP) && !(value instanceof UnaryOP)) throw new Error('CINT expects a number/Variable');
       const node = new Cint(token, value);
       this.eat(TOKENS.RPAREN);
       return node;
