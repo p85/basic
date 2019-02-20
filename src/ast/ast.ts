@@ -135,4 +135,10 @@ export class Cos extends AST {
   }
 }
 
+export class End extends AST {
+  constructor() {
+    super();
+  }
+}
+
 export type nodes = BinOP | UnaryOP | Num | Str | Assign | Var | Print | Goto | Abs | Atn | Beep | Cos;

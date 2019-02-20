@@ -1,6 +1,6 @@
 import { Parser } from "../Parser/Parser";
 import { TOKENS } from "../types/interfaces";
-import { nodes, BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint, Clear, Cos } from "../ast/ast";
+import { nodes, BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint, Clear, Cos, End } from "../ast/ast";
 
 
 export class Interpreter {
@@ -41,6 +41,8 @@ export class Interpreter {
       return this.visitCint(node);
     } else if (node instanceof Cos) {
       return this.visitCos(node);
+    } else if (node instanceof End) {
+      return this.visitEnd(node);
     } else {
       this.genericVisit(node);
     }
@@ -152,6 +154,10 @@ export class Interpreter {
 
   protected visitCos(node: Cos): number {
     return Math.cos(<number>this.visit(node.value));
+  }
+
+  protected visitEnd(node: End): void {
+    process.exit(0);
   }
 
   public interpret(): any {

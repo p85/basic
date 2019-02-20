@@ -13,20 +13,30 @@
     "@types/chai": "4.1.7",
     "@types/mocha": "5.2.5",
     "@types/node": "10.12.18",
+    "@types/sinon": "7.0.6",
     "@types/typescript": "2.0.0",
     "chai": "4.2.0",
     "mathjs": "5.4.2",
     "mocha": "5.2.0",
     "nyc": "13.3.0",
+    "sinon": "7.2.4",
     "source-map-support": "0.5.10"
   },
   "scripts": {
     "test": "nyc mocha -r ts-node/register src/**/*.spec.ts"
   },
   "nyc": {
-    "extension": [".ts"],
-    "exclude": ["**/*.spec.ts", "**/*.js"],
-    "reporter": ["html", "lcov"],
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "**/*.spec.ts",
+      "**/*.js"
+    ],
+    "reporter": [
+      "html",
+      "lcov"
+    ],
     "all": true
   },
   "author": "",

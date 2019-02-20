@@ -1,11 +1,12 @@
 import { expect } from 'chai';
 import { eval } from 'mathjs';
+import * as sinon from 'sinon';
 import 'mocha';
 
 import { Tokenizer } from '../tokenizer/tokenizer';
 import { Parser } from '../Parser/Parser';
 import { Interpreter } from '../Interpreter/Interpreter';
-import { TOKENS } from '../types/interfaces';
+
 
 let tokenizer: Tokenizer;
 let parser: Parser;
@@ -350,5 +351,14 @@ describe('Commands', () => {
     interpreter = new Interpreter(parser);
     const result = interpreter.interpret();
     expect(result[2]).to.equal(1.261302169535976);
+  });
+
+  it('END', () => {
+    sinon.stub(process, 'exit');
+    tokenizer = new Tokenizer('10 END');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    interpreter.interpret();
+    expect(process.exit['calledWith'](0)).to.equal(true);
   });
 });

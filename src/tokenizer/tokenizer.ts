@@ -123,6 +123,10 @@ export class Tokenizer {
         this.consumeToken(SYMBOLS.COS);
         return { token: TOKENS.COS, line: this.currentLine, value: SYMBOLS.COS };
       }
+      if (this.isToken(SYMBOLS.END)) {
+        this.consumeToken(SYMBOLS.END);
+        return { token: TOKENS.END, line: this.currentLine, value: SYMBOLS.END };
+      }
       // Commands end
       if (this.isAlphaNumeric(this.currentChar)) {
         return { token: TOKENS.IDENTIFIER, line: this.currentLine, value: this._id() };
