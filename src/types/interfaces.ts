@@ -28,6 +28,7 @@ export enum TOKENS {
   BEEP = 'BEEP',
   CHR$ = 'CHR$',
   CINT = 'CINT',
+  CLEAR = 'CLEAR',
 }
 
 export enum SYMBOLS {
@@ -51,4 +52,5 @@ export enum SYMBOLS {
   BEEP = 'BEEP',
   CHR$ = 'CHR$',
   CINT = 'CINT',
+  CLEAR = 'CLEAR',
 }

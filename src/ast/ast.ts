@@ -122,3 +122,9 @@ export class Cint extends AST {
     this.value = value;
   }
 }
+
+export class Clear extends AST {
+  constructor() {
+    super();
+  }
+}

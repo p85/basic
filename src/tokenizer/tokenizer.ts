@@ -115,6 +115,10 @@ export class Tokenizer {
         this.consumeToken(SYMBOLS.CINT);
         return { token: TOKENS.CINT, line: this.currentLine, value: SYMBOLS.CINT };
       }
+      if (this.isToken(SYMBOLS.CLEAR)) {
+        this.consumeToken(SYMBOLS.CLEAR);
+        return { token: TOKENS.CLEAR, line: this.currentLine, value: SYMBOLS.CLEAR };
+      }
       // Commands end
       if (this.isAlphaNumeric(this.currentChar)) {
         return { token: TOKENS.IDENTIFIER, line: this.currentLine, value: this._id() };

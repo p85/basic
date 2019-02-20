@@ -1,6 +1,6 @@
 import { Parser } from "../Parser/Parser";
 import { TOKENS } from "../types/interfaces";
-import { BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint } from "../ast/ast";
+import { BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint, Clear } from "../ast/ast";
 
 
 export class Interpreter {
@@ -142,6 +142,10 @@ export class Interpreter {
 
   protected visitCint(node: Cint): number {
     return Math.round(<number>this.visit(node.value));
+  }
+
+  protected visitClear(node: Clear): void {
+    this.vars = {};
   }
 
   public interpret(): any {
