@@ -29,6 +29,7 @@ export enum TOKENS {
   CHR$ = 'CHR$',
   CINT = 'CINT',
   CLEAR = 'CLEAR',
+  COS = 'COS',
 }
 
 export enum SYMBOLS {
@@ -53,4 +54,5 @@ export enum SYMBOLS {
   CHR$ = 'CHR$',
   CINT = 'CINT',
   CLEAR = 'CLEAR',
+  COS = 'COS',
 }

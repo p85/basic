@@ -327,4 +327,28 @@ describe('Commands', () => {
     const result = interpreter.interpret();
     expect(result[2]).to.equal(10);
   });
+
+  it('COS with Number', () => {
+    tokenizer = new Tokenizer('10 VARX = 10\n20 PRINT COS(56)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.equal(0.853220107722584);
+  });
+
+  it('COS with Variable', () => {
+    tokenizer = new Tokenizer('10 VARX = 56\n20 PRINT COS(VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.equal(0.853220107722584);
+  });
+
+  it('COS with Variable and Number', () => {
+    tokenizer = new Tokenizer('10 VARX = 56\n20 PRINT COS(VARX) + COS(20)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.equal(1.261302169535976);
+  });
 });

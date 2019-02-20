@@ -6,8 +6,6 @@ class AST {
   token;
 }
 
-export type nodes = BinOP | UnaryOP | Num | Str | Assign | Var | Print | Goto | Abs | Atn | Beep;
-
 export class BinOP extends AST {
   left: Num | BinOP | UnaryOP | Assign | Var;
   right: Num | BinOP | UnaryOP | Assign | Var;
@@ -128,3 +126,13 @@ export class Clear extends AST {
     super();
   }
 }
+
+export class Cos extends AST {
+  constructor(token: token, value: Num | Var) {
+    super();
+    this.token = token;
+    this.value = value;
+  }
+}
+
+export type nodes = BinOP | UnaryOP | Num | Str | Assign | Var | Print | Goto | Abs | Atn | Beep | Cos;
