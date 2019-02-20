@@ -31,6 +31,7 @@ export enum TOKENS {
   CLEAR = 'CLEAR',
   COS = 'COS',
   END = 'END',
+  EXP = 'EXP',
 }
 
 export enum SYMBOLS {
@@ -57,4 +58,5 @@ export enum SYMBOLS {
   CLEAR = 'CLEAR',
   COS = 'COS',
   END = 'END',
+  EXP = 'EXP',
 }

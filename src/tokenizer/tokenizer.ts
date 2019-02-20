@@ -127,6 +127,10 @@ export class Tokenizer {
         this.consumeToken(SYMBOLS.END);
         return { token: TOKENS.END, line: this.currentLine, value: SYMBOLS.END };
       }
+      if (this.isToken(SYMBOLS.EXP)) {
+        this.consumeToken(SYMBOLS.EXP);
+        return { token: TOKENS.EXP, line: this.currentLine, value: SYMBOLS.EXP };
+      }
       // Commands end
       if (this.isAlphaNumeric(this.currentChar)) {
         return { token: TOKENS.IDENTIFIER, line: this.currentLine, value: this._id() };

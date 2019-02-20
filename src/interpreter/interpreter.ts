@@ -1,6 +1,6 @@
 import { Parser } from "../Parser/Parser";
 import { TOKENS } from "../types/interfaces";
-import { nodes, BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint, Clear, Cos, End } from "../ast/ast";
+import { nodes, BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint, Clear, Cos, End, Exp } from "../ast/ast";
 
 
 export class Interpreter {
@@ -43,12 +43,14 @@ export class Interpreter {
       return this.visitCos(node);
     } else if (node instanceof End) {
       return this.visitEnd(node);
+    } else if (node instanceof Exp) {
+      return this.visitExp(node);
     } else {
       this.genericVisit(node);
     }
   }
 
-  protected genericVisit(node: Num | BinOP | UnaryOP | Var | Assign): void {
+  protected genericVisit(node: any): void {
     throw new Error('No visit method: ' + node);
   }
 
@@ -158,6 +160,10 @@ export class Interpreter {
 
   protected visitEnd(node: End): void {
     process.exit(0);
+  }
+
+  protected visitExp(node: Exp): number {
+    return Math.exp(<number>this.visit(node.value));
   }
 
   public interpret(): any {

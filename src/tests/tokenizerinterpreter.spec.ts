@@ -361,4 +361,29 @@ describe('Commands', () => {
     interpreter.interpret();
     expect(process.exit['calledWith'](0)).to.equal(true);
   });
+
+  it('EXP with Number', () => {
+    tokenizer = new Tokenizer('10 VARX = 10\n20 PRINT EXP(56)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.equal(2.091659496012996e+24);
+  });
+
+  it('EXP with Variable', () => {
+    tokenizer = new Tokenizer('10 VARX = 56\n20 PRINT EXP(VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.equal(2.091659496012996e+24);
+  });
+
+  it('EXP with Variable and Number', () => {
+    tokenizer = new Tokenizer('10 VARX = 5\n20 PRINT EXP(VARX) + EXP(2)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.equal(155.80221520150724);
+  });
+
 });
