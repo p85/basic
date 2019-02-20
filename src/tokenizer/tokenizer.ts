@@ -78,102 +78,82 @@ export class Tokenizer {
       if (this.isSpace(this.currentChar)) {
         this.skipWhitespace();
         continue;
-      }
-      if (this.isNumeric(this.currentChar)) {
+      } else if (this.isNumeric(this.currentChar)) {
         return { token: TOKENS.INTEGER, line: this.currentLine, value: this.integer() };
-      }
-      if (this.isToken(SYMBOLS.MOD)) {
+      } else if (this.isToken(SYMBOLS.MOD)) {
         this.consumeToken(SYMBOLS.MOD);
         return { token: TOKENS.MOD, line: this.currentLine, value: SYMBOLS.MOD };
       }
       // Commands
-      if (this.isToken(SYMBOLS.PRINT)) {
+      else if (this.isToken(SYMBOLS.PRINT)) {
         this.consumeToken(SYMBOLS.PRINT);
         return { token: TOKENS.PRINT, line: this.currentLine, value: SYMBOLS.PRINT };
-      }
-      if (this.isToken(SYMBOLS.GOTO)) {
+      } else if (this.isToken(SYMBOLS.GOTO)) {
         this.consumeToken(SYMBOLS.GOTO);
         return { token: TOKENS.GOTO, line: this.currentLine, value: SYMBOLS.GOTO };
-      }
-      if (this.isToken(SYMBOLS.ABS)) {
+      } else if (this.isToken(SYMBOLS.ABS)) {
         this.consumeToken(SYMBOLS.ABS);
         return { token: TOKENS.ABS, line: this.currentLine, value: SYMBOLS.ABS };
-      }
-      if (this.isToken(SYMBOLS.ATN)) {
+      } else if (this.isToken(SYMBOLS.ATN)) {
         this.consumeToken(SYMBOLS.ATN);
         return { token: TOKENS.ATN, line: this.currentLine, value: SYMBOLS.ATN };
-      }
-      if (this.isToken(SYMBOLS.BEEP)) {
+      } else if (this.isToken(SYMBOLS.BEEP)) {
         this.consumeToken(SYMBOLS.BEEP);
         return { token: TOKENS.BEEP, line: this.currentLine, value: SYMBOLS.BEEP };
-      }
-      if (this.isToken(SYMBOLS.CHR$)) {
+      } else if (this.isToken(SYMBOLS.CHR$)) {
         this.consumeToken(SYMBOLS.CHR$);
         return { token: TOKENS.CHR$, line: this.currentLine, value: SYMBOLS.CHR$ };
-      }
-      if (this.isToken(SYMBOLS.CINT)) {
+      } else if (this.isToken(SYMBOLS.CINT)) {
         this.consumeToken(SYMBOLS.CINT);
         return { token: TOKENS.CINT, line: this.currentLine, value: SYMBOLS.CINT };
-      }
-      if (this.isToken(SYMBOLS.CLEAR)) {
+      } else if (this.isToken(SYMBOLS.CLEAR)) {
         this.consumeToken(SYMBOLS.CLEAR);
         return { token: TOKENS.CLEAR, line: this.currentLine, value: SYMBOLS.CLEAR };
-      }
-      if (this.isToken(SYMBOLS.COS)) {
+      } else if (this.isToken(SYMBOLS.COS)) {
         this.consumeToken(SYMBOLS.COS);
         return { token: TOKENS.COS, line: this.currentLine, value: SYMBOLS.COS };
-      }
-      if (this.isToken(SYMBOLS.END)) {
+      } else if (this.isToken(SYMBOLS.END)) {
         this.consumeToken(SYMBOLS.END);
         return { token: TOKENS.END, line: this.currentLine, value: SYMBOLS.END };
-      }
-      if (this.isToken(SYMBOLS.EXP)) {
+      } else if (this.isToken(SYMBOLS.EXP)) {
         this.consumeToken(SYMBOLS.EXP);
         return { token: TOKENS.EXP, line: this.currentLine, value: SYMBOLS.EXP };
       }
       // Commands end
-      if (this.isAlphaNumeric(this.currentChar)) {
+      else if (this.isAlphaNumeric(this.currentChar)) {
         return { token: TOKENS.IDENTIFIER, line: this.currentLine, value: this._id() };
-      }
-      if (this.isToken(SYMBOLS.DOUBLEQUOTE)) {
+      } else if (this.isToken(SYMBOLS.DOUBLEQUOTE)) {
         this.consumeToken(SYMBOLS.DOUBLEQUOTE);
         return { token: TOKENS.STRING, line: this.currentLine, value: this.str() };
-      }
-      if (this.isToken(SYMBOLS.ASSIGN)) {
+      } else if (this.isToken(SYMBOLS.ASSIGN)) {
         this.consumeToken(SYMBOLS.ASSIGN);
         return { token: TOKENS.ASSIGN, line: this.currentLine, value: SYMBOLS.ASSIGN };
-      }
-      if (this.isToken(SYMBOLS.PLUS)) {
+      } else if (this.isToken(SYMBOLS.PLUS)) {
         this.consumeToken(SYMBOLS.PLUS);
         return { token: TOKENS.PLUS, line: this.currentLine, value: SYMBOLS.PLUS };
-      }
-      if (this.isToken(SYMBOLS.MINUS)) {
+      } else if (this.isToken(SYMBOLS.MINUS)) {
         this.consumeToken(SYMBOLS.MINUS);
         return { token: TOKENS.MINUS, line: this.currentLine, value: SYMBOLS.MINUS };
-      }
-      if (this.isToken(SYMBOLS.MUL)) {
+      } else if (this.isToken(SYMBOLS.MUL)) {
         this.consumeToken(SYMBOLS.MUL);
         return { token: TOKENS.MUL, line: this.currentLine, value: SYMBOLS.MUL };
-      }
-      if (this.isToken(SYMBOLS.DIV)) {
+      } else if (this.isToken(SYMBOLS.DIV)) {
         this.consumeToken(SYMBOLS.DIV);
         return { token: TOKENS.DIV, line: this.currentLine, value: SYMBOLS.DIV };
-      }
-      if (this.isToken(SYMBOLS.LPAREN)) {
+      } else if (this.isToken(SYMBOLS.LPAREN)) {
         this.consumeToken(SYMBOLS.LPAREN);
         return { token: TOKENS.LPAREN, line: this.currentLine, value: SYMBOLS.LPAREN };
-      }
-      if (this.isToken(SYMBOLS.RPAREN)) {
+      } else if (this.isToken(SYMBOLS.RPAREN)) {
         this.consumeToken(SYMBOLS.RPAREN);
         return { token: TOKENS.RPAREN, line: this.currentLine, value: SYMBOLS.RPAREN };
-      }
-      if (this.currentChar.charCodeAt(0) === SYMBOLS.EOL.charCodeAt(0)) {
+      } else if (this.currentChar.charCodeAt(0) === SYMBOLS.EOL.charCodeAt(0)) {
         this.consumeToken(SYMBOLS.EOL);
         const oldLine: number = this.currentLine;
         this.currentLine = this.integer();
         return { token: TOKENS.EOL, line: oldLine, value: SYMBOLS.EOL };
+      } else {
+        throw new Error('Parsing Error');
       }
-      throw new Error('Parsing Error');
     }
     return { token: TOKENS.EOF, line: this.currentLine, value: null };
   }
