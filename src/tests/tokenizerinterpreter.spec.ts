@@ -386,4 +386,29 @@ describe('Commands', () => {
     expect(result[2]).to.equal(155.80221520150724);
   });
 
+  it('HEX$ with Number', () => {
+    tokenizer = new Tokenizer('10 VARX = 5\n20 PRINT HEX$(2222222222222)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.equal('20566C4238E');
+  });
+
+  
+  it('HEX$ with Variable', () => {
+    tokenizer = new Tokenizer('10 VARX = 23453467\n20 PRINT HEX$(VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.equal('165DF1B');
+  });
+
+  it('HEX$ with Variable and Number', () => {
+    tokenizer = new Tokenizer('10 VARX = 23453467\n20 PRINT HEX$(VARX + 345121)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.equal('16B233C');
+  });
+
 });

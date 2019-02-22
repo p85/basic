@@ -118,6 +118,9 @@ export class Tokenizer {
       } else if (this.isToken(SYMBOLS.EXP)) {
         this.consumeToken(SYMBOLS.EXP);
         return { token: TOKENS.EXP, line: this.currentLine, value: SYMBOLS.EXP };
+      } else if (this.isToken(SYMBOLS.HEX$)) {
+        this.consumeToken(SYMBOLS.HEX$);
+        return { token: TOKENS.HEX$, line: this.currentLine, value: SYMBOLS.HEX$ };
       }
       // Commands end
       else if (this.isAlphaNumeric(this.currentChar)) {

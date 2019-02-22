@@ -1,6 +1,6 @@
 import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 import { Tokenizer } from '../tokenizer/tokenizer';
-import { BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint, Clear, Cos, End, Exp } from '../ast/ast';
+import { BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex } from '../ast/ast';
 
 export class Parser {
   tokenizer: Tokenizer;
@@ -131,6 +131,14 @@ export class Parser {
       const value = this.expr();
       if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP)) throw new Error('EXP expects a number/Variable');
       const node = new Exp(token, value);
+      this.eat(TOKENS.RPAREN);
+      return node;
+    } else if (token.token === TOKENS.HEX$) {
+      this.eat(TOKENS.HEX$);
+      this.eat(TOKENS.LPAREN);
+      const value = this.expr();
+      if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof BinOP) && !(value instanceof UnaryOP)) throw new Error('HEX$ expects a number/Variable');
+      const node = new Hex(token, <Num>value);
       this.eat(TOKENS.RPAREN);
       return node;
     } else if (token.token === TOKENS.EOL) { // Commands End

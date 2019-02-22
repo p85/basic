@@ -32,6 +32,7 @@ export enum TOKENS {
   COS = 'COS',
   END = 'END',
   EXP = 'EXP',
+  HEX$ = 'HEX$',
 }
 
 export enum SYMBOLS {
@@ -59,4 +60,5 @@ export enum SYMBOLS {
   COS = 'COS',
   END = 'END',
   EXP = 'EXP',
+  HEX$ = 'HEX$',
 }
