@@ -163,4 +163,14 @@ export class Inkey extends AST {
   }
 }
 
-export type nodes = BinOP | UnaryOP | Num | Str | Assign | Var | Print | Goto | Abs | Atn | Beep | NOP | Chr | Cos | Exp | Hex | Inkey;
+export class Input extends AST {
+  prompt: Str | Num;
+  variable: Var;
+  constructor(prompt: Str | Num, variable: Var) {
+    super();
+    this.prompt = prompt;
+    this.variable = variable;
+  }
+}
+
+export type nodes = BinOP | UnaryOP | Num | Str | Assign | Var | Print | Goto | Abs | Atn | Beep | NOP | Chr | Cos | Exp | Hex | Inkey | Input;

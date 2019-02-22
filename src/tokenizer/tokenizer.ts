@@ -124,6 +124,12 @@ export class Tokenizer {
       } else if (this.isToken(SYMBOLS.INKEY$)) {
         this.consumeToken(SYMBOLS.INKEY$);
         return { token: TOKENS.INKEY$, line: this.currentLine, value: SYMBOLS.INKEY$ };
+      } else if (this.isToken(SYMBOLS.COMMA)) {
+        this.consumeToken(SYMBOLS.COMMA);
+        return { token: TOKENS.COMMA, line: this.currentLine, value: SYMBOLS.COMMA };
+      } else if (this.isToken(SYMBOLS.INPUT)) {
+        this.consumeToken(SYMBOLS.INPUT);
+        return { token: TOKENS.INPUT, line: this.currentLine, value: SYMBOLS.INPUT };
       }
       // Commands end
       else if (this.isAlphaNumeric(this.currentChar)) {

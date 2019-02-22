@@ -20,6 +20,7 @@ export enum TOKENS {
   EOL = 'EOL',
   DOUBLEQUOTE = 'DOUBLEQUOTE',
   STRING = 'STRING',
+  COMMA = 'COMMA',
   // Commands
   PRINT = 'PRINT',
   GOTO = 'GOTO',
@@ -34,6 +35,7 @@ export enum TOKENS {
   EXP = 'EXP',
   HEX$ = 'HEX$',
   INKEY$ = 'INKEY$',
+  INPUT = 'INPUT',
 }
 
 export enum SYMBOLS {
@@ -49,6 +51,7 @@ export enum SYMBOLS {
   EOL = '\n',
   DOUBLEQUOTE = '"',
   SPACE = ' ',
+  COMMA = ',',
   // Commands
   PRINT = 'PRINT',
   GOTO = 'GOTO',
@@ -63,4 +66,5 @@ export enum SYMBOLS {
   EXP = 'EXP',
   HEX$ = 'HEX$',
   INKEY$ = 'INKEY$',
+  INPUT = 'INPUT',
 }

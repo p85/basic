@@ -1,6 +1,6 @@
 import { Parser } from "../Parser/Parser";
 import { TOKENS } from "../types/interfaces";
-import { nodes, BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey } from "../ast/ast";
+import { nodes, BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input } from "../ast/ast";
 import { readSync } from 'fs';
 
 
@@ -50,6 +50,8 @@ export class Interpreter {
       return this.visitHex(node);
     } else if (node instanceof Inkey) {
       return this.visitInkey(node);
+    } else if (node instanceof Input) {
+      return this.visitInput(node);
     } else {
       this.genericVisit(node);
     }
@@ -175,10 +177,18 @@ export class Interpreter {
     return (<number>this.visit(node.value)).toString(16).toUpperCase();
   }
 
-  protected visitInkey(node: Inkey) {
+  protected visitInkey(node: Inkey): string { // TODO: How to read a single character?
     const buffer = new Buffer(8);
     readSync(process.stdin['fd'], buffer, 0, buffer.length, null);
     return buffer.toString();
+  }
+
+  protected visitInput(node: Input): string {
+    const buffer = new Buffer(8);
+    readSync(process.stdin['fd'], buffer, 0, buffer.length, null);
+    const value = buffer.toString().trim();
+    this.vars[node.variable.value] = value;
+    return value;
   }
 
   public interpret(): any {

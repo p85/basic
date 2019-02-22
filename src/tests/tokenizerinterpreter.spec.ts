@@ -394,7 +394,7 @@ describe('Commands', () => {
     expect(result[2]).to.equal('20566C4238E');
   });
 
-  
+
   it('HEX$ with Variable', () => {
     tokenizer = new Tokenizer('10 VARX = 23453467\n20 PRINT HEX$(VARX)\n30 PRINT "FIN"');
     parser = new Parser(tokenizer);
@@ -418,6 +418,16 @@ describe('Commands', () => {
   //   console.log('Press a key + enter');
   //   const result = interpreter.interpret();
   //   console.log(result);
+  // }).timeout(60000);
+
+  // it('INPUT', () => { // TODO: Mocking does not work
+  //   tokenizer = new Tokenizer('10 VARX = 123\n20 INPUT "Foo Bar!", VXY\n30 PRINT "VXY"');
+  //   parser = new Parser(tokenizer);
+  //   interpreter = new Interpreter(parser);
+  //   console.log('Press a key + enter');
+  //   const result = interpreter.interpret();
+  //   console.log(result);
+  //   console.log(interpreter.vars);
   // }).timeout(60000);
 
 });
