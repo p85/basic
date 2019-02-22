@@ -157,4 +157,10 @@ export class Hex extends AST {
   }
 }
 
-export type nodes = BinOP | UnaryOP | Num | Str | Assign | Var | Print | Goto | Abs | Atn | Beep | NOP | Chr | Cos | Exp | Hex;
+export class Inkey extends AST {
+  constructor() {
+    super();
+  }
+}
+
+export type nodes = BinOP | UnaryOP | Num | Str | Assign | Var | Print | Goto | Abs | Atn | Beep | NOP | Chr | Cos | Exp | Hex | Inkey;

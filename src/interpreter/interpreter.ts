@@ -1,6 +1,7 @@
 import { Parser } from "../Parser/Parser";
 import { TOKENS } from "../types/interfaces";
-import { nodes, BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex } from "../ast/ast";
+import { nodes, BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey } from "../ast/ast";
+import { readSync } from 'fs';
 
 
 export class Interpreter {
@@ -47,6 +48,8 @@ export class Interpreter {
       return this.visitExp(node);
     } else if (node instanceof Hex) {
       return this.visitHex(node);
+    } else if (node instanceof Inkey) {
+      return this.visitInkey(node);
     } else {
       this.genericVisit(node);
     }
@@ -169,8 +172,13 @@ export class Interpreter {
   }
 
   protected visitHex(node: Hex): string {
-    // return '0' + (<number>this.visit(node.value)).toString(16).slice(-2).toUpperCase();
     return (<number>this.visit(node.value)).toString(16).toUpperCase();
+  }
+
+  protected visitInkey(node: Inkey) {
+    const buffer = new Buffer(8);
+    readSync(process.stdin['fd'], buffer, 0, buffer.length, null);
+    return buffer.toString();
   }
 
   public interpret(): any {

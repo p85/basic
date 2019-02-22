@@ -121,6 +121,9 @@ export class Tokenizer {
       } else if (this.isToken(SYMBOLS.HEX$)) {
         this.consumeToken(SYMBOLS.HEX$);
         return { token: TOKENS.HEX$, line: this.currentLine, value: SYMBOLS.HEX$ };
+      } else if (this.isToken(SYMBOLS.INKEY$)) {
+        this.consumeToken(SYMBOLS.INKEY$);
+        return { token: TOKENS.INKEY$, line: this.currentLine, value: SYMBOLS.INKEY$ };
       }
       // Commands end
       else if (this.isAlphaNumeric(this.currentChar)) {

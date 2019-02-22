@@ -411,4 +411,13 @@ describe('Commands', () => {
     expect(result[2]).to.equal('16B233C');
   });
 
+  // it('INKEY$', () => { // TODO: How to do without Pressing ENTER ? Mocking does not work
+  //   tokenizer = new Tokenizer('10 VARX = INKEY$\n20 PRINT VARX\n30 PRINT "FIN"');
+  //   parser = new Parser(tokenizer);
+  //   interpreter = new Interpreter(parser);
+  //   console.log('Press a key + enter');
+  //   const result = interpreter.interpret();
+  //   console.log(result);
+  // }).timeout(60000);
+
 });

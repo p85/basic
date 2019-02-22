@@ -33,6 +33,7 @@ export enum TOKENS {
   END = 'END',
   EXP = 'EXP',
   HEX$ = 'HEX$',
+  INKEY$ = 'INKEY$',
 }
 
 export enum SYMBOLS {
@@ -61,4 +62,5 @@ export enum SYMBOLS {
   END = 'END',
   EXP = 'EXP',
   HEX$ = 'HEX$',
+  INKEY$ = 'INKEY$',
 }
