@@ -150,10 +150,10 @@ export class Parser {
       const prompt: Str | Num = this.expr();
       if (!(prompt instanceof Str) && !(prompt instanceof Num)) throw new Error('INPUT expects as first Parameter a number/String');
       this.eat(TOKENS.COMMA);
-      const variableName: Var = this.variable();
-      if (!(variableName instanceof Var)) throw new Error('INPUT expects as second Parameter a Variable');
+      const variable: Var = this.variable();
+      if (!(variable instanceof Var)) throw new Error('INPUT expects as second Parameter a Variable');
       this.eat(TOKENS.EOL);
-      const node = new Input(prompt, variableName);
+      const node = new Input(prompt, variable);
       return node;
     } else if (token.token === TOKENS.EOL) { // Commands End
       this.eat(TOKENS.EOL);

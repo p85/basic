@@ -185,6 +185,8 @@ export class Interpreter {
 
   protected visitInput(node: Input): string {
     const buffer = new Buffer(8);
+    const prompt: string = String(this.visit(node.prompt));
+    process.stdout.write(prompt);
     readSync(process.stdin['fd'], buffer, 0, buffer.length, null);
     const value = buffer.toString().trim();
     this.vars[node.variable.value] = value;
