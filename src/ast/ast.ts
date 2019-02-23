@@ -76,6 +76,14 @@ export class Goto extends AST {
   }
 }
 
+export class Gosub extends AST {
+  constructor(token: token, value: Num) {
+    super();
+    this.token = token;
+    this.value = value;
+  }
+}
+
 export class Abs extends AST {
   constructor(token: token, value: Num | Var | UnaryOP) {
     super();
@@ -173,4 +181,10 @@ export class Input extends AST {
   }
 }
 
-export type nodes = BinOP | UnaryOP | Num | Str | Assign | Var | Print | Goto | Abs | Atn | Beep | NOP | Chr | Cos | Exp | Hex | Inkey | Input;
+export class Return extends AST {
+  constructor() {
+    super();
+  }
+}
+
+export type nodes = BinOP | UnaryOP | Num | Str | Assign | Var | Print | Goto | Abs | Atn | Beep | NOP | Chr | Cos | Exp | Hex | Inkey | Input | Gosub | Return;

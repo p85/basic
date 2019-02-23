@@ -1,6 +1,6 @@
 import { Parser } from "../Parser/Parser";
 import { TOKENS } from "../types/interfaces";
-import { nodes, BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input } from "../ast/ast";
+import { nodes, BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return } from "../ast/ast";
 import { readSync } from 'fs';
 
 
@@ -8,7 +8,9 @@ export class Interpreter {
   parser: Parser;
   tree = [];
   vars = {};
+  returns: number[] = [];
   currentLine: number = null;
+  finished: boolean = false;
   constructor(parser: Parser) {
     this.parser = parser;
   }
@@ -52,6 +54,10 @@ export class Interpreter {
       return this.visitInkey(node);
     } else if (node instanceof Input) {
       return this.visitInput(node);
+    } else if (node instanceof Gosub) {
+      return this.visitGosub(node);
+    } else if (node instanceof Return) {
+      return this.visitReturn(node);
     } else {
       this.genericVisit(node);
     }
@@ -120,10 +126,32 @@ export class Interpreter {
     this.currentLine = newIndex;
   }
 
-  protected resolveLineToIndex(line: number): number {
+  protected visitGosub(node: Gosub): void {
+    this.returns.push(node.token.line); // next line
+    const newLine = node.value.value;
+    const newIndex = this.resolveLineToIndex(newLine);
+    if (newIndex == null) throw new Error('visitGosub did not return a index number');
+    this.currentLine = newIndex;
+  }
+
+  protected visitReturn(node: Return): void {
+    if (this.returns.length === 0) throw new Error('RETURN without GOSUB');
+    const newLine = this.returns.pop();
+    const newIndex = this.resolveLineToIndex(newLine, true);
+    this.currentLine = newIndex;
+  }
+
+  protected resolveLineToIndex(line: number, next?: boolean): number {
     let newIndex: number;
+    let wasLast: boolean = false;
     for (let i = 0; i < this.tree.length; i++) {
       if (this.tree[i].token && this.tree[i].token.line && this.tree[i].token.line === line) {
+        newIndex = i;
+        wasLast = true;
+        if (!next) break;
+        continue;
+      }
+      if (next && wasLast) {
         newIndex = i;
         break;
       }
@@ -166,7 +194,8 @@ export class Interpreter {
   }
 
   protected visitEnd(node: End): void {
-    process.exit(0);
+    //process.exit(0);
+    this.finished = true;
   }
 
   protected visitExp(node: Exp): number {
@@ -198,6 +227,7 @@ export class Interpreter {
     const result = [];
     for (let i = 0; i < this.tree.length; i = this.currentLine == null ? i + 1 : this.goToLine()) {
       result.push(this.visit(this.tree[i]));
+      if (this.finished) break;
     }
     return result;
   }

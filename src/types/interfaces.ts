@@ -36,6 +36,8 @@ export enum TOKENS {
   HEX$ = 'HEX$',
   INKEY$ = 'INKEY$',
   INPUT = 'INPUT',
+  GOSUB = 'GOSUB',
+  RETURN = 'RETURN',
 }
 
 export enum SYMBOLS {
@@ -67,4 +69,6 @@ export enum SYMBOLS {
   HEX$ = 'HEX$',
   INKEY$ = 'INKEY$',
   INPUT = 'INPUT',
+  GOSUB = 'GOSUB',
+  RETURN = 'RETURN',
 }

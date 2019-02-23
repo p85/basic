@@ -353,13 +353,18 @@ describe('Commands', () => {
     expect(result[2]).to.equal(1.261302169535976);
   });
 
-  it('END', () => {
-    sinon.stub(process, 'exit');
+  it('END', () => { // change later to process.exit(0)
+    // sinon.stub(process, 'exit');
+    // tokenizer = new Tokenizer('10 END');
+    // parser = new Parser(tokenizer);
+    // interpreter = new Interpreter(parser);
+    // interpreter.interpret();
+    // expect(process.exit['calledWith'](0)).to.equal(true);
     tokenizer = new Tokenizer('10 END');
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
-    interpreter.interpret();
-    expect(process.exit['calledWith'](0)).to.equal(true);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined]);
   });
 
   it('EXP with Number', () => {
@@ -430,4 +435,11 @@ describe('Commands', () => {
   //   console.log(interpreter.vars);
   // }).timeout(60000);
 
+  it('GOSUB / RETURN', () => {
+    tokenizer = new Tokenizer('10 VARX = 23453467\n20 PRINT "BEFORE GOSUB"\n30 GOSUB 100\n40 PRINT "FIN"\n50 END\n100 PRINT "INTO GOSUB"\n110 RETURN');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 'BEFORE GOSUB', undefined, 'INTO GOSUB', undefined, 'FIN', undefined]);
+  });
 });

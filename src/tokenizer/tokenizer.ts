@@ -130,6 +130,12 @@ export class Tokenizer {
       } else if (this.isToken(SYMBOLS.INPUT)) {
         this.consumeToken(SYMBOLS.INPUT);
         return { token: TOKENS.INPUT, line: this.currentLine, value: SYMBOLS.INPUT };
+      } else if (this.isToken(SYMBOLS.GOSUB)) {
+        this.consumeToken(SYMBOLS.GOSUB);
+        return { token: TOKENS.GOSUB, line: this.currentLine, value: SYMBOLS.GOSUB };
+      } else if (this.isToken(SYMBOLS.RETURN)) {
+        this.consumeToken(SYMBOLS.RETURN);
+        return { token: TOKENS.RETURN, line: this.currentLine, value: SYMBOLS.RETURN };
       }
       // Commands end
       else if (this.isAlphaNumeric(this.currentChar)) {
