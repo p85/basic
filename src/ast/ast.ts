@@ -1,5 +1,5 @@
 import { token, TOKENS } from "../types/interfaces";
-import { start } from "repl";
+
 
 class AST {
   line: number;
@@ -254,5 +254,13 @@ export class Nint extends AST {
   }
 }
 
+export class Oct extends AST {
+  constructor(token: token, value: Num | Var) {
+    super();
+    this.token = token;
+    this.value = value;
+  }
+}
+
 export type nodes = BinOP | UnaryOP | Num | Str | Assign | Var | Print | Goto | Abs | Atn | Beep | NOP | Chr | Cos | Exp | Hex | Inkey | Input | Gosub | Return |
-  Instr | Int | Left | Log | Mid | Len | Nint;
+  Instr | Int | Left | Log | Mid | Len | Nint | Oct;

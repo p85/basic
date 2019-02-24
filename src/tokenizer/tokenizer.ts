@@ -160,6 +160,9 @@ export class Tokenizer {
       } else if (this.isToken(SYMBOLS.NINT)) {
         this.consumeToken(SYMBOLS.NINT);
         return { token: TOKENS.NINT, line: this.currentLine, value: SYMBOLS.NINT };
+      } else if (this.isToken(SYMBOLS.OCT$)) {
+        this.consumeToken(SYMBOLS.OCT$);
+        return { token: TOKENS.OCT$, line: this.currentLine, value: SYMBOLS.OCT$ };
       }
       // Commands end
       else if (this.isAlphaNumeric(this.currentChar)) {

@@ -46,6 +46,7 @@ export enum TOKENS {
   MID$ = 'MID$',
   LEN = 'LEN',
   NINT = 'NINT',
+  OCT$ = 'OCT$',
 }
 
 export enum SYMBOLS {
@@ -87,4 +88,5 @@ export enum SYMBOLS {
   MID$ = 'MID$',
   LEN = 'LEN',
   NINT = 'NINT',
+  OCT$ = 'OCT$',
 }

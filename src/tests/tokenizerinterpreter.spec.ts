@@ -612,4 +612,20 @@ describe('Commands', () => {
     const result = interpreter.interpret();
     expect(result).to.eql([undefined, undefined, 10, 'FIN']);
   });
+
+  it('OCT$ with Literal', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT OCT$(66)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 102, 'FIN']);
+  });
+
+  it('OCT$ with Variable', () => {
+    tokenizer = new Tokenizer('10 VARX = 66\n20 PRINT OCT$(VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 102, 'FIN']);
+  });
 });
