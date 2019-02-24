@@ -157,6 +157,9 @@ export class Tokenizer {
       } else if (this.isToken(SYMBOLS.LEN)) {
         this.consumeToken(SYMBOLS.LEN);
         return { token: TOKENS.LEN, line: this.currentLine, value: SYMBOLS.LEN };
+      } else if (this.isToken(SYMBOLS.NINT)) {
+        this.consumeToken(SYMBOLS.NINT);
+        return { token: TOKENS.NINT, line: this.currentLine, value: SYMBOLS.NINT };
       }
       // Commands end
       else if (this.isAlphaNumeric(this.currentChar)) {

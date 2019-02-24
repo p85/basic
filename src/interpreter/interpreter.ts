@@ -2,7 +2,7 @@ import { Parser } from "../Parser/Parser";
 import { TOKENS } from "../types/interfaces";
 import {
   nodes, BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
-  Instr, Int, Left, Log, Mid, Len
+  Instr, Int, Left, Log, Mid, Len, Nint
 } from "../ast/ast";
 import { readSync } from 'fs';
 
@@ -73,6 +73,8 @@ export class Interpreter {
       return this.visitMid(node);
     } else if (node instanceof Len) {
       return this.visitLen(node);
+    } else if (node instanceof Nint) {
+      return this.visitNint(node);
     } else {
       this.genericVisit(node);
     }
@@ -269,6 +271,16 @@ export class Interpreter {
   protected visitLen(node: Len): number {
     const value = <string>this.visit(node.value);
     return value.length;
+  }
+
+  protected visitNint(node: Nint): number {
+    const value = <number>this.visit(node.value);
+    // special case for nint
+    if ((value % 1) > 0.5) {
+      return Math.ceil(value);
+    } else {
+      return Math.floor(value);
+    }
   }
 
   public interpret(): any {

@@ -580,4 +580,36 @@ describe('Commands', () => {
     const result = interpreter.interpret();
     expect(result).to.eql([undefined, undefined, 12, 'FIN']);
   });
+
+  it('NINT with Literal 9.5 should become 9', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT NINT(9.5)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 9, 'FIN']);
+  });
+
+  it('NINT with Literal 9.6 should become 10', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT NINT(9.6)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 10, 'FIN']);
+  });
+
+  it('NINT with Variable 9.5 should become 9', () => {
+    tokenizer = new Tokenizer('10 VARX = 9.5\n20 PRINT NINT(VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 9, 'FIN']);
+  });
+
+  it('NINT with Variable 9.6 should become 10', () => {
+    tokenizer = new Tokenizer('10 VARX = 9.6\n20 PRINT NINT(VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 10, 'FIN']);
+  });
 });
