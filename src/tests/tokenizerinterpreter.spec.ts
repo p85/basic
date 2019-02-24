@@ -808,4 +808,14 @@ describe('Commands', () => {
     const result = interpreter.interpret();
     expect(result).to.eql([undefined, undefined, -0.6358599286615808, 'FIN']);
   });
+
+  it('TIME$', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT TIME$\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const ctime = new Date().toLocaleTimeString();
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, ctime, 'FIN']);
+  });
+
 });

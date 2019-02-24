@@ -190,6 +190,9 @@ export class Tokenizer {
       } else if (this.isToken(SYMBOLS.TAN)) {
         this.consumeToken(SYMBOLS.TAN);
         return { token: TOKENS.TAN, line: this.currentLine, value: SYMBOLS.TAN };
+      } else if (this.isToken(SYMBOLS.TIME$)) {
+        this.consumeToken(SYMBOLS.TIME$);
+        return { token: TOKENS.TIME$, line: this.currentLine, value: SYMBOLS.TIME$ };
       }
       // Commands end
       else if (this.isAlphaNumeric(this.currentChar)) {

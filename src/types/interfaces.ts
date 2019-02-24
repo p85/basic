@@ -57,6 +57,7 @@ export enum TOKENS {
   SQRT = 'SQRT',
   STR$ = 'STR$',
   TAN = 'TAN',
+  TIME$ = 'TIME$',
 }
 
 export enum SYMBOLS {
@@ -109,4 +110,5 @@ export enum SYMBOLS {
   SQRT = 'SQRT',
   STR$ = 'STR$',
   TAN = 'TAN',
+  TIME$ = 'TIME$',
 }

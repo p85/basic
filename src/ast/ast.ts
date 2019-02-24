@@ -334,5 +334,11 @@ export class Tan extends AST {
   }
 }
 
+export class Time extends AST {
+  constructor() {
+    super();
+  }
+}
+
 export type nodes = BinOP | UnaryOP | Num | Strng | Assign | Var | Print | Goto | Abs | Atn | Beep | NOP | Chr | Cos | Exp | Hex | Inkey | Input | Gosub | Return |
-  Instr | Int | Left | Log | Mid | Len | Nint | Oct | R2d | Right | Rnd | Sgn | Sin | Sleep | Sqr | Str | Tan;
+  Instr | Int | Left | Log | Mid | Len | Nint | Oct | R2d | Right | Rnd | Sgn | Sin | Sleep | Sqr | Str | Tan | Time;

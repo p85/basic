@@ -2,7 +2,7 @@ import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 import { Tokenizer } from '../tokenizer/tokenizer';
 import {
   BinOP, Num, UnaryOP, Var, Assign, Strng, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
-  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin, Sleep, Sqr, Str, Tan
+  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin, Sleep, Sqr, Str, Tan, Time
 } from '../ast/ast';
 
 export class Parser {
@@ -328,6 +328,10 @@ export class Parser {
       if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('SQR expects as first Parameter a number/Variable');
       this.eat(TOKENS.RPAREN);
       const node = new Tan(token, value);
+      return node;
+    } else if (token.token === TOKENS.TIME$) {
+      this.eat(TOKENS.TIME$);
+      const node = new Time();
       return node;
     } else if (token.token === TOKENS.EOL) { // Commands End
       this.eat(TOKENS.EOL);
