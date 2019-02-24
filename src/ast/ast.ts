@@ -358,5 +358,13 @@ export class Height extends AST {
   }
 }
 
+export class Val extends AST {
+  constructor(token: token, value: Str | Var) {
+    super();
+    this.token = token;
+    this.value = value;
+  }
+}
+
 export type nodes = BinOP | UnaryOP | Num | Strng | Assign | Var | Print | Goto | Abs | Atn | Beep | NOP | Chr | Cos | Exp | Hex | Inkey | Input | Gosub | Return |
-  Instr | Int | Left | Log | Mid | Len | Nint | Oct | R2d | Right | Rnd | Sgn | Sin | Sleep | Sqr | Str | Tan | Time | Timer | Width | Height;
+  Instr | Int | Left | Log | Mid | Len | Nint | Oct | R2d | Right | Rnd | Sgn | Sin | Sleep | Sqr | Str | Tan | Time | Timer | Width | Height | Val;

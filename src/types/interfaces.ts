@@ -61,6 +61,7 @@ export enum TOKENS {
   TIMER = 'TIMER',
   WIDTH = 'WIDTH',
   HEIGHT = 'HEIGHT',
+  VAL = 'VAL',
 }
 
 export enum SYMBOLS {
@@ -117,4 +118,5 @@ export enum SYMBOLS {
   TIMER = 'TIMER',
   WIDTH = 'WIDTH',
   HEIGHT = 'HEIGHT',
+  VAL = 'VAL',
 }

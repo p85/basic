@@ -844,4 +844,20 @@ describe('Commands', () => {
   //   const result = interpreter.interpret();
   //   expect(result).to.eql([undefined, undefined, secsSinceMidnight, 'FIN']);
   // });
+
+  it('VAL with Literal', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT VAL("12")\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 12, 'FIN']);
+  });
+
+  it('VAL with Variable', () => {
+    tokenizer = new Tokenizer('10 VARX = 12\n20 PRINT VAL(VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 12, 'FIN']);
+  });
 });
