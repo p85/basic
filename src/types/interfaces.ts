@@ -55,6 +55,7 @@ export enum TOKENS {
   SLEEP = 'SLEEP',
   SQR = 'SQR',
   SQRT = 'SQRT',
+  STR$ = 'STR$',
 }
 
 export enum SYMBOLS {
@@ -105,4 +106,5 @@ export enum SYMBOLS {
   SLEEP = 'SLEEP',
   SQR = 'SQR',
   SQRT = 'SQRT',
+  STR$ = 'STR$',
 }

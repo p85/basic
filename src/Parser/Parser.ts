@@ -1,8 +1,8 @@
 import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 import { Tokenizer } from '../tokenizer/tokenizer';
 import {
-  BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
-  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin, Sleep, Sqr
+  BinOP, Num, UnaryOP, Var, Assign, Strng, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
+  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin, Sleep, Sqr, Str
 } from '../ast/ast';
 
 export class Parser {
@@ -48,7 +48,7 @@ export class Parser {
       return node;
     } else if (token.token === TOKENS.STRING) {
       this.eat(TOKENS.STRING);
-      const node = new Str(token);
+      const node = new Strng(token);
       return node;
     } else if (token.token === TOKENS.MINUS) {
       this.eat(TOKENS.MINUS);
@@ -153,8 +153,8 @@ export class Parser {
       return node;
     } else if (token.token === TOKENS.INPUT) {
       this.eat(TOKENS.INPUT);
-      const prompt: Str | Num = this.expr();
-      if (!(prompt instanceof Str) && !(prompt instanceof Num)) throw new Error('INPUT expects as first Parameter a number/String');
+      const prompt: Strng | Num = this.expr();
+      if (!(prompt instanceof Strng) && !(prompt instanceof Num)) throw new Error('INPUT expects as first Parameter a number/String');
       this.eat(TOKENS.COMMA);
       const variable: Var = this.variable();
       if (!(variable instanceof Var)) throw new Error('INPUT expects as second Parameter a Variable');
@@ -177,10 +177,10 @@ export class Parser {
       this.eat(TOKENS.INSTR);
       this.eat(TOKENS.LPAREN);
       const value = this.expr();
-      if (!(value instanceof Str) && !(value instanceof Var)) throw new Error('INSTR expects as first Parameter a string/Variable');
+      if (!(value instanceof Strng) && !(value instanceof Var)) throw new Error('INSTR expects as first Parameter a string/Variable');
       this.eat(TOKENS.COMMA);
       const findValue = this.expr();
-      if (!(findValue instanceof Str) && !(findValue instanceof Var)) throw new Error('INSTR expects as second Parameter a string/Variable');
+      if (!(findValue instanceof Strng) && !(findValue instanceof Var)) throw new Error('INSTR expects as second Parameter a string/Variable');
       this.eat(TOKENS.COMMA);
       const startPos = this.expr();
       if (!(startPos instanceof Num) && !(startPos instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('INSTR expects as third Parameter a number/Variable');
@@ -199,7 +199,7 @@ export class Parser {
       this.eat(TOKENS.LEFT$);
       this.eat(TOKENS.LPAREN);
       const value = this.expr();
-      if (!(value instanceof Str) && !(value instanceof Var)) throw new Error('LEFT$ expects as first Parameter a string/Variable');
+      if (!(value instanceof Strng) && !(value instanceof Var)) throw new Error('LEFT$ expects as first Parameter a string/Variable');
       this.eat(TOKENS.COMMA);
       const amount = this.expr();
       if (!(amount instanceof Num) && !(amount instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('LEFT$ expects as first Parameter a number/Variable');
@@ -222,7 +222,7 @@ export class Parser {
       this.eat(TOKENS.MID$);
       this.eat(TOKENS.LPAREN);
       const value = this.expr();
-      if (!(value instanceof Str) && !(value instanceof Var)) throw new Error('MID$ expects as first Parameter a string/Variable');
+      if (!(value instanceof Strng) && !(value instanceof Var)) throw new Error('MID$ expects as first Parameter a string/Variable');
       this.eat(TOKENS.COMMA);
       const startPos = this.expr();
       if (!(startPos instanceof Num) && !(startPos instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('MID$ expects as second Parameter a number/Variable');
@@ -236,7 +236,7 @@ export class Parser {
       this.eat(TOKENS.LEN);
       this.eat(TOKENS.LPAREN);
       const value = this.expr();
-      if (!(value instanceof Str) && !(value instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('LEN expects as first Parameter a string/Variable');
+      if (!(value instanceof Strng) && !(value instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('LEN expects as first Parameter a string/Variable');
       this.eat(TOKENS.RPAREN);
       const node = new Len(token, value);
       return node;
@@ -268,7 +268,7 @@ export class Parser {
       this.eat(TOKENS.RIGHT$);
       this.eat(TOKENS.LPAREN);
       const value = this.expr();
-      if (!(value instanceof Str) && !(value instanceof Var)) throw new Error('RIGHT$ expects as first Parameter a string/Variable');
+      if (!(value instanceof Strng) && !(value instanceof Var)) throw new Error('RIGHT$ expects as first Parameter a string/Variable');
       this.eat(TOKENS.COMMA);
       const amount = this.expr();
       if (!(amount instanceof Num) && !(amount instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('RIGHT$ expects as second Parameter a number/Variable');
@@ -312,6 +312,14 @@ export class Parser {
       if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('SQR expects as first Parameter a number/Variable');
       this.eat(TOKENS.RPAREN);
       const node = new Sqr(token, value);
+      return node;
+    } else if (token.token === TOKENS.STR$) {
+      this.eat(TOKENS.STR$);
+      this.eat(TOKENS.LPAREN);
+      const value = this.expr();
+      if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('STR$ expects as first Parameter a number/Variable');
+      this.eat(TOKENS.RPAREN);
+      const node = new Str(token, value);
       return node;
     } else if (token.token === TOKENS.EOL) { // Commands End
       this.eat(TOKENS.EOL);

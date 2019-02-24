@@ -1,8 +1,8 @@
 import { Parser } from "../Parser/Parser";
 import { TOKENS } from "../types/interfaces";
 import {
-  nodes, BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
-  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin, Sleep, Sqr
+  nodes, BinOP, Num, UnaryOP, Assign, Var, Strng, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
+  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin, Sleep, Sqr, Str
 } from "../ast/ast";
 import { readSync } from 'fs';
 
@@ -29,8 +29,8 @@ export class Interpreter {
       return this.visitAssign(node);
     } else if (node instanceof Var) {
       return this.visitVar(node);
-    } else if (node instanceof Str) {
-      return this.visitStr(node);
+    } else if (node instanceof Strng) {
+      return this.visitStrng(node);
     } else if (node instanceof Print) {
       return this.visitPrint(node);
     } else if (node instanceof Goto) {
@@ -91,6 +91,8 @@ export class Interpreter {
       return this.visitSleep(node);
     } else if (node instanceof Sqr) {
       return this.visitSqr(node);
+    } else if (node instanceof Str) {
+      return this.visitStr(node);
     } else {
       this.genericVisit(node);
     }
@@ -118,7 +120,7 @@ export class Interpreter {
     return node.value;
   }
 
-  protected visitStr(node: Str): string {
+  protected visitStrng(node: Strng): string {
     return node.value;
   }
 
@@ -339,6 +341,11 @@ export class Interpreter {
   protected visitSqr(node: Sqr): number {
     const value = <number>this.visit(node.value);
     return Math.sqrt(value);
+  }
+
+  protected visitStr(node: Str): string {
+    const value = <number>this.visit(node.value);
+    return value.toString();
   }
 
   public interpret(): any {

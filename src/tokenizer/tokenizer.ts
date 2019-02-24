@@ -184,6 +184,9 @@ export class Tokenizer {
       } else if (this.isToken(SYMBOLS.SQR)) {
         this.consumeToken(SYMBOLS.SQR);
         return { token: TOKENS.SQR, line: this.currentLine, value: SYMBOLS.SQR };
+      } else if (this.isToken(SYMBOLS.STR$)) {
+        this.consumeToken(SYMBOLS.STR$);
+        return { token: TOKENS.STR$, line: this.currentLine, value: SYMBOLS.STR$ };
       }
       // Commands end
       else if (this.isAlphaNumeric(this.currentChar)) {
