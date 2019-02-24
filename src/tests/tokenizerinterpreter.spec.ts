@@ -540,4 +540,20 @@ describe('Commands', () => {
     const result = interpreter.interpret();
     expect(result).to.eql([undefined, undefined, 1.6094379124341003, 'FIN']);
   });
+
+  it('MID$ with Literal', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT MID$("Hello World!", 3, 4)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 'lo W', 'FIN']);
+  });
+
+  it('MID$ with Variables', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n15 HOWMANY = 3\n17 LNGT = 4\n20 PRINT MID$(VARX, HOWMANY, LNGT)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, undefined, undefined, undefined, undefined, 'lo W', 'FIN']);
+  });
 });

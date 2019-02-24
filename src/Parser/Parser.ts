@@ -1,6 +1,9 @@
 import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 import { Tokenizer } from '../tokenizer/tokenizer';
-import { BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return, Instr, Int, Left, Log } from '../ast/ast';
+import {
+  BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
+  Instr, Int, Left, Log, Mid
+} from '../ast/ast';
 
 export class Parser {
   tokenizer: Tokenizer;
@@ -196,7 +199,7 @@ export class Parser {
       if (!(value instanceof Str) && !(value instanceof Var)) throw new Error('LEFT$ expects as first Parameter a string/Variable');
       this.eat(TOKENS.COMMA);
       const amount = this.expr();
-      if (!(amount instanceof Num) && !(amount instanceof Var)) throw new Error('LEFT$ expects as first Parameter a number/Variable');    
+      if (!(amount instanceof Num) && !(amount instanceof Var)) throw new Error('LEFT$ expects as first Parameter a number/Variable');
       this.eat(TOKENS.RPAREN);
       const node = new Left(token, value, amount);
       return node;
@@ -211,6 +214,20 @@ export class Parser {
       if (!(value instanceof Num) && !(value instanceof Var)) throw new Error('LOG expects as first Parameter a number/Variable');
       this.eat(TOKENS.RPAREN);
       const node = new Log(token, value);
+      return node;
+    } else if (token.token === TOKENS.MID$) {
+      this.eat(TOKENS.MID$);
+      this.eat(TOKENS.LPAREN);
+      const value = this.expr();
+      if (!(value instanceof Str) && !(value instanceof Var)) throw new Error('MID$ expects as first Parameter a string/Variable');
+      this.eat(TOKENS.COMMA);
+      const startPos = this.expr();
+      if (!(startPos instanceof Num) && !(startPos instanceof Var)) throw new Error('MID$ expects as second Parameter a number/Variable');
+      this.eat(TOKENS.COMMA);
+      const length = this.expr();
+      if (!(length instanceof Num) && !(length instanceof Var)) throw new Error('MID$ expects as third Parameter a number/Variable');
+      this.eat(TOKENS.RPAREN);
+      const node = new Mid(token, value, startPos, length);
       return node;
     } else if (token.token === TOKENS.EOL) { // Commands End
       this.eat(TOKENS.EOL);

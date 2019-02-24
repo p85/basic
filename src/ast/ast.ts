@@ -226,5 +226,17 @@ export class Log extends AST {
   }
 }
 
+export class Mid extends AST {
+  startPos: Num | Var;
+  length: Num | Var;
+  constructor(token: token, value: Str | Var, startPos: Num | Var, length: Num | Var) {
+    super();
+    this.token = token;
+    this.value = value;
+    this.startPos = startPos;
+    this.length = length;
+  }
+}
+
 export type nodes = BinOP | UnaryOP | Num | Str | Assign | Var | Print | Goto | Abs | Atn | Beep | NOP | Chr | Cos | Exp | Hex | Inkey | Input | Gosub | Return |
-  Instr | Int | Left | Log;
+  Instr | Int | Left | Log | Mid;
