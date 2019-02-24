@@ -200,6 +200,10 @@ export class Parser {
       this.eat(TOKENS.RPAREN);
       const node = new Left(token, value, amount);
       return node;
+    } else if (token.token === TOKENS.LET) {
+      this.eat(TOKENS.LET);
+      const node = this.assign();
+      return node;
     } else if (token.token === TOKENS.EOL) { // Commands End
       this.eat(TOKENS.EOL);
       const node = new NOP();

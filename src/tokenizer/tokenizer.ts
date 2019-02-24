@@ -145,6 +145,9 @@ export class Tokenizer {
       } else if (this.isToken(SYMBOLS.LEFT$)) {
         this.consumeToken(SYMBOLS.LEFT$);
         return { token: TOKENS.LEFT$, line: this.currentLine, value: SYMBOLS.LEFT$ };
+      } else if (this.isToken(SYMBOLS.LET)) {
+        this.consumeToken(SYMBOLS.LET);
+        return { token: TOKENS.LET, line: this.currentLine, value: SYMBOLS.LET };
       }
       // Commands end
       else if (this.isAlphaNumeric(this.currentChar)) {

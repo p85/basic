@@ -508,4 +508,21 @@ describe('Commands', () => {
     const result = interpreter.interpret();
     expect(result).to.eql([undefined, undefined, undefined, undefined, 'Hel', 'FIN']);
   });
+
+  
+  it('LET Assign a Number', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n15 LET NR = 31\n20 PRINT NR\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, undefined, undefined, 31, 'FIN']);
+  });
+
+  it('LET Assign a String', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n15 LET SOMESTR = "Hai World!"\n20 PRINT SOMESTR\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, undefined, undefined, 'Hai World!', 'FIN']);
+  });
 });
