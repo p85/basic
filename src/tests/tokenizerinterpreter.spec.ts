@@ -509,7 +509,6 @@ describe('Commands', () => {
     expect(result).to.eql([undefined, undefined, undefined, undefined, 'Hel', 'FIN']);
   });
 
-  
   it('LET Assign a Number', () => {
     tokenizer = new Tokenizer('10 VARX = "Hello World!"\n15 LET NR = 31\n20 PRINT NR\n30 PRINT "FIN"');
     parser = new Parser(tokenizer);
@@ -524,5 +523,21 @@ describe('Commands', () => {
     interpreter = new Interpreter(parser);
     const result = interpreter.interpret();
     expect(result).to.eql([undefined, undefined, undefined, undefined, 'Hai World!', 'FIN']);
+  });
+
+  it('LOG with Literal', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT LOG(5)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 1.6094379124341003, 'FIN']);
+  });
+
+  it('LOG with Variable', () => {
+    tokenizer = new Tokenizer('10 VARX = 5\n20 PRINT LOG(VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 1.6094379124341003, 'FIN']);
   });
 });

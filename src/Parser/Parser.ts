@@ -1,6 +1,6 @@
 import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 import { Tokenizer } from '../tokenizer/tokenizer';
-import { BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return, Instr, Int, Left } from '../ast/ast';
+import { BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return, Instr, Int, Left, Log } from '../ast/ast';
 
 export class Parser {
   tokenizer: Tokenizer;
@@ -203,6 +203,14 @@ export class Parser {
     } else if (token.token === TOKENS.LET) {
       this.eat(TOKENS.LET);
       const node = this.assign();
+      return node;
+    } else if (token.token === TOKENS.LOG) {
+      this.eat(TOKENS.LOG);
+      this.eat(TOKENS.LPAREN);
+      const value = this.expr();
+      if (!(value instanceof Num) && !(value instanceof Var)) throw new Error('LOG expects as first Parameter a number/Variable');
+      this.eat(TOKENS.RPAREN);
+      const node = new Log(token, value);
       return node;
     } else if (token.token === TOKENS.EOL) { // Commands End
       this.eat(TOKENS.EOL);

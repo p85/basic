@@ -42,6 +42,7 @@ export enum TOKENS {
   INT = 'INT',
   LEFT$ = 'LEFT$',
   LET = 'LET',
+  LOG = 'LOG',
 }
 
 export enum SYMBOLS {
@@ -79,4 +80,5 @@ export enum SYMBOLS {
   INT = 'INT',
   LEFT$ = 'LEFT$',
   LET = 'LET',
+  LOG = 'LOG',
 }
