@@ -2,7 +2,7 @@ import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 import { Tokenizer } from '../tokenizer/tokenizer';
 import {
   BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
-  Instr, Int, Left, Log, Mid, Len, Nint, Oct
+  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d
 } from '../ast/ast';
 
 export class Parser {
@@ -252,6 +252,14 @@ export class Parser {
       if (!(value instanceof Num) && !(value instanceof Var)) throw new Error('OCT$ expects as first Parameter a number/Variable');
       this.eat(TOKENS.RPAREN);
       const node = new Oct(token, value);
+      return node;
+    } else if (token.token === TOKENS.R2D) {
+      this.eat(TOKENS.R2D);
+      this.eat(TOKENS.LPAREN);
+      const value = this.expr();
+      if (!(value instanceof Num) && !(value instanceof Var)) throw new Error('R2D expects as first Parameter a number/Variable');
+      this.eat(TOKENS.RPAREN);
+      const node = new R2d(token, value);
       return node;
     } else if (token.token === TOKENS.EOL) { // Commands End
       this.eat(TOKENS.EOL);

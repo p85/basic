@@ -628,4 +628,20 @@ describe('Commands', () => {
     const result = interpreter.interpret();
     expect(result).to.eql([undefined, undefined, 102, 'FIN']);
   });
+
+  it('R2D with Literal', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT R2D(36)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 2062.648062470964, 'FIN']);
+  });
+
+  it('R2D with Variable', () => {
+    tokenizer = new Tokenizer('10 VARX = 36\n20 PRINT R2D(VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 2062.648062470964, 'FIN']);
+  });
 });

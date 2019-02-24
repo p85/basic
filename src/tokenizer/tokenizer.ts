@@ -163,6 +163,9 @@ export class Tokenizer {
       } else if (this.isToken(SYMBOLS.OCT$)) {
         this.consumeToken(SYMBOLS.OCT$);
         return { token: TOKENS.OCT$, line: this.currentLine, value: SYMBOLS.OCT$ };
+      } else if (this.isToken(SYMBOLS.R2D)) {
+        this.consumeToken(SYMBOLS.R2D);
+        return { token: TOKENS.R2D, line: this.currentLine, value: SYMBOLS.R2D };
       }
       // Commands end
       else if (this.isAlphaNumeric(this.currentChar)) {

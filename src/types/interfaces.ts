@@ -47,6 +47,7 @@ export enum TOKENS {
   LEN = 'LEN',
   NINT = 'NINT',
   OCT$ = 'OCT$',
+  R2D = 'R2D',
 }
 
 export enum SYMBOLS {
@@ -89,4 +90,5 @@ export enum SYMBOLS {
   LEN = 'LEN',
   NINT = 'NINT',
   OCT$ = 'OCT$',
+  R2D = 'R2D',
 }

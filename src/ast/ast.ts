@@ -262,5 +262,13 @@ export class Oct extends AST {
   }
 }
 
+export class R2d extends AST {
+  constructor(token: token, value: Num | Var) {
+    super();
+    this.token = token;
+    this.value = value;
+  }
+}
+
 export type nodes = BinOP | UnaryOP | Num | Str | Assign | Var | Print | Goto | Abs | Atn | Beep | NOP | Chr | Cos | Exp | Hex | Inkey | Input | Gosub | Return |
-  Instr | Int | Left | Log | Mid | Len | Nint | Oct;
+  Instr | Int | Left | Log | Mid | Len | Nint | Oct | R2d;
