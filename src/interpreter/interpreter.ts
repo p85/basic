@@ -236,7 +236,7 @@ export class Interpreter {
   }
 
   protected visitInt(node: Int): number {
-    return Math['trunc'](<number>this.visit(node.value)); // TODO: Math.trunc does not work with mocha?
+    return <number>this.visit(node.value) | 0;
   }
 
   public interpret(): any {
