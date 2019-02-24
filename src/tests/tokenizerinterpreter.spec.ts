@@ -556,4 +556,12 @@ describe('Commands', () => {
     const result = interpreter.interpret();
     expect(result).to.eql([undefined, undefined, undefined, undefined, undefined, undefined, 'lo W', 'FIN']);
   });
+
+  it('Combine multiple Commands in one Statement', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT LOG(5) + ABS(-3) + INT(5.9)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 9.6094379124341, 'FIN']);
+  });
 });
