@@ -44,6 +44,7 @@ export enum TOKENS {
   LET = 'LET',
   LOG = 'LOG',
   MID$ = 'MID$',
+  LEN = 'LEN',
 }
 
 export enum SYMBOLS {
@@ -83,4 +84,5 @@ export enum SYMBOLS {
   LET = 'LET',
   LOG = 'LOG',
   MID$ = 'MID$',
+  LEN = 'LEN',
 }

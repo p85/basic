@@ -2,7 +2,7 @@ import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 import { Tokenizer } from '../tokenizer/tokenizer';
 import {
   BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
-  Instr, Int, Left, Log, Mid
+  Instr, Int, Left, Log, Mid, Len
 } from '../ast/ast';
 
 export class Parser {
@@ -228,6 +228,14 @@ export class Parser {
       if (!(length instanceof Num) && !(length instanceof Var)) throw new Error('MID$ expects as third Parameter a number/Variable');
       this.eat(TOKENS.RPAREN);
       const node = new Mid(token, value, startPos, length);
+      return node;
+    } else if (token.token === TOKENS.LEN) {
+      this.eat(TOKENS.LEN);
+      this.eat(TOKENS.LPAREN);
+      const value = this.expr();
+      if (!(value instanceof Str) && !(value instanceof Var)) throw new Error('LEN expects as first Parameter a string/Variable');
+      this.eat(TOKENS.RPAREN);
+      const node = new Len(token, value);
       return node;
     } else if (token.token === TOKENS.EOL) { // Commands End
       this.eat(TOKENS.EOL);

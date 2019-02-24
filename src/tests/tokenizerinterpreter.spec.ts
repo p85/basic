@@ -564,4 +564,20 @@ describe('Commands', () => {
     const result = interpreter.interpret();
     expect(result).to.eql([undefined, undefined, 9.6094379124341, 'FIN']);
   });
+
+  it('LEN with Literal', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT LEN("Hello World!")\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 12, 'FIN']);
+  });
+
+  it('LEN with Variable', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT LEN(VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 12, 'FIN']);
+  });
 });
