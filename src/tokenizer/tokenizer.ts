@@ -181,6 +181,9 @@ export class Tokenizer {
       } else if (this.isToken(SYMBOLS.SLEEP)) {
         this.consumeToken(SYMBOLS.SLEEP);
         return { token: TOKENS.SLEEP, line: this.currentLine, value: SYMBOLS.SLEEP };
+      } else if (this.isToken(SYMBOLS.SQR)) {
+        this.consumeToken(SYMBOLS.SQR);
+        return { token: TOKENS.SQR, line: this.currentLine, value: SYMBOLS.SQR };
       }
       // Commands end
       else if (this.isAlphaNumeric(this.currentChar)) {

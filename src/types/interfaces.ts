@@ -53,6 +53,8 @@ export enum TOKENS {
   SGN = 'SGN',
   SIN = 'SIN',
   SLEEP = 'SLEEP',
+  SQR = 'SQR',
+  SQRT = 'SQRT',
 }
 
 export enum SYMBOLS {
@@ -101,4 +103,6 @@ export enum SYMBOLS {
   SGN = 'SGN',
   SIN = 'SIN',
   SLEEP = 'SLEEP',
+  SQR = 'SQR',
+  SQRT = 'SQRT',
 }

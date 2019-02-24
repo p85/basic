@@ -760,4 +760,20 @@ describe('Commands', () => {
   //   const result = interpreter.interpret();
   //   console.log(result);
   // });
+
+  it('SQR(6) with Literal', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT SQR(6)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 2.449489742783178, 'FIN']);
+  });
+
+  it('SQR(6) with Variable', () => {
+    tokenizer = new Tokenizer('10 VARX = 6\n20 PRINT SQR(VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 2.449489742783178, 'FIN']);
+  });
 });
