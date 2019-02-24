@@ -172,6 +172,9 @@ export class Tokenizer {
       } else if (this.isToken(SYMBOLS.RND)) {
         this.consumeToken(SYMBOLS.RND);
         return { token: TOKENS.RND, line: this.currentLine, value: SYMBOLS.RND };
+      } else if (this.isToken(SYMBOLS.SGN)) {
+        this.consumeToken(SYMBOLS.SGN);
+        return { token: TOKENS.SGN, line: this.currentLine, value: SYMBOLS.SGN };
       }
       // Commands end
       else if (this.isAlphaNumeric(this.currentChar)) {

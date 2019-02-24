@@ -687,4 +687,52 @@ describe('Commands', () => {
     expect(result[2]).to.be.greaterThan(0);
     expect(result[2]).to.be.below(1);
   });
+
+  it('SGN(0) with Literal, should return 0', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT SGN(0)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 0, 'FIN']);
+  });
+
+  it('SGN(0) with Variable, should return 0', () => {
+    tokenizer = new Tokenizer('10 VARX = 0\n20 PRINT SGN(VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 0, 'FIN']);
+  });
+
+  it('SGN(1) with Literal, should return 1', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT SGN(1)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 1, 'FIN']);
+  });
+
+  it('SGN(1) with Variable, should return 1', () => {
+    tokenizer = new Tokenizer('10 VARX = 1\n20 PRINT SGN(VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 1, 'FIN']);
+  });
+
+  it('SGN(-1) with Literal, should return -1', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT SGN(-1)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, -1, 'FIN']);
+  });
+
+  it('SGN(-1) with Variable, should return -1', () => {
+    tokenizer = new Tokenizer('10 VARX = -1\n20 PRINT SGN(VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, -1, 'FIN']);
+  });
 });

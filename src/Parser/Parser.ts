@@ -2,7 +2,7 @@ import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 import { Tokenizer } from '../tokenizer/tokenizer';
 import {
   BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
-  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd
+  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn
 } from '../ast/ast';
 
 export class Parser {
@@ -81,7 +81,7 @@ export class Parser {
       this.eat(TOKENS.ABS);
       this.eat(TOKENS.LPAREN);
       const value = this.expr();
-      if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP)) throw new Error('ABS expects a number/Variable');
+      if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('ABS expects a number/Variable');
       const node = new Abs(token, <Num>value);
       this.eat(TOKENS.RPAREN);
       return node;
@@ -89,7 +89,7 @@ export class Parser {
       this.eat(TOKENS.ATN);
       this.eat(TOKENS.LPAREN);
       const value = this.expr();
-      if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP)) throw new Error('ATN expects a number/Variable');
+      if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('ATN expects a number/Variable');
       const node = new Atn(token, <Num>value);
       this.eat(TOKENS.RPAREN);
       return node;
@@ -122,7 +122,7 @@ export class Parser {
       this.eat(TOKENS.COS);
       this.eat(TOKENS.LPAREN);
       const value = this.expr();
-      if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP)) throw new Error('COS expects a number/Variable');
+      if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('COS expects a number/Variable');
       const node = new Cos(token, value);
       this.eat(TOKENS.RPAREN);
       return node;
@@ -135,7 +135,7 @@ export class Parser {
       this.eat(TOKENS.EXP);
       this.eat(TOKENS.LPAREN);
       const value = this.expr();
-      if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP)) throw new Error('EXP expects a number/Variable');
+      if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('EXP expects a number/Variable');
       const node = new Exp(token, value);
       this.eat(TOKENS.RPAREN);
       return node;
@@ -183,7 +183,7 @@ export class Parser {
       if (!(findValue instanceof Str) && !(findValue instanceof Var)) throw new Error('INSTR expects as second Parameter a string/Variable');
       this.eat(TOKENS.COMMA);
       const startPos = this.expr();
-      if (!(startPos instanceof Num) && !(startPos instanceof Var)) throw new Error('INSTR expects as third Parameter a number/Variable');
+      if (!(startPos instanceof Num) && !(startPos instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('INSTR expects as third Parameter a number/Variable');
       this.eat(TOKENS.RPAREN);
       const node = new Instr(token, value, findValue, startPos);
       return node;
@@ -191,7 +191,7 @@ export class Parser {
       this.eat(TOKENS.INT);
       this.eat(TOKENS.LPAREN);
       const value = this.expr();
-      if (!(value instanceof Num) && !(value instanceof Var)) throw new Error('INT expects as first Parameter a number/Variable');
+      if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('INT expects as first Parameter a number/Variable');
       this.eat(TOKENS.RPAREN);
       const node = new Int(token, value);
       return node;
@@ -202,7 +202,7 @@ export class Parser {
       if (!(value instanceof Str) && !(value instanceof Var)) throw new Error('LEFT$ expects as first Parameter a string/Variable');
       this.eat(TOKENS.COMMA);
       const amount = this.expr();
-      if (!(amount instanceof Num) && !(amount instanceof Var)) throw new Error('LEFT$ expects as first Parameter a number/Variable');
+      if (!(amount instanceof Num) && !(amount instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('LEFT$ expects as first Parameter a number/Variable');
       this.eat(TOKENS.RPAREN);
       const node = new Left(token, value, amount);
       return node;
@@ -214,7 +214,7 @@ export class Parser {
       this.eat(TOKENS.LOG);
       this.eat(TOKENS.LPAREN);
       const value = this.expr();
-      if (!(value instanceof Num) && !(value instanceof Var)) throw new Error('LOG expects as first Parameter a number/Variable');
+      if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('LOG expects as first Parameter a number/Variable');
       this.eat(TOKENS.RPAREN);
       const node = new Log(token, value);
       return node;
@@ -225,10 +225,10 @@ export class Parser {
       if (!(value instanceof Str) && !(value instanceof Var)) throw new Error('MID$ expects as first Parameter a string/Variable');
       this.eat(TOKENS.COMMA);
       const startPos = this.expr();
-      if (!(startPos instanceof Num) && !(startPos instanceof Var)) throw new Error('MID$ expects as second Parameter a number/Variable');
+      if (!(startPos instanceof Num) && !(startPos instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('MID$ expects as second Parameter a number/Variable');
       this.eat(TOKENS.COMMA);
       const length = this.expr();
-      if (!(length instanceof Num) && !(length instanceof Var)) throw new Error('MID$ expects as third Parameter a number/Variable');
+      if (!(length instanceof Num) && !(length instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('MID$ expects as third Parameter a number/Variable');
       this.eat(TOKENS.RPAREN);
       const node = new Mid(token, value, startPos, length);
       return node;
@@ -236,7 +236,7 @@ export class Parser {
       this.eat(TOKENS.LEN);
       this.eat(TOKENS.LPAREN);
       const value = this.expr();
-      if (!(value instanceof Str) && !(value instanceof Var)) throw new Error('LEN expects as first Parameter a string/Variable');
+      if (!(value instanceof Str) && !(value instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('LEN expects as first Parameter a string/Variable');
       this.eat(TOKENS.RPAREN);
       const node = new Len(token, value);
       return node;
@@ -244,7 +244,7 @@ export class Parser {
       this.eat(TOKENS.NINT);
       this.eat(TOKENS.LPAREN);
       const value = this.expr();
-      if (!(value instanceof Num) && !(value instanceof Var)) throw new Error('NINT expects as first Parameter a number/Variable');
+      if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('NINT expects as first Parameter a number/Variable');
       this.eat(TOKENS.RPAREN);
       const node = new Nint(token, value);
       return node;
@@ -252,7 +252,7 @@ export class Parser {
       this.eat(TOKENS.OCT$);
       this.eat(TOKENS.LPAREN);
       const value = this.expr();
-      if (!(value instanceof Num) && !(value instanceof Var)) throw new Error('OCT$ expects as first Parameter a number/Variable');
+      if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('OCT$ expects as first Parameter a number/Variable');
       this.eat(TOKENS.RPAREN);
       const node = new Oct(token, value);
       return node;
@@ -260,7 +260,7 @@ export class Parser {
       this.eat(TOKENS.R2D);
       this.eat(TOKENS.LPAREN);
       const value = this.expr();
-      if (!(value instanceof Num) && !(value instanceof Var)) throw new Error('R2D expects as first Parameter a number/Variable');
+      if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('R2D expects as first Parameter a number/Variable');
       this.eat(TOKENS.RPAREN);
       const node = new R2d(token, value);
       return node;
@@ -271,7 +271,7 @@ export class Parser {
       if (!(value instanceof Str) && !(value instanceof Var)) throw new Error('RIGHT$ expects as first Parameter a string/Variable');
       this.eat(TOKENS.COMMA);
       const amount = this.expr();
-      if (!(amount instanceof Num) && !(amount instanceof Var)) throw new Error('RIGHT$ expects as second Parameter a number/Variable');
+      if (!(amount instanceof Num) && !(amount instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('RIGHT$ expects as second Parameter a number/Variable');
       this.eat(TOKENS.RPAREN);
       const node = new Right(token, value, amount);
       return node;
@@ -281,6 +281,14 @@ export class Parser {
       this.eat(TOKENS.INTEGER, true);
       this.eat(TOKENS.RPAREN, true);
       const node = new Rnd();
+      return node;
+    } else if(token.token === TOKENS.SGN) {
+      this.eat(TOKENS.SGN);
+      this.eat(TOKENS.LPAREN);
+      const value = this.expr();
+      if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('SGN expects as first Parameter a number/Variable');
+      this.eat(TOKENS.RPAREN);
+      const node = new Sgn(token, value);
       return node;
     } else if (token.token === TOKENS.EOL) { // Commands End
       this.eat(TOKENS.EOL);

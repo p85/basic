@@ -50,6 +50,7 @@ export enum TOKENS {
   R2D = 'R2D',
   RIGHT$ = 'RIGHT$',
   RND = 'RND',
+  SGN = 'SGN',
 }
 
 export enum SYMBOLS {
@@ -95,4 +96,5 @@ export enum SYMBOLS {
   R2D = 'R2D',
   RIGHT$ = 'RIGHT$',
   RND = 'RND',
+  SGN = 'SGN',
 }
