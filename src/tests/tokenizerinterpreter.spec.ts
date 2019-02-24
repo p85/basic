@@ -818,4 +818,12 @@ describe('Commands', () => {
     expect(result).to.eql([undefined, undefined, ctime, 'FIN']);
   });
 
+  it('TIMER', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT TIMER\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const secsSinceMidnight = Math['trunc']((<any>new Date() - new Date().setHours(0, 0, 0, 0)) / 1000);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, secsSinceMidnight, 'FIN']);
+  });
 });

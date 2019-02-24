@@ -193,6 +193,9 @@ export class Tokenizer {
       } else if (this.isToken(SYMBOLS.TIME$)) {
         this.consumeToken(SYMBOLS.TIME$);
         return { token: TOKENS.TIME$, line: this.currentLine, value: SYMBOLS.TIME$ };
+      } else if (this.isToken(SYMBOLS.TIMER)) {
+        this.consumeToken(SYMBOLS.TIMER);
+        return { token: TOKENS.TIMER, line: this.currentLine, value: SYMBOLS.TIMER };
       }
       // Commands end
       else if (this.isAlphaNumeric(this.currentChar)) {
