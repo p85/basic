@@ -2,7 +2,7 @@ import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 import { Tokenizer } from '../tokenizer/tokenizer';
 import {
   BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
-  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right
+  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd
 } from '../ast/ast';
 
 export class Parser {
@@ -29,9 +29,12 @@ export class Parser {
     return node;
   }
 
-  protected eat(token: TOKENS): void {
+  protected eat(token: TOKENS, isOptional?: boolean): void {
     if (this.currentToken.token === token) {
       this.currentToken = this.tokenizer.getNextToken();
+      return;
+    } else if (this.currentToken.token !== token && isOptional) {
+      // discard it, if its optional
       return;
     }
     throw new Error('Parsing Error, expected: ' + token + ' got: ' + this.currentToken.token);
@@ -271,6 +274,13 @@ export class Parser {
       if (!(amount instanceof Num) && !(amount instanceof Var)) throw new Error('RIGHT$ expects as second Parameter a number/Variable');
       this.eat(TOKENS.RPAREN);
       const node = new Right(token, value, amount);
+      return node;
+    } else if (token.token === TOKENS.RND) {
+      this.eat(TOKENS.RND);
+      this.eat(TOKENS.LPAREN, true);
+      this.eat(TOKENS.INTEGER, true);
+      this.eat(TOKENS.RPAREN, true);
+      const node = new Rnd();
       return node;
     } else if (token.token === TOKENS.EOL) { // Commands End
       this.eat(TOKENS.EOL);

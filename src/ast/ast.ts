@@ -280,5 +280,11 @@ export class Right extends AST {
   }
 }
 
+export class Rnd extends AST {
+  constructor() {
+    super();
+  }
+}
+
 export type nodes = BinOP | UnaryOP | Num | Str | Assign | Var | Print | Goto | Abs | Atn | Beep | NOP | Chr | Cos | Exp | Hex | Inkey | Input | Gosub | Return |
-  Instr | Int | Left | Log | Mid | Len | Nint | Oct | R2d | Right;
+  Instr | Int | Left | Log | Mid | Len | Nint | Oct | R2d | Right | Rnd;

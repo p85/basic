@@ -660,4 +660,31 @@ describe('Commands', () => {
     const result = interpreter.interpret();
     expect(result).to.eql([undefined, undefined, undefined, undefined, 'rld!', 'FIN']);
   });
+
+  it('RND should return a Number between 0 and 1', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT RND\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.be.greaterThan(0);
+    expect(result[2]).to.be.below(1);
+  });
+
+  it('RND() should return a Number between 0 and 1', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT RND()\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.be.greaterThan(0);
+    expect(result[2]).to.be.below(1);
+  });
+
+  it('RND(321) should return a Number between 0 and 1', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT RND(321)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.be.greaterThan(0);
+    expect(result[2]).to.be.below(1);
+  });
 });
