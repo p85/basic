@@ -208,5 +208,15 @@ export class Int extends AST {
   }
 }
 
+export class Left extends AST {
+  amount: Num | Var;
+  constructor(token: token, value: Str | Var, amount: Num | Var) {
+    super();
+    this.token = token;
+    this.value = value;
+    this.amount = amount;
+  }
+}
+
 export type nodes = BinOP | UnaryOP | Num | Str | Assign | Var | Print | Goto | Abs | Atn | Beep | NOP | Chr | Cos | Exp | Hex | Inkey | Input | Gosub | Return |
-  Instr | Int;
+  Instr | Int | Left;

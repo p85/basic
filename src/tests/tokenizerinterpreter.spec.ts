@@ -492,4 +492,20 @@ describe('Commands', () => {
     const result = interpreter.interpret();
     expect(result).to.eql([undefined, undefined, 2, 'FIN']);
   });
+
+  it('LEFT$ with Literal', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT LEFT$("Hello World!", 3)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 'Hel', 'FIN']);
+  });
+
+  it('LEFT$ with Variables', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n15 HOWMANY = 3\n20 PRINT LEFT$(VARX, HOWMANY)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, undefined, undefined, 'Hel', 'FIN']);
+  });
 });

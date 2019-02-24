@@ -1,6 +1,6 @@
 import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 import { Tokenizer } from '../tokenizer/tokenizer';
-import { BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return, Instr, Int } from '../ast/ast';
+import { BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return, Instr, Int, Left } from '../ast/ast';
 
 export class Parser {
   tokenizer: Tokenizer;
@@ -188,6 +188,17 @@ export class Parser {
       if (!(value instanceof Num) && !(value instanceof Var)) throw new Error('INT expects as first Parameter a number/Variable');
       this.eat(TOKENS.RPAREN);
       const node = new Int(token, value);
+      return node;
+    } else if (token.token === TOKENS.LEFT$) {
+      this.eat(TOKENS.LEFT$);
+      this.eat(TOKENS.LPAREN);
+      const value = this.expr();
+      if (!(value instanceof Str) && !(value instanceof Var)) throw new Error('LEFT$ expects as first Parameter a string/Variable');
+      this.eat(TOKENS.COMMA);
+      const amount = this.expr();
+      if (!(amount instanceof Num) && !(amount instanceof Var)) throw new Error('LEFT$ expects as first Parameter a number/Variable');    
+      this.eat(TOKENS.RPAREN);
+      const node = new Left(token, value, amount);
       return node;
     } else if (token.token === TOKENS.EOL) { // Commands End
       this.eat(TOKENS.EOL);

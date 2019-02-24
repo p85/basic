@@ -40,6 +40,7 @@ export enum TOKENS {
   RETURN = 'RETURN',
   INSTR = 'INSTR',
   INT = 'INT',
+  LEFT$ = 'LEFT$',
 }
 
 export enum SYMBOLS {
@@ -75,4 +76,5 @@ export enum SYMBOLS {
   RETURN = 'RETURN',
   INSTR = 'INSTR',
   INT = 'INT',
+  LEFT$ = 'LEFT$',
 }
