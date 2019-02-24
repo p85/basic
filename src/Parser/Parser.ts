@@ -2,7 +2,7 @@ import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 import { Tokenizer } from '../tokenizer/tokenizer';
 import {
   BinOP, Num, UnaryOP, Var, Assign, Strng, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
-  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin, Sleep, Sqr, Str, Tan, Time, Timer
+  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin, Sleep, Sqr, Str, Tan, Time, Timer, Width, Height
 } from '../ast/ast';
 
 export class Parser {
@@ -336,6 +336,14 @@ export class Parser {
     } else if (token.token === TOKENS.TIMER) {
       this.eat(TOKENS.TIMER);
       const node = new Timer();
+      return node;
+    } else if (token.token === TOKENS.WIDTH) {
+      this.eat(TOKENS.WIDTH);
+      const node = new Width();
+      return node;
+    } else if (token.token === TOKENS.HEIGHT) {
+      this.eat(TOKENS.HEIGHT);
+      const node = new Height();
       return node;
     } else if (token.token === TOKENS.EOL) { // Commands End
       this.eat(TOKENS.EOL);

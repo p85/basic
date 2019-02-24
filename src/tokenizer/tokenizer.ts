@@ -196,6 +196,12 @@ export class Tokenizer {
       } else if (this.isToken(SYMBOLS.TIMER)) {
         this.consumeToken(SYMBOLS.TIMER);
         return { token: TOKENS.TIMER, line: this.currentLine, value: SYMBOLS.TIMER };
+      } else if (this.isToken(SYMBOLS.WIDTH)) {
+        this.consumeToken(SYMBOLS.WIDTH);
+        return { token: TOKENS.WIDTH, line: this.currentLine, value: SYMBOLS.WIDTH };
+      } else if (this.isToken(SYMBOLS.HEIGHT)) {
+        this.consumeToken(SYMBOLS.HEIGHT);
+        return { token: TOKENS.HEIGHT, line: this.currentLine, value: SYMBOLS.HEIGHT };
       }
       // Commands end
       else if (this.isAlphaNumeric(this.currentChar)) {

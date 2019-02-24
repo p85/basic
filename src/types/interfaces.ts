@@ -59,6 +59,8 @@ export enum TOKENS {
   TAN = 'TAN',
   TIME$ = 'TIME$',
   TIMER = 'TIMER',
+  WIDTH = 'WIDTH',
+  HEIGHT = 'HEIGHT',
 }
 
 export enum SYMBOLS {
@@ -113,4 +115,6 @@ export enum SYMBOLS {
   TAN = 'TAN',
   TIME$ = 'TIME$',
   TIMER = 'TIMER',
+  WIDTH = 'WIDTH',
+  HEIGHT = 'HEIGHT',
 }
