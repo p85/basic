@@ -175,9 +175,12 @@ export class Tokenizer {
       } else if (this.isToken(SYMBOLS.SGN)) {
         this.consumeToken(SYMBOLS.SGN);
         return { token: TOKENS.SGN, line: this.currentLine, value: SYMBOLS.SGN };
-      }  else if (this.isToken(SYMBOLS.SIN)) {
+      } else if (this.isToken(SYMBOLS.SIN)) {
         this.consumeToken(SYMBOLS.SIN);
         return { token: TOKENS.SIN, line: this.currentLine, value: SYMBOLS.SIN };
+      } else if (this.isToken(SYMBOLS.SLEEP)) {
+        this.consumeToken(SYMBOLS.SLEEP);
+        return { token: TOKENS.SLEEP, line: this.currentLine, value: SYMBOLS.SLEEP };
       }
       // Commands end
       else if (this.isAlphaNumeric(this.currentChar)) {

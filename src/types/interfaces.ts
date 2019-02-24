@@ -52,6 +52,7 @@ export enum TOKENS {
   RND = 'RND',
   SGN = 'SGN',
   SIN = 'SIN',
+  SLEEP = 'SLEEP',
 }
 
 export enum SYMBOLS {
@@ -99,4 +100,5 @@ export enum SYMBOLS {
   RND = 'RND',
   SGN = 'SGN',
   SIN = 'SIN',
+  SLEEP = 'SLEEP',
 }

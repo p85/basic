@@ -751,4 +751,13 @@ describe('Commands', () => {
     const result = interpreter.interpret();
     expect(result).to.eql([undefined, undefined, -0.8462204041751706, 'FIN']);
   });
+
+  // TODO: How to test SLEEP?
+  // it('SLEEP(2) with Literal', () => {
+  //   tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 SLEEP(2)\n30 PRINT "FIN"');
+  //   parser = new Parser(tokenizer);
+  //   interpreter = new Interpreter(parser);
+  //   const result = interpreter.interpret();
+  //   console.log(result);
+  // });
 });
