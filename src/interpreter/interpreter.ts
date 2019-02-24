@@ -2,7 +2,7 @@ import { Parser } from "../Parser/Parser";
 import { TOKENS } from "../types/interfaces";
 import {
   nodes, BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
-  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn
+  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin
 } from "../ast/ast";
 import { readSync } from 'fs';
 
@@ -85,6 +85,8 @@ export class Interpreter {
       return this.visitRnd(node);
     } else if (node instanceof Sgn) {
       return this.visitSgn(node);
+    } else if (node instanceof Sin) {
+      return this.visitSin(node);
     } else {
       this.genericVisit(node);
     }
@@ -316,6 +318,11 @@ export class Interpreter {
   protected visitSgn(node: Sgn): number {
     const value = <number>this.visit(node.value);
     return Math['sign'](value); // TODO: Mocha cannot find sign in Math
+  }
+
+  protected visitSin(node: Sin): number {
+    const value = <number>this.visit(node.value);
+    return Math.sin(value);
   }
 
   public interpret(): any {

@@ -2,7 +2,7 @@ import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 import { Tokenizer } from '../tokenizer/tokenizer';
 import {
   BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
-  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn
+  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin
 } from '../ast/ast';
 
 export class Parser {
@@ -282,13 +282,21 @@ export class Parser {
       this.eat(TOKENS.RPAREN, true);
       const node = new Rnd();
       return node;
-    } else if(token.token === TOKENS.SGN) {
+    } else if (token.token === TOKENS.SGN) {
       this.eat(TOKENS.SGN);
       this.eat(TOKENS.LPAREN);
       const value = this.expr();
       if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('SGN expects as first Parameter a number/Variable');
       this.eat(TOKENS.RPAREN);
       const node = new Sgn(token, value);
+      return node;
+    } else if (token.token === TOKENS.SIN) {
+      this.eat(TOKENS.SIN);
+      this.eat(TOKENS.LPAREN);
+      const value = this.expr();
+      if (!(value instanceof Num) && !(value instanceof Var) && !(value instanceof UnaryOP) && !(value instanceof BinOP)) throw new Error('SIN expects as first Parameter a number/Variable');
+      this.eat(TOKENS.RPAREN);
+      const node = new Sin(token, value);
       return node;
     } else if (token.token === TOKENS.EOL) { // Commands End
       this.eat(TOKENS.EOL);

@@ -51,6 +51,7 @@ export enum TOKENS {
   RIGHT$ = 'RIGHT$',
   RND = 'RND',
   SGN = 'SGN',
+  SIN = 'SIN',
 }
 
 export enum SYMBOLS {
@@ -97,4 +98,5 @@ export enum SYMBOLS {
   RIGHT$ = 'RIGHT$',
   RND = 'RND',
   SGN = 'SGN',
+  SIN = 'SIN',
 }
