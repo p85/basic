@@ -476,4 +476,20 @@ describe('Commands', () => {
     const result = interpreter.interpret();
     expect(result).to.eql([undefined, undefined, undefined, undefined, undefined, undefined, 4, 'FIN']);
   });
+
+  it('INT with Literal', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT INT(21.6)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 21, 'FIN']);
+  });
+
+  it('INT with Variable', () => {
+    tokenizer = new Tokenizer('10 VARX = 2.1\n20 PRINT INT(VARX)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 2, 'FIN']);
+  });
 });

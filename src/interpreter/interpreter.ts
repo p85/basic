@@ -1,7 +1,8 @@
 import { Parser } from "../Parser/Parser";
 import { TOKENS } from "../types/interfaces";
 import { nodes, BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
-  Instr } from "../ast/ast";
+  Instr, 
+  Int} from "../ast/ast";
 import { readSync } from 'fs';
 
 
@@ -61,6 +62,8 @@ export class Interpreter {
       return this.visitReturn(node);
     } else if (node instanceof Instr) {
       return this.visitInstr(node);
+    } else if (node instanceof Int) {
+      return this.visitInt(node);
     } else {
       this.genericVisit(node);
     }
@@ -230,6 +233,10 @@ export class Interpreter {
     const findValue = <string>this.visit(node.findValue);
     const startPos = <number>this.visit(node.startPos);
     return value.indexOf(findValue, startPos || 0);
+  }
+
+  protected visitInt(node: Int): number {
+    return Math['trunc'](<number>this.visit(node.value)); // TODO: Math.trunc does not work with mocha?
   }
 
   public interpret(): any {
