@@ -644,4 +644,20 @@ describe('Commands', () => {
     const result = interpreter.interpret();
     expect(result).to.eql([undefined, undefined, 2062.648062470964, 'FIN']);
   });
+
+  it('RIGHT$ with Literal', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT RIGHT$("Hello World!", 4)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 'rld!', 'FIN']);
+  });
+
+  it('RIGHT$ with Variable', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n15 AMNT = 4\n20 PRINT RIGHT$(VARX, AMNT)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, undefined, undefined, 'rld!', 'FIN']);
+  });
 });

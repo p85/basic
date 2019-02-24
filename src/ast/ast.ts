@@ -270,5 +270,15 @@ export class R2d extends AST {
   }
 }
 
+export class Right extends AST {
+  amount: Num | Var;
+  constructor(token: token, value: Str | Var, amount: Num | Var) {
+    super();
+    this.token = token;
+    this.value = value;
+    this.amount = amount;
+  }
+}
+
 export type nodes = BinOP | UnaryOP | Num | Str | Assign | Var | Print | Goto | Abs | Atn | Beep | NOP | Chr | Cos | Exp | Hex | Inkey | Input | Gosub | Return |
-  Instr | Int | Left | Log | Mid | Len | Nint | Oct | R2d;
+  Instr | Int | Left | Log | Mid | Len | Nint | Oct | R2d | Right;
