@@ -442,4 +442,38 @@ describe('Commands', () => {
     const result = interpreter.interpret();
     expect(result).to.eql([undefined, undefined, 'BEFORE GOSUB', undefined, 'INTO GOSUB', undefined, 'FIN', undefined]);
   });
+
+  it('INSTR with Literals, find second o', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT INSTR(VARX, "o", 6)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 7, 'FIN']);
+  });
+
+  it('INSTR with Literals, find first o', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 PRINT INSTR(VARX, "o", 0)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, 4, 'FIN']);
+  });
+
+  // ---
+
+  it('INSTR with Variables, find second o', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n21 FINDV = "o"\n22 POSI = 6\n20 PRINT INSTR(VARX, FINDV, POSI)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, undefined, undefined, undefined, undefined, 7, 'FIN']);
+  });
+
+  it('INSTR with Variables, find first o', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n21 FINDV = "o"\n22 POSI = 0\n20 PRINT INSTR(VARX, FINDV, POSI)\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, undefined, undefined, undefined, undefined, 4, 'FIN']);
+  });
 });

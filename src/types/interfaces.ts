@@ -38,6 +38,7 @@ export enum TOKENS {
   INPUT = 'INPUT',
   GOSUB = 'GOSUB',
   RETURN = 'RETURN',
+  INSTR = 'INSTR',
 }
 
 export enum SYMBOLS {
@@ -71,4 +72,5 @@ export enum SYMBOLS {
   INPUT = 'INPUT',
   GOSUB = 'GOSUB',
   RETURN = 'RETURN',
+  INSTR = 'INSTR',
 }

@@ -1,4 +1,5 @@
 import { token, TOKENS } from "../types/interfaces";
+import { start } from "repl";
 
 class AST {
   line: number;
@@ -187,4 +188,17 @@ export class Return extends AST {
   }
 }
 
-export type nodes = BinOP | UnaryOP | Num | Str | Assign | Var | Print | Goto | Abs | Atn | Beep | NOP | Chr | Cos | Exp | Hex | Inkey | Input | Gosub | Return;
+export class Instr extends AST {
+  findValue: Str | Var;
+  startPos: Num | Var;
+  constructor(token: token, value: Str | Var, findValue: Str | Var, startPos: Num | Var) {
+    super();
+    this.token = token;
+    this.value = value;
+    this.findValue = findValue;
+    this.startPos = startPos;
+  }
+}
+
+export type nodes = BinOP | UnaryOP | Num | Str | Assign | Var | Print | Goto | Abs | Atn | Beep | NOP | Chr | Cos | Exp | Hex | Inkey | Input | Gosub | Return |
+  Instr;

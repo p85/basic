@@ -1,6 +1,7 @@
 import { Parser } from "../Parser/Parser";
 import { TOKENS } from "../types/interfaces";
-import { nodes, BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return } from "../ast/ast";
+import { nodes, BinOP, Num, UnaryOP, Assign, Var, Str, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
+  Instr } from "../ast/ast";
 import { readSync } from 'fs';
 
 
@@ -58,6 +59,8 @@ export class Interpreter {
       return this.visitGosub(node);
     } else if (node instanceof Return) {
       return this.visitReturn(node);
+    } else if (node instanceof Instr) {
+      return this.visitInstr(node);
     } else {
       this.genericVisit(node);
     }
@@ -106,7 +109,7 @@ export class Interpreter {
   protected visitVar(node: Var): string | number {
     const varName = node.value;
     const val = this.vars[varName];
-    if (!val) {
+    if (val == null || val == undefined) {
       throw new Error('var not set: ' + varName);
     } else {
       return val;
@@ -220,6 +223,13 @@ export class Interpreter {
     const value = buffer.toString().trim();
     this.vars[node.variable.value] = value;
     return value;
+  }
+
+  protected visitInstr(node: Instr): number {
+    const value = <string>this.visit(node.value);
+    const findValue = <string>this.visit(node.findValue);
+    const startPos = <number>this.visit(node.startPos);
+    return value.indexOf(findValue, startPos || 0);
   }
 
   public interpret(): any {

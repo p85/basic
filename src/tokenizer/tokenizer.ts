@@ -136,6 +136,9 @@ export class Tokenizer {
       } else if (this.isToken(SYMBOLS.RETURN)) {
         this.consumeToken(SYMBOLS.RETURN);
         return { token: TOKENS.RETURN, line: this.currentLine, value: SYMBOLS.RETURN };
+      } else if (this.isToken(SYMBOLS.INSTR)) {
+        this.consumeToken(SYMBOLS.INSTR);
+        return { token: TOKENS.INSTR, line: this.currentLine, value: SYMBOLS.INSTR };
       }
       // Commands end
       else if (this.isAlphaNumeric(this.currentChar)) {

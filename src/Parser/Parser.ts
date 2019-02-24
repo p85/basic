@@ -1,6 +1,6 @@
 import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 import { Tokenizer } from '../tokenizer/tokenizer';
-import { BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return } from '../ast/ast';
+import { BinOP, Num, UnaryOP, Var, Assign, Str, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return, Instr } from '../ast/ast';
 
 export class Parser {
   tokenizer: Tokenizer;
@@ -166,6 +166,20 @@ export class Parser {
       this.eat(TOKENS.RETURN);
       this.eat(TOKENS.EOL);
       const node = new Return();
+      return node;
+    } else if (token.token === TOKENS.INSTR) {
+      this.eat(TOKENS.INSTR);
+      this.eat(TOKENS.LPAREN);
+      const value = this.expr();
+      if (!(value instanceof Str) && !(value instanceof Var)) throw new Error('INSTR expects as first Parameter a string/Variable');
+      this.eat(TOKENS.COMMA);
+      const findValue = this.expr();
+      if (!(findValue instanceof Str) && !(findValue instanceof Var)) throw new Error('INSTR expects as second Parameter a string/Variable');
+      this.eat(TOKENS.COMMA);
+      const startPos = this.factor();
+      if (!(startPos instanceof Num) && !(startPos instanceof Var)) throw new Error('INSTR expects as third Parameter a number/Variable');
+      this.eat(TOKENS.RPAREN);
+      const node = new Instr(token, value, findValue, startPos);
       return node;
     } else if (token.token === TOKENS.EOL) { // Commands End
       this.eat(TOKENS.EOL);
