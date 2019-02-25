@@ -63,6 +63,7 @@ export enum TOKENS {
   HEIGHT = 'HEIGHT',
   VAL = 'VAL',
   DATA = 'DATA',
+  READ = 'READ',
 }
 
 export enum SYMBOLS {
@@ -121,4 +122,5 @@ export enum SYMBOLS {
   HEIGHT = 'HEIGHT',
   VAL = 'VAL',
   DATA = 'DATA',
+  READ = 'READ',
 }

@@ -862,7 +862,7 @@ describe('Commands', () => {
   });
 
   it('DATA with Literal Numbers', () => {
-    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 DATA 12 356 2\n30 PRINT "FIN"');
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 DATA 12, 356, 2\n30 PRINT "FIN"');
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
     interpreter.interpret();
@@ -870,7 +870,7 @@ describe('Commands', () => {
   });
 
   it('DATA with Literal Strings', () => {
-    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 DATA "He llo" "Wo Rld!" "."\n30 PRINT "FIN"');
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 DATA "He llo", "Wo Rld!", "."\n30 PRINT "FIN"');
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
     interpreter.interpret();
@@ -878,10 +878,43 @@ describe('Commands', () => {
   });
 
   it('DATA with Literal Strings/Numbers', () => {
-    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 DATA "He llo" 312 "Wo Rld!" 551 "." 12\n30 PRINT "FIN"');
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 DATA "He llo", 312, "Wo Rld!", 551, ".", 12\n30 PRINT "FIN"');
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
     interpreter.interpret();
     expect(interpreter.data).to.eql(['He llo', 312, 'Wo Rld!', 551, '.', 12]);
+  });
+
+  it('DATA/READ with Literal Numbers', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 DATA 12, 356, 2\n25 READ AA, BB, CC\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    interpreter.interpret();
+    expect(interpreter.vars['AA']).to.equal(12);
+    expect(interpreter.vars['BB']).to.equal(356);
+    expect(interpreter.vars['CC']).to.equal(2);
+  });
+
+  it('DATA/READ with Literal Strings', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 DATA "He llo", "Wo Rld!", "."\n25 READ AA, BB, CC\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    interpreter.interpret();
+    expect(interpreter.vars['AA']).to.equal('He llo');
+    expect(interpreter.vars['BB']).to.equal('Wo Rld!');
+    expect(interpreter.vars['CC']).to.equal('.');
+  });
+
+  it('DATA/READ with Literal Strings/Numbers', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 DATA "He llo", 312, "Wo Rld!", 551, ".", 12\n25 READ AA, BB, CC, DD, EE, FF\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    interpreter.interpret();
+    expect(interpreter.vars['AA']).to.equal('He llo');
+    expect(interpreter.vars['BB']).to.equal(312);
+    expect(interpreter.vars['CC']).to.equal('Wo Rld!');
+    expect(interpreter.vars['DD']).to.equal(551);
+    expect(interpreter.vars['EE']).to.equal('.');
+    expect(interpreter.vars['FF']).to.equal(12);
   });
 });

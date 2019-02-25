@@ -2,7 +2,7 @@ import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 import { Tokenizer } from '../tokenizer/tokenizer';
 import {
   BinOP, Num, UnaryOP, Var, Assign, Strng, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
-  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin, Sleep, Sqr, Str, Tan, Time, Timer, Width, Height, Val, Data
+  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin, Sleep, Sqr, Str, Tan, Time, Timer, Width, Height, Val, Data, Read
 } from '../ast/ast';
 
 export class Parser {
@@ -35,8 +35,19 @@ export class Parser {
       if (this.currentToken.token !== TOKENS.STRING && this.currentToken.token !== TOKENS.INTEGER) throw new Error('DATA only accepts strings/numbers');
       dataArgs.push(this.currentToken.value);
       this.currentToken = this.tokenizer.getNextToken();
+      this.eat(TOKENS.COMMA, true);
     }
     return dataArgs;
+  }
+
+  protected read(): Var[] {
+    const varList: Var[] = [];
+    while (this.currentToken.token !== TOKENS.EOL) {
+      if (this.currentToken.token !== TOKENS.IDENTIFIER) throw new Error('read only accepts identifiers aka variables');
+      varList.push(this.variable());
+      this.eat(TOKENS.COMMA, true);
+    }
+    return varList;
   }
 
   protected eat(token: TOKENS, isOptional?: boolean): void {
@@ -368,6 +379,12 @@ export class Parser {
       const dataArgs = this.data();
       this.eat(TOKENS.EOL);
       const node = new Data(token, dataArgs);
+      return node;
+    } else if (token.token === TOKENS.READ) {
+      this.eat(TOKENS.READ);
+      const varList = this.read();
+      this.eat(TOKENS.EOL);
+      const node = new Read(token, varList);
       return node;
     } else if (token.token === TOKENS.EOL) { // Commands End
       this.eat(TOKENS.EOL);

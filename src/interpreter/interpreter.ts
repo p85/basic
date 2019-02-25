@@ -2,7 +2,7 @@ import { Parser } from "../Parser/Parser";
 import { TOKENS } from "../types/interfaces";
 import {
   nodes, BinOP, Num, UnaryOP, Assign, Var, Strng, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
-  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin, Sleep, Sqr, Str, Tan, Time, Timer, Width, Height, Val, Data
+  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin, Sleep, Sqr, Str, Tan, Time, Timer, Width, Height, Val, Data, Read
 } from "../ast/ast";
 import { readSync } from 'fs';
 
@@ -108,6 +108,8 @@ export class Interpreter {
       return this.visitVal(node);
     } else if (node instanceof Data) {
       return this.visitData(node);
+    } else if (node instanceof Read) {
+      return this.visitRead(node);
     } else {
       this.genericVisit(node);
     }
@@ -391,6 +393,12 @@ export class Interpreter {
 
   protected visitData(node: Data): void {
     this.data = this.data.concat(node.value);
+  }
+
+  protected visitRead(node: Read): void {
+    node.value.forEach(v => {
+      this.vars[v.value] = this.data.shift();
+    });
   }
 
   public interpret(): any {
