@@ -2,16 +2,17 @@ import { Parser } from "../Parser/Parser";
 import { TOKENS } from "../types/interfaces";
 import {
   nodes, BinOP, Num, UnaryOP, Assign, Var, Strng, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
-  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin, Sleep, Sqr, Str, Tan, Time, Timer, Width, Height, Val
+  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin, Sleep, Sqr, Str, Tan, Time, Timer, Width, Height, Val, Data
 } from "../ast/ast";
 import { readSync } from 'fs';
 
 
 export class Interpreter {
   parser: Parser;
-  tree = [];
+  tree: nodes[] = [];
   vars = {};
-  returns: number[] = [];
+  gosubReturns: number[] = []; 
+  data: (string | number)[] = [];
   currentLine: number = null;
   finished: boolean = false;
   constructor(parser: Parser) {
@@ -105,6 +106,8 @@ export class Interpreter {
       return this.visitHeight(node);
     } else if (node instanceof Val) {
       return this.visitVal(node);
+    } else if (node instanceof Data) {
+      return this.visitData(node);
     } else {
       this.genericVisit(node);
     }
@@ -174,7 +177,7 @@ export class Interpreter {
   }
 
   protected visitGosub(node: Gosub): void {
-    this.returns.push(node.token.line); // next line
+    this.gosubReturns.push(node.token.line); // next line
     const newLine = node.value.value;
     const newIndex = this.resolveLineToIndex(newLine);
     if (newIndex == null) throw new Error('visitGosub did not return a index number');
@@ -182,8 +185,8 @@ export class Interpreter {
   }
 
   protected visitReturn(node: Return): void {
-    if (this.returns.length === 0) throw new Error('RETURN without GOSUB');
-    const newLine = this.returns.pop();
+    if (this.gosubReturns.length === 0) throw new Error('RETURN without GOSUB');
+    const newLine = this.gosubReturns.pop();
     const newIndex = this.resolveLineToIndex(newLine, true);
     this.currentLine = newIndex;
   }
@@ -384,6 +387,10 @@ export class Interpreter {
   protected visitVal(node: Val): number {
     const value = <string>this.visit(node.value);
     return parseFloat(value);
+  }
+
+  protected visitData(node: Data): void {
+    this.data = this.data.concat(node.value);
   }
 
   public interpret(): any {

@@ -860,4 +860,28 @@ describe('Commands', () => {
     const result = interpreter.interpret();
     expect(result).to.eql([undefined, undefined, 12, 'FIN']);
   });
+
+  it('DATA with Literal Numbers', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 DATA 12 356 2\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    interpreter.interpret();
+    expect(interpreter.data).to.eql([12, 356, 2]);
+  });
+
+  it('DATA with Literal Strings', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 DATA "He llo" "Wo Rld!" "."\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    interpreter.interpret();
+    expect(interpreter.data).to.eql(['He llo', 'Wo Rld!', '.']);
+  });
+
+  it('DATA with Literal Strings/Numbers', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 DATA "He llo" 312 "Wo Rld!" 551 "." 12\n30 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    interpreter.interpret();
+    expect(interpreter.data).to.eql(['He llo', 312, 'Wo Rld!', 551, '.', 12]);
+  });
 });

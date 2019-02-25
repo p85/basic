@@ -205,6 +205,9 @@ export class Tokenizer {
       } else if (this.isToken(SYMBOLS.VAL)) {
         this.consumeToken(SYMBOLS.VAL);
         return { token: TOKENS.VAL, line: this.currentLine, value: SYMBOLS.VAL };
+      } else if (this.isToken(SYMBOLS.DATA)) {
+        this.consumeToken(SYMBOLS.DATA);
+        return { token: TOKENS.DATA, line: this.currentLine, value: SYMBOLS.DATA };
       }
       // Commands end
       else if (this.isAlphaNumeric(this.currentChar)) {
