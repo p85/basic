@@ -64,6 +64,10 @@ export enum TOKENS {
   VAL = 'VAL',
   DATA = 'DATA',
   READ = 'READ',
+  FOR = 'FOR',
+  TO = 'TO',
+  STEP = 'STEP',
+  NEXT = 'NEXT',
 }
 
 export enum SYMBOLS {
@@ -123,4 +127,8 @@ export enum SYMBOLS {
   VAL = 'VAL',
   DATA = 'DATA',
   READ = 'READ',
+  FOR = 'FOR',
+  TO = 'TO',
+  STEP = 'STEP',
+  NEXT = 'NEXT',
 }

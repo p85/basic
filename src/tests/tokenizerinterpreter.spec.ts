@@ -917,4 +917,13 @@ describe('Commands', () => {
     expect(interpreter.vars['EE']).to.equal('.');
     expect(interpreter.vars['FF']).to.equal(12);
   });
+
+  it('FOR', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 FOR I = 0 TO 3 STEP 1\n30 PRINT I\n40 PRINT "LOOPY"\n50 NEXT I\n60 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result[2]).to.eql([0, 'LOOPY', 1, 'LOOPY', 2, 'LOOPY']);
+    expect(result[5]).to.equal('FIN');
+  });
 });

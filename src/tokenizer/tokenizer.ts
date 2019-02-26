@@ -211,6 +211,18 @@ export class Tokenizer {
       } else if (this.isToken(SYMBOLS.READ)) {
         this.consumeToken(SYMBOLS.READ);
         return { token: TOKENS.READ, line: this.currentLine, value: SYMBOLS.READ };
+      } else if (this.isToken(SYMBOLS.FOR)) {
+        this.consumeToken(SYMBOLS.FOR);
+        return { token: TOKENS.FOR, line: this.currentLine, value: SYMBOLS.FOR };
+      } else if (this.isToken(SYMBOLS.TO)) {
+        this.consumeToken(SYMBOLS.TO);
+        return { token: TOKENS.TO, line: this.currentLine, value: SYMBOLS.TO };
+      } else if (this.isToken(SYMBOLS.STEP)) {
+        this.consumeToken(SYMBOLS.STEP);
+        return { token: TOKENS.STEP, line: this.currentLine, value: SYMBOLS.STEP };
+      } else if (this.isToken(SYMBOLS.NEXT)) {
+        this.consumeToken(SYMBOLS.NEXT);
+        return { token: TOKENS.NEXT, line: this.currentLine, value: SYMBOLS.NEXT };
       }
       // Commands end
       else if (this.isAlphaNumeric(this.currentChar)) {

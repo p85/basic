@@ -2,7 +2,7 @@ import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 import { Tokenizer } from '../tokenizer/tokenizer';
 import {
   BinOP, Num, UnaryOP, Var, Assign, Strng, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
-  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin, Sleep, Sqr, Str, Tan, Time, Timer, Width, Height, Val, Data, Read
+  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin, Sleep, Sqr, Str, Tan, Time, Timer, Width, Height, Val, Data, Read, For
 } from '../ast/ast';
 
 export class Parser {
@@ -385,6 +385,24 @@ export class Parser {
       const varList = this.read();
       this.eat(TOKENS.EOL);
       const node = new Read(token, varList);
+      return node;
+    } else if (token.token === TOKENS.FOR) {
+      this.eat(TOKENS.FOR);
+      const variable: Assign = this.assign();
+      this.eat(TOKENS.TO);
+      const max = this.expr();
+      if (!(max instanceof Num) && !(max instanceof Var) && !(max instanceof BinOP) && !(max instanceof UnaryOP)) throw new Error('FOR...TO n should be a number/variable');
+      this.eat(TOKENS.STEP); // omit optional
+      const step = this.expr();
+      if (!(step instanceof Num) && !(step instanceof Var) && !(step instanceof BinOP) && !(step instanceof UnaryOP)) throw new Error('FOR STEP should be a number/variable');
+      this.eat(TOKENS.EOL);
+      // iterate till next is found
+      const loopLines: nodes[] = [];
+      while (this.currentToken.token !== TOKENS.NEXT) {
+        loopLines.push(this.expr());
+      }
+      this.eat(TOKENS.NEXT);
+      const node = new For(token, variable, max, step, loopLines);
       return node;
     } else if (token.token === TOKENS.EOL) { // Commands End
       this.eat(TOKENS.EOL);
