@@ -384,18 +384,28 @@ export class Read extends AST {
 
 export class For extends AST {
   variable: Assign;
-  maxValue: Num | Var | BinOP | UnaryOP;
-  step: Num | Var | BinOP | UnaryOP;
-  loopLines: nodes[];
-  constructor(token: token, variable: Assign, maxValue: Num | Var | BinOP | UnaryOP, step: Num | Var | BinOP | UnaryOP, loopLines: nodes[]) {
+  constructor(token: token, variable: Assign) {
     super();
     this.token = token;
     this.variable = variable;
+  }
+}
+
+export class Next extends AST {
+  variable: Var;
+  startsOnLine: number;
+  maxValue: Num | Var | BinOP | UnaryOP;
+  step: Num | Var | BinOP | UnaryOP
+  constructor(token: token, variable: Var, startsOnLine: number, maxValue: Num | Var | BinOP | UnaryOP, step: Num | Var | BinOP | UnaryOP) {
+    super();
+    this.token = token;
+    this.variable = variable;
+    this.startsOnLine = startsOnLine;
     this.maxValue = maxValue;
     this.step = step;
-    this.loopLines = loopLines;
   }
 }
 
 export type nodes = BinOP | UnaryOP | Num | Strng | Assign | Var | Print | Goto | Abs | Atn | Beep | NOP | Chr | Cos | Exp | Hex | Inkey | Input | Gosub | Return |
-  Instr | Int | Left | Log | Mid | Len | Nint | Oct | R2d | Right | Rnd | Sgn | Sin | Sleep | Sqr | Str | Tan | Time | Timer | Width | Height | Val | Data | Read | For;
+  Instr | Int | Left | Log | Mid | Len | Nint | Oct | R2d | Right | Rnd | Sgn | Sin | Sleep | Sqr | Str | Tan | Time | Timer | Width | Height | Val | Data | Read |
+  For | Next;

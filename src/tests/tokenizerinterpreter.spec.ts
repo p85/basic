@@ -918,12 +918,20 @@ describe('Commands', () => {
     expect(interpreter.vars['FF']).to.equal(12);
   });
 
-  it('FOR', () => {
+  it('FOR normal', () => {
     tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 FOR I = 0 TO 3 STEP 1\n30 PRINT I\n40 PRINT "LOOPY"\n50 NEXT I\n60 PRINT "FIN"');
     parser = new Parser(tokenizer);
     interpreter = new Interpreter(parser);
     const result = interpreter.interpret();
-    expect(result[2]).to.eql([0, 'LOOPY', 1, 'LOOPY', 2, 'LOOPY']);
-    expect(result[5]).to.equal('FIN');
+    expect(result).to.eql([undefined, undefined, undefined, 0, 'LOOPY', undefined, 1, 'LOOPY', undefined, 2, 'LOOPY', undefined, 3, 'LOOPY', undefined, undefined, 'FIN']);
+  });
+
+  it('FOR goto break out', () => {
+    tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 FOR I = 0 TO 3 STEP 1\n30 PRINT I\n40 PRINT "LOOPY"\n44 GOTO 70\n50 NEXT I\n60 END\n70 PRINT "FIN"');
+    parser = new Parser(tokenizer);
+    interpreter = new Interpreter(parser);
+    const result = interpreter.interpret();
+    expect(result).to.eql([undefined, undefined, undefined, 0, 'LOOPY', undefined, 'FIN']);
+    expect(interpreter.vars['I']).to.equal(0);
   });
 });

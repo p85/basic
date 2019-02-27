@@ -2,7 +2,7 @@ import { Parser } from "../Parser/Parser";
 import { TOKENS } from "../types/interfaces";
 import {
   nodes, BinOP, Num, UnaryOP, Assign, Var, Strng, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
-  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin, Sleep, Sqr, Str, Tan, Time, Timer, Width, Height, Val, Data, Read, For
+  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin, Sleep, Sqr, Str, Tan, Time, Timer, Width, Height, Val, Data, Read, For, Next
 } from "../ast/ast";
 import { readSync } from 'fs';
 
@@ -112,6 +112,8 @@ export class Interpreter {
       return this.visitRead(node);
     } else if (node instanceof For) {
       return this.visitFor(node);
+    } else if (node instanceof Next) {
+      return this.visitNext(node);
     } else {
       this.genericVisit(node);
     }
@@ -403,17 +405,22 @@ export class Interpreter {
     });
   }
 
-  protected visitFor(node: For) {
+  protected visitFor(node: For): void {
     this.visit(node.variable);
-    const varName = <string>node.variable.left.value;
-    const varValue = <number>this.visit(node.variable.right);
-    const endValue = <number>this.visit(node.maxValue);
+  }
+
+  protected visitNext(node: Next): void {
+    const varName = node.variable.value;
+    const mv = <number>this.visit(node.maxValue);
     const step = <number>this.visit(node.step);
-    const result = [];
-    for (this.vars[varName] = varValue; this.vars[varName] < endValue; this.vars[varName] += step) {
-      node.loopLines.forEach(line => result.push(this.visit(line)));
+    if (this.vars[varName] !== mv) {
+      // loop
+      const newIndex = this.resolveLineToIndex(node.startsOnLine, true);
+      this.currentLine = newIndex;
+      this.vars[varName] += step;
+    } else {
+      // fin, do nothing
     }
-    return result;
   }
 
   public interpret(): any {
