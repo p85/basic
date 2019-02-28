@@ -134,6 +134,12 @@ export class Interpreter {
       return <number>this.visit(node.left) / <number>this.visit(node.right);
     } else if (node.token === TOKENS.MOD) {
       return <number>this.visit(node.left) % <number>this.visit(node.right);
+    } else if (node.token === TOKENS.AND) {
+      return <number>this.visit(node.left) & <number>this.visit(node.right);
+    } else if (node.token === TOKENS.OR) {
+      return <number>this.visit(node.left) | <number>this.visit(node.right);
+    } else {
+      throw new Error('visitBinOP: Unknown token: ' + node.token);
     }
   }
 

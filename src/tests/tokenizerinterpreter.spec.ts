@@ -31,7 +31,11 @@ const testValues: string[] = [
   '10 5 - - - + - 3',
   '10 5 - - - + - (3 + 4) - + 2',
   '10 290 MOD 7',
-  '10 290 MOD 7 + 3 * 8 / 2 - 5 MOD 2'
+  '10 290 MOD 7 + 3 * 8 / 2 - 5 MOD 2',
+  '10 5 AND 39',
+  '10 5 AND 39 + 5 * 5 + (512 * -3)',
+  '10 312 OR 52',
+  '10 312 OR 52 + 5 * 5 + (512 * -3)',
 ];
 
 describe('calculus', () => {
@@ -41,7 +45,7 @@ describe('calculus', () => {
       parser = new Parser(tokenizer);
       interpreter = new Interpreter(parser);
       const result = interpreter.interpret();
-      expect(result[0]).to.equal(eval(testExpr.replace(/MOD/g, '%').replace(/^[0-9]+ {1}/, '')));
+      expect(result[0]).to.equal(eval(testExpr.replace(/MOD/g, '%').replace(/^[0-9]+ {1}/, '').replace(/AND/g, '&').replace(/OR/g, '|')));
     })
   });
 });

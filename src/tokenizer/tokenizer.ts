@@ -223,6 +223,12 @@ export class Tokenizer {
       } else if (this.isToken(SYMBOLS.NEXT)) {
         this.consumeToken(SYMBOLS.NEXT);
         return { token: TOKENS.NEXT, line: this.currentLine, value: SYMBOLS.NEXT };
+      } else if (this.isToken(SYMBOLS.AND)) {
+        this.consumeToken(SYMBOLS.AND);
+        return { token: TOKENS.AND, line: this.currentLine, value: SYMBOLS.AND };
+      } else if (this.isToken(SYMBOLS.OR)) {
+        this.consumeToken(SYMBOLS.OR);
+        return { token: TOKENS.OR, line: this.currentLine, value: SYMBOLS.OR };
       }
       // Commands end
       else if (this.isAlphaNumeric(this.currentChar)) {

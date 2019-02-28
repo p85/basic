@@ -68,6 +68,8 @@ export enum TOKENS {
   TO = 'TO',
   STEP = 'STEP',
   NEXT = 'NEXT',
+  AND = 'AND',
+  OR = 'OR',
 }
 
 export enum SYMBOLS {
@@ -131,4 +133,6 @@ export enum SYMBOLS {
   TO = 'TO',
   STEP = 'STEP',
   NEXT = 'NEXT',
+  AND = 'AND',
+  OR = 'OR',
 }
