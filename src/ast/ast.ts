@@ -8,9 +8,9 @@ class AST {
 }
 
 export class BinOP extends AST {
-  left: Num | BinOP | UnaryOP | Assign | Var;
-  right: Num | BinOP | UnaryOP | Assign | Var;
-  constructor(left: Num | BinOP | UnaryOP | Assign | Var, op: TOKENS, right: Num | BinOP | UnaryOP | Assign | Var) {
+  left: numbers;
+  right: numbers;
+  constructor(left: numbers, op: TOKENS, right: numbers) {
     super();
     this.left = left;
     this.token = op;
@@ -19,7 +19,7 @@ export class BinOP extends AST {
 }
 
 export class UnaryOP extends AST {
-  constructor(token: token, value: Num | BinOP | UnaryOP | Assign | Var) {
+  constructor(token: token, value: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -62,7 +62,7 @@ export class Var extends AST {
 }
 
 export class Print extends AST {
-  constructor(token: token, value: Strng | BinOP | UnaryOP | Num | Var) {
+  constructor(token: token, value: values) {
     super();
     this.token = token;
     this.value = value;
@@ -70,7 +70,7 @@ export class Print extends AST {
 }
 
 export class Goto extends AST {
-  constructor(token: token, value: Num) {
+  constructor(token: token, value: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -78,7 +78,7 @@ export class Goto extends AST {
 }
 
 export class Gosub extends AST {
-  constructor(token: token, value: Num) {
+  constructor(token: token, value: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -86,7 +86,7 @@ export class Gosub extends AST {
 }
 
 export class Abs extends AST {
-  constructor(token: token, value: Num | Var | BinOP | UnaryOP) {
+  constructor(token: token, value: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -94,7 +94,7 @@ export class Abs extends AST {
 }
 
 export class Atn extends AST {
-  constructor(token: token, value: Num | Var | BinOP | UnaryOP) {
+  constructor(token: token, value: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -115,7 +115,7 @@ export class NOP extends AST {
 }
 
 export class Chr extends AST {
-  constructor(token: token, value: Num | Var | BinOP | UnaryOP) {
+  constructor(token: token, value: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -123,7 +123,7 @@ export class Chr extends AST {
 }
 
 export class Cint extends AST {
-  constructor(token: token, value: Num | Var | BinOP | UnaryOP) {
+  constructor(token: token, value: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -137,7 +137,7 @@ export class Clear extends AST {
 }
 
 export class Cos extends AST {
-  constructor(token: token, value: Num | Var | BinOP | UnaryOP) {
+  constructor(token: token, value: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -151,7 +151,7 @@ export class End extends AST {
 }
 
 export class Exp extends AST {
-  constructor(token: token, value: Num | Var | BinOP | UnaryOP) {
+  constructor(token: token, value: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -159,7 +159,7 @@ export class Exp extends AST {
 }
 
 export class Hex extends AST {
-  constructor(token: token, value: Num | Var | BinOP | UnaryOP) {
+  constructor(token: token, value: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -173,9 +173,9 @@ export class Inkey extends AST {
 }
 
 export class Input extends AST {
-  prompt: Strng | Num;
+  prompt: strings;
   variable: Var;
-  constructor(prompt: Strng | Num, variable: Var) {
+  constructor(prompt: strings, variable: Var) {
     super();
     this.prompt = prompt;
     this.variable = variable;
@@ -189,9 +189,9 @@ export class Return extends AST {
 }
 
 export class Instr extends AST {
-  findValue: Strng | Var;
-  startPos: Num | Var;
-  constructor(token: token, value: Strng | Var, findValue: Strng | Var, startPos: Num | Var | BinOP | UnaryOP) {
+  findValue: strings;
+  startPos: numbers;
+  constructor(token: token, value: strings, findValue: strings, startPos: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -201,7 +201,7 @@ export class Instr extends AST {
 }
 
 export class Int extends AST {
-  constructor(token: token, value: Num | Var | BinOP | UnaryOP) {
+  constructor(token: token, value: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -209,8 +209,8 @@ export class Int extends AST {
 }
 
 export class Left extends AST {
-  amount: Num | Var;
-  constructor(token: token, value: Strng | Var, amount: Num | Var | BinOP | UnaryOP) {
+  amount: numbers;
+  constructor(token: token, value: strings, amount: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -219,7 +219,7 @@ export class Left extends AST {
 }
 
 export class Log extends AST {
-  constructor(token: token, value: Num | Var | BinOP | UnaryOP) {
+  constructor(token: token, value: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -227,9 +227,9 @@ export class Log extends AST {
 }
 
 export class Mid extends AST {
-  startPos: Num | Var;
-  length: Num | Var;
-  constructor(token: token, value: Strng | Var, startPos: Num | Var | BinOP | UnaryOP, length: Num | Var | BinOP | UnaryOP) {
+  startPos: numbers;
+  length: numbers;
+  constructor(token: token, value: strings, startPos: numbers, length: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -239,7 +239,7 @@ export class Mid extends AST {
 }
 
 export class Len extends AST {
-  constructor(token: token, value: Strng | Var | BinOP | UnaryOP) {
+  constructor(token: token, value: values) {
     super();
     this.token = token;
     this.value = value;
@@ -247,7 +247,7 @@ export class Len extends AST {
 }
 
 export class Nint extends AST {
-  constructor(token: token, value: Num | Var | BinOP | UnaryOP) {
+  constructor(token: token, value: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -255,7 +255,7 @@ export class Nint extends AST {
 }
 
 export class Oct extends AST {
-  constructor(token: token, value: Num | Var | BinOP | UnaryOP) {
+  constructor(token: token, value: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -263,7 +263,7 @@ export class Oct extends AST {
 }
 
 export class R2d extends AST {
-  constructor(token: token, value: Num | Var | BinOP | UnaryOP) {
+  constructor(token: token, value: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -271,8 +271,8 @@ export class R2d extends AST {
 }
 
 export class Right extends AST {
-  amount: Num | Var;
-  constructor(token: token, value: Strng | Var, amount: Num | Var | BinOP | UnaryOP) {
+  amount: numbers;
+  constructor(token: token, value: strings, amount: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -287,7 +287,7 @@ export class Rnd extends AST {
 }
 
 export class Sgn extends AST {
-  constructor(token: token, value: Num | Var | BinOP | UnaryOP) {
+  constructor(token: token, value: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -295,7 +295,7 @@ export class Sgn extends AST {
 }
 
 export class Sin extends AST {
-  constructor(token: token, value: Num | Var | BinOP | UnaryOP) {
+  constructor(token: token, value: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -303,7 +303,7 @@ export class Sin extends AST {
 }
 
 export class Sleep extends AST {
-  constructor(token: token, value: Num | Var | BinOP | UnaryOP) {
+  constructor(token: token, value: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -311,7 +311,7 @@ export class Sleep extends AST {
 }
 
 export class Sqr extends AST {
-  constructor(token: token, value: Num | Var | BinOP | UnaryOP) {
+  constructor(token: token, value: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -319,7 +319,7 @@ export class Sqr extends AST {
 }
 
 export class Str extends AST {
-  constructor(token: token, value: Num | Var | BinOP | UnaryOP) {
+  constructor(token: token, value: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -327,7 +327,7 @@ export class Str extends AST {
 }
 
 export class Tan extends AST {
-  constructor(token: token, value: Num | Var | BinOP | UnaryOP) {
+  constructor(token: token, value: numbers) {
     super();
     this.token = token;
     this.value = value;
@@ -394,9 +394,9 @@ export class For extends AST {
 export class Next extends AST {
   variable: Var;
   startsOnLine: number;
-  maxValue: Num | Var | BinOP | UnaryOP;
-  step: Num | Var | BinOP | UnaryOP
-  constructor(token: token, variable: Var, startsOnLine: number, maxValue: Num | Var | BinOP | UnaryOP, step: Num | Var | BinOP | UnaryOP) {
+  maxValue: numbers;
+  step: numbers
+  constructor(token: token, variable: Var, startsOnLine: number, maxValue: numbers, step: numbers) {
     super();
     this.token = token;
     this.variable = variable;
@@ -406,6 +406,53 @@ export class Next extends AST {
   }
 }
 
+export class If extends AST {
+  expr: nodes;
+  conditions: (IfCondition | And | Or)[];
+  constructor(token: token, conditions: (IfCondition | And | Or)[], expr: nodes) {
+    super();
+    this.token = token;
+    this.conditions = conditions;
+    this.expr = expr;
+  }
+}
+
+export class IfCondition extends AST {
+  left: values;
+  right: values;
+  constructor(left: values, token: token, right: values) {
+    super();
+    this.left = left;
+    this.token = token;
+    this.right = right;
+  }
+}
+
+export class And extends AST {
+  left: IfCondition;
+  right: IfCondition;
+  constructor(left: IfCondition, token: token, right: IfCondition) {
+    super();
+    this.left = left;
+    this.token = token;
+    this.right = right;
+  }
+}
+
+export class Or extends AST {
+  left: IfCondition;
+  right: IfCondition;
+  constructor(left: IfCondition, token: token, right: IfCondition) {
+    super();
+    this.left = left;
+    this.token = token;
+    this.right = right;
+  }
+}
+
 export type nodes = BinOP | UnaryOP | Num | Strng | Assign | Var | Print | Goto | Abs | Atn | Beep | NOP | Chr | Cos | Exp | Hex | Inkey | Input | Gosub | Return |
   Instr | Int | Left | Log | Mid | Len | Nint | Oct | R2d | Right | Rnd | Sgn | Sin | Sleep | Sqr | Str | Tan | Time | Timer | Width | Height | Val | Data | Read |
-  For | Next;
+  For | Next | If | IfCondition | And | Or;
+export type values = numbers & strings;
+export type numbers = Num | BinOP | UnaryOP | Var | Assign;
+export type strings = Str | Var | Assign;

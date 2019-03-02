@@ -1,8 +1,9 @@
 import { Parser } from "../Parser/Parser";
-import { TOKENS } from "../types/interfaces";
+import { TOKENS, token } from "../types/interfaces";
 import {
   nodes, BinOP, Num, UnaryOP, Assign, Var, Strng, Print, Goto, Abs, Atn, Beep, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
-  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin, Sleep, Sqr, Str, Tan, Time, Timer, Width, Height, Val, Data, Read, For, Next
+  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin, Sleep, Sqr, Str, Tan, Time, Timer, Width, Height, Val, Data, Read, For, Next,
+  If, IfCondition, And, Or
 } from "../ast/ast";
 import { readSync } from 'fs';
 
@@ -114,13 +115,15 @@ export class Interpreter {
       return this.visitFor(node);
     } else if (node instanceof Next) {
       return this.visitNext(node);
+    } else if (node instanceof If) {
+      return this.visitIf(node);
     } else {
       this.genericVisit(node);
     }
   }
 
   protected genericVisit(node: any): void {
-    throw new Error('No visit method: ' + node);
+    throw new Error('No visit method: ' + node.token);
   }
 
   protected visitBinOp(node: BinOP): number {
@@ -426,6 +429,41 @@ export class Interpreter {
       this.vars[varName] += step;
     } else {
       // fin, do nothing
+    }
+  }
+
+  protected visitIf(node: If): string | number {
+    if (node.conditions.length === 1 && node.conditions[0] instanceof IfCondition) {
+      // only one single condition
+      const condition: IfCondition = node.conditions[0];
+      const isSimpleIfCondition = node.conditions.some(n => n instanceof IfCondition);
+      if (!isSimpleIfCondition) throw new Error('visitIf: If Statement with Single Condition can not have AND/OR, should be Simple If Condition');
+      const result = this.checkIfCondition(condition);
+      if (result) {
+        return this.visit(node.expr);
+      }
+    } else if (node.conditions.length > 1) {
+      // have multiple conditions
+      const hasOnlyAndOr = node.conditions.some(n => n instanceof And || n instanceof Or);
+      if (!hasOnlyAndOr) throw new Error('visitIf: If Statement with Multiple Conditions can not have simple IfCondition, should have AND/OR');
+
+    } else {
+      throw new Error('visitIf: something went wrong');
+    }
+    return;
+  }
+
+  protected checkIfCondition(condition: IfCondition): boolean {
+    const leftValue = this.visit(condition.left);
+    const rightValue = this.visit(condition.right);
+    switch (condition.token.token) {
+      case TOKENS.EQUALS: return leftValue == rightValue;
+      case TOKENS.NOTEQUAL: return leftValue != rightValue;
+      case TOKENS.GREATER: return leftValue > rightValue;
+      case TOKENS.LOWER: return leftValue < rightValue;
+      case TOKENS.GREATEREQUAL: return leftValue >= rightValue;
+      case TOKENS.LOWEREQUAL: return leftValue <= rightValue;
+      default: throw new Error('checkIfCondition: Unknown Comparator: ' + condition.token);
     }
   }
 

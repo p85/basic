@@ -16,7 +16,7 @@ export enum TOKENS {
   EOF = 'EOF',
   INTEGER = 'INTEGER',
   IDENTIFIER = 'IDENTIFIER',
-  EQUALS = 'ASSIGN',
+  EQUALS = 'EQUALS',
   EOL = 'EOL',
   DOUBLEQUOTE = 'DOUBLEQUOTE',
   STRING = 'STRING',
@@ -70,6 +70,13 @@ export enum TOKENS {
   NEXT = 'NEXT',
   AND = 'AND',
   OR = 'OR',
+  IF = 'IF',
+  THEN = 'THEN',
+  GREATER = '>',
+  LOWER = '<',
+  GREATEREQUAL = '>=',
+  LOWEREQUAL = '<=',
+  NOTEQUAL = '<>',
 }
 
 export enum SYMBOLS {
@@ -135,4 +142,11 @@ export enum SYMBOLS {
   NEXT = 'NEXT',
   AND = 'AND',
   OR = 'OR',
+  IF = 'IF',
+  THEN = 'THEN',
+  GREATER = '>',
+  LOWER = '<',
+  GREATEREQUAL = '>=',
+  LOWEREQUAL = '<=',
+  NOTEQUAL = '<>',
 }

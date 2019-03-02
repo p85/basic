@@ -2,7 +2,8 @@ import { token, TOKENS, SYMBOLS } from '../types/interfaces';
 import { Tokenizer } from '../tokenizer/tokenizer';
 import {
   BinOP, Num, UnaryOP, Var, Assign, Strng, Print, Goto, Abs, Atn, Beep, nodes, NOP, Chr, Cint, Clear, Cos, End, Exp, Hex, Inkey, Input, Gosub, Return,
-  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin, Sleep, Sqr, Str, Tan, Time, Timer, Width, Height, Val, Data, Read, For, Next
+  Instr, Int, Left, Log, Mid, Len, Nint, Oct, R2d, Right, Rnd, Sgn, Sin, Sleep, Sqr, Str, Tan, Time, Timer, Width, Height, Val, Data, Read, For, Next,
+  If, And, Or, IfCondition, values
 } from '../ast/ast';
 
 interface forData {
@@ -16,11 +17,13 @@ export class Parser {
   tokenizer: Tokenizer;
   currentToken: token;
   private forData: forData[];
+  private ifOpen: boolean;
 
   constructor(tokenizer: Tokenizer) {
     this.tokenizer = tokenizer;
     this.currentToken = this.tokenizer.getNextToken();
     this.forData = [];
+    this.ifOpen = false;
   }
 
   protected assign(): Assign {
@@ -92,7 +95,7 @@ export class Parser {
       const node = this.precedence3();
       this.eat(TOKENS.RPAREN);
       return node;
-    } else if (token.token === TOKENS.IDENTIFIER && this.peek() === SYMBOLS.EQUALS) {
+    } else if (token.token === TOKENS.IDENTIFIER && this.peek() === SYMBOLS.EQUALS && !this.ifOpen) {
       const node = this.assign();
       return node;
     } else if (token.token === TOKENS.PRINT) { // Commands
@@ -416,6 +419,14 @@ export class Parser {
       const forDat = this.forData.pop();
       const node = new Next(token, variable, forDat.startLineNr, forDat.maxValue, forDat.step);
       return node;
+    } else if (token.token === TOKENS.IF) {
+      this.eat(TOKENS.IF);
+      // process conditions
+      const conditions = this.ifConditions();
+      this.eat(TOKENS.THEN);
+      const expr = this.precedence3();
+      const node = new If(token, conditions, expr);
+      return node;
     } else if (token.token === TOKENS.EOL) { // Commands End
       this.eat(TOKENS.EOL);
       const node = new NOP();
@@ -424,6 +435,34 @@ export class Parser {
       const node = this.variable();
       return node;
     }
+  }
+
+
+  protected ifConditions(): (And | Or | IfCondition)[] {
+    const conditions = []; 
+    while (this.currentToken.token !== TOKENS.THEN) {
+      this.ifOpen = true;
+      const left = this.precedence3();
+      if (!this.isValidIfLeftRight(left)) throw new Error('The Left Part of a IF-Condition should be a String, Number or Identifier');
+      const comparator = this.currentToken;
+      if (!this.isValidIfComparator(comparator)) throw new Error(`The Comparator should be either ${SYMBOLS.EQUALS} ${SYMBOLS.NOTEQUAL} ${SYMBOLS.LOWER} ${SYMBOLS.GREATER} ${SYMBOLS.GREATEREQUAL} ${SYMBOLS.LOWEREQUAL}`);
+      this.eat(comparator.token);
+      const right = this.precedence3();
+      if (!this.isValidIfLeftRight(right)) throw new Error('The Right Part of a IF-Condition should be a String, Number or Identifier');
+      conditions.push(new IfCondition(left, comparator, right));
+      // todo: or and...
+
+      this.ifOpen = false;
+    }
+    return conditions;
+  }
+
+  protected isValidIfLeftRight(token): boolean {
+    return token.token.token === TOKENS.IDENTIFIER || token.token.token === TOKENS.STRING || token.token.token === TOKENS.INTEGER;
+  }
+
+  protected isValidIfComparator(token: token): boolean {
+    return token.token === TOKENS.EQUALS || token.token === TOKENS.NOTEQUAL || token.token === TOKENS.GREATER || token.token === TOKENS.LOWER || token.token === TOKENS.GREATEREQUAL || token.token === TOKENS.LOWEREQUAL;
   }
 
   protected peek(): string {
