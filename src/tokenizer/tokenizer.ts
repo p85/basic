@@ -236,9 +236,9 @@ export class Tokenizer {
       } else if (this.isToken(SYMBOLS.DOUBLEQUOTE)) {
         this.consumeToken(SYMBOLS.DOUBLEQUOTE);
         return { token: TOKENS.STRING, line: this.currentLine, value: this.str() };
-      } else if (this.isToken(SYMBOLS.ASSIGN)) {
-        this.consumeToken(SYMBOLS.ASSIGN);
-        return { token: TOKENS.ASSIGN, line: this.currentLine, value: SYMBOLS.ASSIGN };
+      } else if (this.isToken(SYMBOLS.EQUALS)) {
+        this.consumeToken(SYMBOLS.EQUALS);
+        return { token: TOKENS.EQUALS, line: this.currentLine, value: SYMBOLS.EQUALS };
       } else if (this.isToken(SYMBOLS.PLUS)) {
         this.consumeToken(SYMBOLS.PLUS);
         return { token: TOKENS.PLUS, line: this.currentLine, value: SYMBOLS.PLUS };

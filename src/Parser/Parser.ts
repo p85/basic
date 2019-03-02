@@ -26,7 +26,7 @@ export class Parser {
   protected assign(): Assign {
     const left: Var = this.variable();
     const token: token = this.currentToken;
-    this.eat(TOKENS.ASSIGN);
+    this.eat(TOKENS.EQUALS);
     const right = this.precedence3();
     const node = new Assign(left, token, right);
     return node;
@@ -92,7 +92,7 @@ export class Parser {
       const node = this.precedence3();
       this.eat(TOKENS.RPAREN);
       return node;
-    } else if (token.token === TOKENS.IDENTIFIER && this.peek() === SYMBOLS.ASSIGN) {
+    } else if (token.token === TOKENS.IDENTIFIER && this.peek() === SYMBOLS.EQUALS) {
       const node = this.assign();
       return node;
     } else if (token.token === TOKENS.PRINT) { // Commands
