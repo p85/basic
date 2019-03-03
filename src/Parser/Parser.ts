@@ -37,7 +37,14 @@ export class Parser {
 
   protected variable(): Var {
     const node = new Var(this.currentToken);
-    this.eat(TOKENS.IDENTIFIER);
+    if (this.ifOpen) {
+      this.eat(this.currentToken.token);
+      if (this.peek() === SYMBOLS.GREATEREQUAL || this.peek() === SYMBOLS.EQUALS) {
+        this.eat(this.currentToken.token);
+      }
+    } else {
+      this.eat(TOKENS.IDENTIFIER);
+    }
     return node;
   }
 

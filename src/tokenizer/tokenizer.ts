@@ -238,18 +238,18 @@ export class Tokenizer {
       } else if (this.isToken(SYMBOLS.NOTEQUAL)) {
         this.consumeToken(SYMBOLS.NOTEQUAL);
         return { token: TOKENS.NOTEQUAL, line: this.currentLine, value: SYMBOLS.NOTEQUAL };
-      } else if (this.isToken(SYMBOLS.GREATER)) {
-        this.consumeToken(SYMBOLS.GREATER);
-        return { token: TOKENS.GREATER, line: this.currentLine, value: SYMBOLS.GREATER };
-      } else if (this.isToken(SYMBOLS.LOWER)) {
-        this.consumeToken(SYMBOLS.LOWER);
-        return { token: TOKENS.LOWER, line: this.currentLine, value: SYMBOLS.LOWER };
       } else if (this.isToken(SYMBOLS.GREATEREQUAL)) {
         this.consumeToken(SYMBOLS.GREATEREQUAL);
         return { token: TOKENS.GREATEREQUAL, line: this.currentLine, value: SYMBOLS.GREATEREQUAL };
       } else if (this.isToken(SYMBOLS.LOWEREQUAL)) {
         this.consumeToken(SYMBOLS.LOWEREQUAL);
         return { token: TOKENS.LOWEREQUAL, line: this.currentLine, value: SYMBOLS.LOWEREQUAL };
+      } else if (this.isToken(SYMBOLS.GREATER)) {
+        this.consumeToken(SYMBOLS.GREATER);
+        return { token: TOKENS.GREATER, line: this.currentLine, value: SYMBOLS.GREATER };
+      } else if (this.isToken(SYMBOLS.LOWER)) {
+        this.consumeToken(SYMBOLS.LOWER);
+        return { token: TOKENS.LOWER, line: this.currentLine, value: SYMBOLS.LOWER };
       } else if (this.isToken(SYMBOLS.EQUALS)) {
         this.consumeToken(SYMBOLS.EQUALS);
         return { token: TOKENS.EQUALS, line: this.currentLine, value: SYMBOLS.EQUALS };
