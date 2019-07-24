@@ -941,242 +941,175 @@ describe('Commands', () => {
 
   describe('IF', () => {
     describe('Truthy', () => {
-      describe('IF Single Condition String Equal', () => {
-        it('IF Single Condition String Variable Equals Literal String', () => {
-          tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF VARX = "Hello World!" THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, 'OK']);
-        });
-      
-        it('IF Single Condition String Literal Equals Variable String', () => {
-          tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF "Hello World!" = VARX THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, 'OK']);
-        });
-      
-        it('IF Single Condition String Literal Equals Literal String', () => {
-          tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF "Hello World!" = "Hello World!" THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, 'OK']);
-        });
-      
-        it('IF Single Condition String Variable Equals Variable String', () => {
-          tokenizer = new Tokenizer('10 VARX = "Hello World!"\n11 VARY = "Hello World!"\n20 IF VARX = VARY THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined, undefined, 'OK']);
-        });
-      });
-      describe('IF Single Condition String NotEqual', () => {
-        it('IF Single Condition String Variable NotEquals Literal String', () => {
-          tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF VARX <> "Hello World!x" THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, 'OK']);
-        });
-      
-        it('IF Single Condition String Literal NotEquals Variable String', () => {
-          tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF "Hello World!x" <> VARX THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, 'OK']);
-        });
-      
-        it('IF Single Condition String Literal NotEquals Literal String', () => {
-          tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF "Hello World!x" <> "Hello Wxorld!" THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, 'OK']);
-        });
-      
-        it('IF Single Condition String Variable NotEquals Variable String', () => {
-          tokenizer = new Tokenizer('10 VARX = "Hello Wxorld!"\n11 VARY = "Hellxo World!"\n20 IF VARX <> VARY THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined, undefined, 'OK']);
-        });
-      });
-      describe('IF Single Condition Number Equal', () => {
-        it('IF Single Condition Number Variable Equals Literal Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 51\n20 IF VARX = 51 THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, 'OK']);
-        });
-      
-        it('IF Single Condition Number Literal Equals Variable Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 51\n20 IF 51 = VARX THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, 'OK']);
-        });
-      
-        it('IF Single Condition Number Literal Equals Literal Number', () => {
-          tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 51 = 51 THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, 'OK']);
-        });
-      
-        it('IF Single Condition Number Variable Equals Variable Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 51\n11 VARY = 51\n20 IF VARX = VARY THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined, undefined, 'OK']);
-        });
-      });
-      describe('IF Single Condition Number NotEqual', () => {
-        it('IF Single Condition Number Variable NotEqual Literal Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 51\n20 IF VARX <> 52 THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, 'OK']);
-        });
-      
-        it('IF Single Condition Number Literal NotEqual Variable Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 51\n20 IF 52 <> VARX THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, 'OK']);
-        });
-      
-        it('IF Single Condition Number Literal NotEqual Literal Number', () => {
-          tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 52 <> 51 THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, 'OK']);
-        });
-      
-        it('IF Single Condition Number Variable NotEqual Variable Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 52\n11 VARY = 51\n20 IF VARX <> VARY THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined, undefined, 'OK']);
-        });
-      });
-      describe('IF Single Condition Number Greater', () => {
-        it('IF Single Condition Number Variable Greater Literal Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 55\n20 IF VARX > 52 THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, 'OK']);
-        });
-      
-        it('IF Single Condition Number Literal Greater Variable Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 50\n20 IF 52 > VARX THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, 'OK']);
-        });
-      
-        it('IF Single Condition Number Literal Greater Literal Number', () => {
-          tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 52 > 51 THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, 'OK']);
-        });
-      
-        it('IF Single Condition Number Variable Greater Variable Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 52\n11 VARY = 51\n20 IF VARX > VARY THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined, undefined, 'OK']);
-        });
-      });
-      describe('IF Single Condition Number Lower', () => {
-        it('IF Single Condition Number Variable Lower Literal Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 50\n20 IF VARX < 52 THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, 'OK']);
-        });
-      
-        it('IF Single Condition Number Literal Lower Variable Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 52\n20 IF 50 < VARX THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, 'OK']);
-        });
-      
-        it('IF Single Condition Number Literal Lower Literal Number', () => {
-          tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 50 < 51 THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, 'OK']);
-        });
-      
-        it('IF Single Condition Number Variable Lower Variable Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 50\n11 VARY = 51\n20 IF VARX < VARY THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined, undefined, 'OK']);
-        });
-      });
-      describe('IF Single Condition Number GreaterEqual', () => {
-        describe('equal', () => {
-          it('IF Single Condition Number Variable GreaterEqual Literal Number', () => {
-            tokenizer = new Tokenizer('10 VARX = 50\n20 IF VARX >= 50 THEN PRINT "OK"');
+      describe('Single Conditions', () => {
+        describe('IF Single Condition String Equal', () => {
+          it('IF Single Condition String Variable Equals Literal String', () => {
+            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF VARX = "Hello World!" THEN PRINT "OK"');
             parser = new Parser(tokenizer);
             interpreter = new Interpreter(parser);
             const result = interpreter.interpret();
             expect(result).to.eql([undefined, undefined, 'OK']);
           });
         
-          it('IF Single Condition Number Literal GreaterEqual Variable Number', () => {
-            tokenizer = new Tokenizer('10 VARX = 50\n20 IF 50 >= VARX THEN PRINT "OK"');
+          it('IF Single Condition String Literal Equals Variable String', () => {
+            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF "Hello World!" = VARX THEN PRINT "OK"');
             parser = new Parser(tokenizer);
             interpreter = new Interpreter(parser);
             const result = interpreter.interpret();
             expect(result).to.eql([undefined, undefined, 'OK']);
           });
         
-          it('IF Single Condition Number Literal GreaterEqual Literal Number', () => {
-            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 50 >= 50 THEN PRINT "OK"');
+          it('IF Single Condition String Literal Equals Literal String', () => {
+            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF "Hello World!" = "Hello World!" THEN PRINT "OK"');
             parser = new Parser(tokenizer);
             interpreter = new Interpreter(parser);
             const result = interpreter.interpret();
             expect(result).to.eql([undefined, undefined, 'OK']);
           });
         
-          it('IF Single Condition Number Variable GreaterEqual Variable Number', () => {
-            tokenizer = new Tokenizer('10 VARX = 50\n11 VARY = 50\n20 IF VARX >= VARY THEN PRINT "OK"');
+          it('IF Single Condition String Variable Equals Variable String', () => {
+            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n11 VARY = "Hello World!"\n20 IF VARX = VARY THEN PRINT "OK"');
             parser = new Parser(tokenizer);
             interpreter = new Interpreter(parser);
             const result = interpreter.interpret();
             expect(result).to.eql([undefined, undefined, undefined, undefined, 'OK']);
           });
         });
-        describe('greater', () => {
-  
-          it('IF Single Condition Number Variable GreaterEqual Literal Number', () => {
-            tokenizer = new Tokenizer('10 VARX = 51\n20 IF VARX >= 50 THEN PRINT "OK"');
+        describe('IF Single Condition String NotEqual', () => {
+          it('IF Single Condition String Variable NotEquals Literal String', () => {
+            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF VARX <> "Hello World!x" THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, 'OK']);
+          });
+        
+          it('IF Single Condition String Literal NotEquals Variable String', () => {
+            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF "Hello World!x" <> VARX THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, 'OK']);
+          });
+        
+          it('IF Single Condition String Literal NotEquals Literal String', () => {
+            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF "Hello World!x" <> "Hello Wxorld!" THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, 'OK']);
+          });
+        
+          it('IF Single Condition String Variable NotEquals Variable String', () => {
+            tokenizer = new Tokenizer('10 VARX = "Hello Wxorld!"\n11 VARY = "Hellxo World!"\n20 IF VARX <> VARY THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, undefined, undefined, 'OK']);
+          });
+        });
+        describe('IF Single Condition Number Equal', () => {
+          it('IF Single Condition Number Variable Equals Literal Number', () => {
+            tokenizer = new Tokenizer('10 VARX = 51\n20 IF VARX = 51 THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, 'OK']);
+          });
+        
+          it('IF Single Condition Number Literal Equals Variable Number', () => {
+            tokenizer = new Tokenizer('10 VARX = 51\n20 IF 51 = VARX THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, 'OK']);
+          });
+        
+          it('IF Single Condition Number Literal Equals Literal Number', () => {
+            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 51 = 51 THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, 'OK']);
+          });
+        
+          it('IF Single Condition Number Variable Equals Variable Number', () => {
+            tokenizer = new Tokenizer('10 VARX = 51\n11 VARY = 51\n20 IF VARX = VARY THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, undefined, undefined, 'OK']);
+          });
+        });
+        describe('IF Single Condition Number NotEqual', () => {
+          it('IF Single Condition Number Variable NotEqual Literal Number', () => {
+            tokenizer = new Tokenizer('10 VARX = 51\n20 IF VARX <> 52 THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, 'OK']);
+          });
+        
+          it('IF Single Condition Number Literal NotEqual Variable Number', () => {
+            tokenizer = new Tokenizer('10 VARX = 51\n20 IF 52 <> VARX THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, 'OK']);
+          });
+        
+          it('IF Single Condition Number Literal NotEqual Literal Number', () => {
+            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 52 <> 51 THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, 'OK']);
+          });
+        
+          it('IF Single Condition Number Variable NotEqual Variable Number', () => {
+            tokenizer = new Tokenizer('10 VARX = 52\n11 VARY = 51\n20 IF VARX <> VARY THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, undefined, undefined, 'OK']);
+          });
+        });
+        describe('IF Single Condition Number Greater', () => {
+          it('IF Single Condition Number Variable Greater Literal Number', () => {
+            tokenizer = new Tokenizer('10 VARX = 55\n20 IF VARX > 52 THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, 'OK']);
+          });
+        
+          it('IF Single Condition Number Literal Greater Variable Number', () => {
+            tokenizer = new Tokenizer('10 VARX = 50\n20 IF 52 > VARX THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, 'OK']);
+          });
+        
+          it('IF Single Condition Number Literal Greater Literal Number', () => {
+            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 52 > 51 THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, 'OK']);
+          });
+        
+          it('IF Single Condition Number Variable Greater Variable Number', () => {
+            tokenizer = new Tokenizer('10 VARX = 52\n11 VARY = 51\n20 IF VARX > VARY THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, undefined, undefined, 'OK']);
+          });
+        });
+        describe('IF Single Condition Number Lower', () => {
+          it('IF Single Condition Number Variable Lower Literal Number', () => {
+            tokenizer = new Tokenizer('10 VARX = 50\n20 IF VARX < 52 THEN PRINT "OK"');
             parser = new Parser(tokenizer);
             interpreter = new Interpreter(parser);
             const result = interpreter.interpret();
@@ -1184,7 +1117,7 @@ describe('Commands', () => {
           });
         
           it('IF Single Condition Number Literal Lower Variable Number', () => {
-            tokenizer = new Tokenizer('10 VARX = 50\n20 IF 51 >= VARX THEN PRINT "OK"');
+            tokenizer = new Tokenizer('10 VARX = 52\n20 IF 50 < VARX THEN PRINT "OK"');
             parser = new Parser(tokenizer);
             interpreter = new Interpreter(parser);
             const result = interpreter.interpret();
@@ -1192,7 +1125,7 @@ describe('Commands', () => {
           });
         
           it('IF Single Condition Number Literal Lower Literal Number', () => {
-            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 51 >= 50 THEN PRINT "OK"');
+            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 50 < 51 THEN PRINT "OK"');
             parser = new Parser(tokenizer);
             interpreter = new Interpreter(parser);
             const result = interpreter.interpret();
@@ -1200,317 +1133,398 @@ describe('Commands', () => {
           });
         
           it('IF Single Condition Number Variable Lower Variable Number', () => {
-            tokenizer = new Tokenizer('10 VARX = 51\n11 VARY = 50\n20 IF VARX >= VARY THEN PRINT "OK"');
+            tokenizer = new Tokenizer('10 VARX = 50\n11 VARY = 51\n20 IF VARX < VARY THEN PRINT "OK"');
             parser = new Parser(tokenizer);
             interpreter = new Interpreter(parser);
             const result = interpreter.interpret();
             expect(result).to.eql([undefined, undefined, undefined, undefined, 'OK']);
+          });
+        });
+        describe('IF Single Condition Number GreaterEqual', () => {
+          describe('equal', () => {
+            it('IF Single Condition Number Variable GreaterEqual Literal Number', () => {
+              tokenizer = new Tokenizer('10 VARX = 50\n20 IF VARX >= 50 THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, 'OK']);
+            });
+          
+            it('IF Single Condition Number Literal GreaterEqual Variable Number', () => {
+              tokenizer = new Tokenizer('10 VARX = 50\n20 IF 50 >= VARX THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, 'OK']);
+            });
+          
+            it('IF Single Condition Number Literal GreaterEqual Literal Number', () => {
+              tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 50 >= 50 THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, 'OK']);
+            });
+          
+            it('IF Single Condition Number Variable GreaterEqual Variable Number', () => {
+              tokenizer = new Tokenizer('10 VARX = 50\n11 VARY = 50\n20 IF VARX >= VARY THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, undefined, undefined, 'OK']);
+            });
+          });
+          describe('greater', () => {
+    
+            it('IF Single Condition Number Variable GreaterEqual Literal Number', () => {
+              tokenizer = new Tokenizer('10 VARX = 51\n20 IF VARX >= 50 THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, 'OK']);
+            });
+          
+            it('IF Single Condition Number Literal Lower Variable Number', () => {
+              tokenizer = new Tokenizer('10 VARX = 50\n20 IF 51 >= VARX THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, 'OK']);
+            });
+          
+            it('IF Single Condition Number Literal Lower Literal Number', () => {
+              tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 51 >= 50 THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, 'OK']);
+            });
+          
+            it('IF Single Condition Number Variable Lower Variable Number', () => {
+              tokenizer = new Tokenizer('10 VARX = 51\n11 VARY = 50\n20 IF VARX >= VARY THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, undefined, undefined, 'OK']);
+            });
+          });
+        });
+        describe('IF Single Condition Number LowerThan', () => {
+          describe('equal', () => {
+            it('IF Single Condition Number Variable LowerEqual Literal Number', () => {
+              tokenizer = new Tokenizer('10 VARX = 50\n20 IF VARX <= 50 THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, 'OK']);
+            });
+          
+            it('IF Single Condition Number Literal LowerEqual Variable Number', () => {
+              tokenizer = new Tokenizer('10 VARX = 50\n20 IF 50 <= VARX THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, 'OK']);
+            });
+          
+            it('IF Single Condition Number Literal LowerEqual Literal Number', () => {
+              tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 50 <= 50 THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, 'OK']);
+            });
+          
+            it('IF Single Condition Number Variable LowerEqual Variable Number', () => {
+              tokenizer = new Tokenizer('10 VARX = 50\n11 VARY = 50\n20 IF VARX <= VARY THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, undefined, undefined, 'OK']);
+            });
+          });
+          describe('lower', () => {
+    
+            it('IF Single Condition Number Variable LowerEqual Literal Number', () => {
+              tokenizer = new Tokenizer('10 VARX = 40\n20 IF VARX <= 50 THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, 'OK']);
+            });
+          
+            it('IF Single Condition Number Literal LowerEqual Variable Number', () => {
+              tokenizer = new Tokenizer('10 VARX = 66\n20 IF 51 <= VARX THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, 'OK']);
+            });
+          
+            it('IF Single Condition Number Literal LowerEqual Literal Number', () => {
+              tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 50 <= 55 THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, 'OK']);
+            });
+          
+            it('IF Single Condition Number Variable LowerEqual Variable Number', () => {
+              tokenizer = new Tokenizer('10 VARX = 40\n11 VARY = 50\n20 IF VARX <= VARY THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, undefined, undefined, 'OK']);
+            });
           });
         });
       });
-      describe('IF Single Condition Number LowerThan', () => {
-        describe('equal', () => {
-          it('IF Single Condition Number Variable LowerEqual Literal Number', () => {
-            tokenizer = new Tokenizer('10 VARX = 50\n20 IF VARX <= 50 THEN PRINT "OK"');
-            parser = new Parser(tokenizer);
-            interpreter = new Interpreter(parser);
-            const result = interpreter.interpret();
-            expect(result).to.eql([undefined, undefined, 'OK']);
-          });
-        
-          it('IF Single Condition Number Literal LowerEqual Variable Number', () => {
-            tokenizer = new Tokenizer('10 VARX = 50\n20 IF 50 <= VARX THEN PRINT "OK"');
-            parser = new Parser(tokenizer);
-            interpreter = new Interpreter(parser);
-            const result = interpreter.interpret();
-            expect(result).to.eql([undefined, undefined, 'OK']);
-          });
-        
-          it('IF Single Condition Number Literal LowerEqual Literal Number', () => {
-            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 50 <= 50 THEN PRINT "OK"');
-            parser = new Parser(tokenizer);
-            interpreter = new Interpreter(parser);
-            const result = interpreter.interpret();
-            expect(result).to.eql([undefined, undefined, 'OK']);
-          });
-        
-          it('IF Single Condition Number Variable LowerEqual Variable Number', () => {
-            tokenizer = new Tokenizer('10 VARX = 50\n11 VARY = 50\n20 IF VARX <= VARY THEN PRINT "OK"');
-            parser = new Parser(tokenizer);
-            interpreter = new Interpreter(parser);
-            const result = interpreter.interpret();
-            expect(result).to.eql([undefined, undefined, undefined, undefined, 'OK']);
-          });
-        });
-        describe('lower', () => {
-  
-          it('IF Single Condition Number Variable LowerEqual Literal Number', () => {
-            tokenizer = new Tokenizer('10 VARX = 40\n20 IF VARX <= 50 THEN PRINT "OK"');
-            parser = new Parser(tokenizer);
-            interpreter = new Interpreter(parser);
-            const result = interpreter.interpret();
-            expect(result).to.eql([undefined, undefined, 'OK']);
-          });
-        
-          it('IF Single Condition Number Literal LowerEqual Variable Number', () => {
-            tokenizer = new Tokenizer('10 VARX = 66\n20 IF 51 <= VARX THEN PRINT "OK"');
-            parser = new Parser(tokenizer);
-            interpreter = new Interpreter(parser);
-            const result = interpreter.interpret();
-            expect(result).to.eql([undefined, undefined, 'OK']);
-          });
-        
-          it('IF Single Condition Number Literal LowerEqual Literal Number', () => {
-            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 50 <= 55 THEN PRINT "OK"');
-            parser = new Parser(tokenizer);
-            interpreter = new Interpreter(parser);
-            const result = interpreter.interpret();
-            expect(result).to.eql([undefined, undefined, 'OK']);
-          });
-        
-          it('IF Single Condition Number Variable LowerEqual Variable Number', () => {
-            tokenizer = new Tokenizer('10 VARX = 40\n11 VARY = 50\n20 IF VARX <= VARY THEN PRINT "OK"');
-            parser = new Parser(tokenizer);
-            interpreter = new Interpreter(parser);
-            const result = interpreter.interpret();
-            expect(result).to.eql([undefined, undefined, undefined, undefined, 'OK']);
-          });
+      describe('Multiple Conditions', () => {
+        it('IF Multiple Conditions String Variable Equals Literal String AND Literal Number Equals String Variable', () => {
+          tokenizer = new Tokenizer('10 VARX = "Hello World!"\n15 VARY = 12345\n20 IF VARX = "Hello World!" AND 12345 = VARY THEN PRINT "OK"');
+          parser = new Parser(tokenizer);
+          interpreter = new Interpreter(parser);
+          const result = interpreter.interpret();
+          // expect(result).to.eql([undefined, undefined, 'OK']);
+          console.log(result);
         });
       });
     });
     describe('Falsy', () => {
-      describe('IF Single Condition String NotEqual', () => {
-        it('IF Single Condition String Variable NotEquals Literal String', () => {
-          tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF VARX <> "Hello World!" THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined]);
-        });
-      
-        it('IF Single Condition String Literal NotEquals Variable String', () => {
-          tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF "Hello World!" <> VARX THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined]);
-        });
-      
-        it('IF Single Condition String Literal NotEquals Literal String', () => {
-          tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF "Hello World!" <> "Hello World!" THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined]);
-        });
-      
-        it('IF Single Condition String Variable NotEquals Variable String', () => {
-          tokenizer = new Tokenizer('10 VARX = "Hello Wxorld!"\n11 VARY = "Hellxo World!"\n20 IF VARX <> VARY THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined, undefined, 'OK']);
-        });
-      });
-      describe('IF Single Condition Number Equal', () => {
-        it('IF Single Condition Number Variable Equals Literal Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 51\n20 IF VARX = 50 THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined]);
-        });
-      
-        it('IF Single Condition Number Literal Equals Variable Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 51\n20 IF 50 = VARX THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined]);
-        });
-      
-        it('IF Single Condition Number Literal Equals Literal Number', () => {
-          tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 51 = 50 THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined]);
-        });
-      
-        it('IF Single Condition Number Variable Equals Variable Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 51\n11 VARY = 50\n20 IF VARX = VARY THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined, undefined, undefined]);
-        });
-      });
-      describe('IF Single Condition Number NotEqual', () => {
-        it('IF Single Condition Number Variable NotEqual Literal Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 52\n20 IF VARX <> 52 THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined]);
-        });
-      
-        it('IF Single Condition Number Literal NotEqual Variable Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 51\n20 IF 51 <> VARX THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined]);
-        });
-      
-        it('IF Single Condition Number Literal NotEqual Literal Number', () => {
-          tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 52 <> 52 THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined]);
-        });
-      
-        it('IF Single Condition Number Variable NotEqual Variable Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 51\n11 VARY = 51\n20 IF VARX <> VARY THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined, undefined, undefined]);
-        });
-      });
-      describe('IF Single Condition Number Greater', () => {
-        it('IF Single Condition Number Variable Greater Literal Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 50\n20 IF VARX > 52 THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined]);
-        });
-      
-        it('IF Single Condition Number Literal Greater Variable Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 55\n20 IF 52 > VARX THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined]);
-        });
-      
-        it('IF Single Condition Number Literal Greater Literal Number', () => {
-          tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 52 > 55 THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined]);
-        });
-      
-        it('IF Single Condition Number Variable Greater Variable Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 50\n11 VARY = 51\n20 IF VARX > VARY THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined, undefined, undefined]);
-        });
-      });
-      describe('IF Single Condition Number Lower', () => {
-        it('IF Single Condition Number Variable Lower Literal Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 55\n20 IF VARX < 52 THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined]);
-        });
-      
-        it('IF Single Condition Number Literal Lower Variable Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 50\n20 IF 66 < VARX THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined]);
-        });
-      
-        it('IF Single Condition Number Literal Lower Literal Number', () => {
-          tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 53 < 51 THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined]);
-        });
-      
-        it('IF Single Condition Number Variable Lower Variable Number', () => {
-          tokenizer = new Tokenizer('10 VARX = 57\n11 VARY = 51\n20 IF VARX < VARY THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          expect(result).to.eql([undefined, undefined, undefined, undefined, undefined]);
-        });
-      });
-      describe('IF Single Condition Number GreaterEqual', () => {
-        describe('equal', () => {
-          it('IF Single Condition Number Variable GreaterEqual Literal Number', () => {
-            tokenizer = new Tokenizer('10 VARX = 40\n20 IF VARX >= 50 THEN PRINT "OK"');
+      describe('Single Condition', () => {
+        describe('IF Single Condition String NotEqual', () => {
+          it('IF Single Condition String Variable NotEquals Literal String', () => {
+            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF VARX <> "Hello World!" THEN PRINT "OK"');
             parser = new Parser(tokenizer);
             interpreter = new Interpreter(parser);
             const result = interpreter.interpret();
             expect(result).to.eql([undefined, undefined, undefined]);
           });
         
-          it('IF Single Condition Number Literal GreaterEqual Variable Number', () => {
-            tokenizer = new Tokenizer('10 VARX = 55\n20 IF 50 >= VARX THEN PRINT "OK"');
+          it('IF Single Condition String Literal NotEquals Variable String', () => {
+            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF "Hello World!" <> VARX THEN PRINT "OK"');
             parser = new Parser(tokenizer);
             interpreter = new Interpreter(parser);
             const result = interpreter.interpret();
             expect(result).to.eql([undefined, undefined, undefined]);
           });
         
-          it('IF Single Condition Number Literal GreaterEqual Literal Number', () => {
-            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 40 >= 50 THEN PRINT "OK"');
+          it('IF Single Condition String Literal NotEquals Literal String', () => {
+            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF "Hello World!" <> "Hello World!" THEN PRINT "OK"');
             parser = new Parser(tokenizer);
             interpreter = new Interpreter(parser);
             const result = interpreter.interpret();
             expect(result).to.eql([undefined, undefined, undefined]);
           });
         
-          it('IF Single Condition Number Variable GreaterEqual Variable Number', () => {
-            tokenizer = new Tokenizer('10 VARX = 40\n11 VARY = 50\n20 IF VARX >= VARY THEN PRINT "OK"');
+          it('IF Single Condition String Variable NotEquals Variable String', () => {
+            tokenizer = new Tokenizer('10 VARX = "Hello Wxorld!"\n11 VARY = "Hellxo World!"\n20 IF VARX <> VARY THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, undefined, undefined, 'OK']);
+          });
+        });
+        describe('IF Single Condition Number Equal', () => {
+          it('IF Single Condition Number Variable Equals Literal Number', () => {
+            tokenizer = new Tokenizer('10 VARX = 51\n20 IF VARX = 50 THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, undefined]);
+          });
+        
+          it('IF Single Condition Number Literal Equals Variable Number', () => {
+            tokenizer = new Tokenizer('10 VARX = 51\n20 IF 50 = VARX THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, undefined]);
+          });
+        
+          it('IF Single Condition Number Literal Equals Literal Number', () => {
+            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 51 = 50 THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, undefined]);
+          });
+        
+          it('IF Single Condition Number Variable Equals Variable Number', () => {
+            tokenizer = new Tokenizer('10 VARX = 51\n11 VARY = 50\n20 IF VARX = VARY THEN PRINT "OK"');
             parser = new Parser(tokenizer);
             interpreter = new Interpreter(parser);
             const result = interpreter.interpret();
             expect(result).to.eql([undefined, undefined, undefined, undefined, undefined]);
           });
         });
-      });
-      describe('IF Single Condition Number LowerThan', () => {
-        describe('equal', () => {
-          it('IF Single Condition Number Variable LowerEqual Literal Number', () => {
-            tokenizer = new Tokenizer('10 VARX = 55\n20 IF VARX <= 50 THEN PRINT "OK"');
+        describe('IF Single Condition Number NotEqual', () => {
+          it('IF Single Condition Number Variable NotEqual Literal Number', () => {
+            tokenizer = new Tokenizer('10 VARX = 52\n20 IF VARX <> 52 THEN PRINT "OK"');
             parser = new Parser(tokenizer);
             interpreter = new Interpreter(parser);
             const result = interpreter.interpret();
             expect(result).to.eql([undefined, undefined, undefined]);
           });
         
-          it('IF Single Condition Number Literal LowerEqual Variable Number', () => {
-            tokenizer = new Tokenizer('10 VARX = 50\n20 IF 55 <= VARX THEN PRINT "OK"');
+          it('IF Single Condition Number Literal NotEqual Variable Number', () => {
+            tokenizer = new Tokenizer('10 VARX = 51\n20 IF 51 <> VARX THEN PRINT "OK"');
             parser = new Parser(tokenizer);
             interpreter = new Interpreter(parser);
             const result = interpreter.interpret();
             expect(result).to.eql([undefined, undefined, undefined]);
           });
         
-          it('IF Single Condition Number Literal LowerEqual Literal Number', () => {
-            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 55 <= 50 THEN PRINT "OK"');
+          it('IF Single Condition Number Literal NotEqual Literal Number', () => {
+            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 52 <> 52 THEN PRINT "OK"');
             parser = new Parser(tokenizer);
             interpreter = new Interpreter(parser);
             const result = interpreter.interpret();
             expect(result).to.eql([undefined, undefined, undefined]);
           });
         
-          it('IF Single Condition Number Variable LowerEqual Variable Number', () => {
-            tokenizer = new Tokenizer('10 VARX = 55\n11 VARY = 50\n20 IF VARX <= VARY THEN PRINT "OK"');
+          it('IF Single Condition Number Variable NotEqual Variable Number', () => {
+            tokenizer = new Tokenizer('10 VARX = 51\n11 VARY = 51\n20 IF VARX <> VARY THEN PRINT "OK"');
             parser = new Parser(tokenizer);
             interpreter = new Interpreter(parser);
             const result = interpreter.interpret();
             expect(result).to.eql([undefined, undefined, undefined, undefined, undefined]);
+          });
+        });
+        describe('IF Single Condition Number Greater', () => {
+          it('IF Single Condition Number Variable Greater Literal Number', () => {
+            tokenizer = new Tokenizer('10 VARX = 50\n20 IF VARX > 52 THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, undefined]);
+          });
+        
+          it('IF Single Condition Number Literal Greater Variable Number', () => {
+            tokenizer = new Tokenizer('10 VARX = 55\n20 IF 52 > VARX THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, undefined]);
+          });
+        
+          it('IF Single Condition Number Literal Greater Literal Number', () => {
+            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 52 > 55 THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, undefined]);
+          });
+        
+          it('IF Single Condition Number Variable Greater Variable Number', () => {
+            tokenizer = new Tokenizer('10 VARX = 50\n11 VARY = 51\n20 IF VARX > VARY THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, undefined, undefined, undefined]);
+          });
+        });
+        describe('IF Single Condition Number Lower', () => {
+          it('IF Single Condition Number Variable Lower Literal Number', () => {
+            tokenizer = new Tokenizer('10 VARX = 55\n20 IF VARX < 52 THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, undefined]);
+          });
+        
+          it('IF Single Condition Number Literal Lower Variable Number', () => {
+            tokenizer = new Tokenizer('10 VARX = 50\n20 IF 66 < VARX THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, undefined]);
+          });
+        
+          it('IF Single Condition Number Literal Lower Literal Number', () => {
+            tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 53 < 51 THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, undefined]);
+          });
+        
+          it('IF Single Condition Number Variable Lower Variable Number', () => {
+            tokenizer = new Tokenizer('10 VARX = 57\n11 VARY = 51\n20 IF VARX < VARY THEN PRINT "OK"');
+            parser = new Parser(tokenizer);
+            interpreter = new Interpreter(parser);
+            const result = interpreter.interpret();
+            expect(result).to.eql([undefined, undefined, undefined, undefined, undefined]);
+          });
+        });
+        describe('IF Single Condition Number GreaterEqual', () => {
+          describe('equal', () => {
+            it('IF Single Condition Number Variable GreaterEqual Literal Number', () => {
+              tokenizer = new Tokenizer('10 VARX = 40\n20 IF VARX >= 50 THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, undefined]);
+            });
+          
+            it('IF Single Condition Number Literal GreaterEqual Variable Number', () => {
+              tokenizer = new Tokenizer('10 VARX = 55\n20 IF 50 >= VARX THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, undefined]);
+            });
+          
+            it('IF Single Condition Number Literal GreaterEqual Literal Number', () => {
+              tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 40 >= 50 THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, undefined]);
+            });
+          
+            it('IF Single Condition Number Variable GreaterEqual Variable Number', () => {
+              tokenizer = new Tokenizer('10 VARX = 40\n11 VARY = 50\n20 IF VARX >= VARY THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, undefined, undefined, undefined]);
+            });
+          });
+        });
+        describe('IF Single Condition Number LowerThan', () => {
+          describe('equal', () => {
+            it('IF Single Condition Number Variable LowerEqual Literal Number', () => {
+              tokenizer = new Tokenizer('10 VARX = 55\n20 IF VARX <= 50 THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, undefined]);
+            });
+          
+            it('IF Single Condition Number Literal LowerEqual Variable Number', () => {
+              tokenizer = new Tokenizer('10 VARX = 50\n20 IF 55 <= VARX THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, undefined]);
+            });
+          
+            it('IF Single Condition Number Literal LowerEqual Literal Number', () => {
+              tokenizer = new Tokenizer('10 VARX = "Hello World!"\n20 IF 55 <= 50 THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, undefined]);
+            });
+          
+            it('IF Single Condition Number Variable LowerEqual Variable Number', () => {
+              tokenizer = new Tokenizer('10 VARX = 55\n11 VARY = 50\n20 IF VARX <= VARY THEN PRINT "OK"');
+              parser = new Parser(tokenizer);
+              interpreter = new Interpreter(parser);
+              const result = interpreter.interpret();
+              expect(result).to.eql([undefined, undefined, undefined, undefined, undefined]);
+            });
           });
         });
       });
