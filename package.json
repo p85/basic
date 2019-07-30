@@ -21,7 +21,8 @@
     "source-map-support": "0.5.10"
   },
   "scripts": {
-    "test": "nyc mocha -r ts-node/register src/**/*.spec.ts"
+    "test": "nyc mocha -r ts-node/register src/**/*.spec.ts",
+    "testone": "nyc mocha -r ts-node/register src/**/*.spec.ts --grep"
   },
   "nyc": {
     "extension": [
