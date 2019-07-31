@@ -1,11 +1,8 @@
-language: nodejs
-npm:
-  - "5"
-nodejs:
-  - "8.9.0"
+language: node_js
+node_js:
+  - "stable"
 before_install:
   - npm i -g npm@latest
-  - npm i -g node@8.9.0
 
 before_script:
   - npm run setup
