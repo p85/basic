@@ -3,6 +3,8 @@ npm:
   - "5"
 nodejs:
   - "8"
+before_install:
+  - npm i -g npm
 
 before_script:
   - npm run setup
