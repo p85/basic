@@ -1,7 +1,7 @@
 language: nodejs
 npm:
   - "5"
-node_js:
+nodejs:
   - "8"
 
 before_script:
