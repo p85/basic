@@ -4,7 +4,7 @@ npm:
 nodejs:
   - "8.9.0"
 before_install:
-  - npm i -g npm@5.5.1
+  - npm i -g npm@latest
   - npm i -g node@8.9.0
 
 before_script:
