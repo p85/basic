@@ -1279,16 +1279,6 @@ describe('Commands', () => {
           });
         });
       });
-      describe('Multiple Conditions', () => {
-        it('IF Multiple Conditions String Variable Equals Literal String AND Literal Number Equals String Variable', () => {
-          tokenizer = new Tokenizer('10 VARX = "Hello World!"\n15 VARY = 12345\n20 IF VARX = "Hello World!" AND 12345 = VARY THEN PRINT "OK"');
-          parser = new Parser(tokenizer);
-          interpreter = new Interpreter(parser);
-          const result = interpreter.interpret();
-          // expect(result).to.eql([undefined, undefined, 'OK']);
-          console.log(result);
-        });
-      });
     });
     describe('Falsy', () => {
       describe('Single Condition', () => {
