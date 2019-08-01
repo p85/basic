@@ -5,6 +5,7 @@
         "types": ["typescript", "node"],
         "module": "commonjs",
         "outDir": "./dist",
+        "rootDir": "./src",
         "declaration": true
     },
     "include": [
