@@ -2,8 +2,8 @@
   "name": "abasic",
   "version": "0.1.0",
   "description": "BASIC Interpreter",
-  "main": "./dist/abasic.js",
-  "types": "./dist/abasic.d.js",
+  "main": "./dist/tests/tokenizerinterpreter.spec.js",
+  "types": "./dist/tests/tokenizerinterpreter.spec.d.ts",
   "dependencies": {
     "ts-node": "7.0.1",
     "typescript": "3.2.4",
