@@ -7,10 +7,18 @@ A BASIC Interpreter
 ## Running the Tests
     npm run test
 With Code Coverage:
-
     npm run test-with-coverage
 ## Usage
     node ./dist/abasic.js -i <basic.bas>
+
+## Code Documentation
+can be found in docs/
+
+## Code Coverage
+can be found in coverage/
+Make sure to run before
+
+`npm run test-with-coverage`
 
 ## Implemented Commands
     Maths (+ - / * MOD AND OR)
