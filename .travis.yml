@@ -1,11 +1,14 @@
 language: node_js
 node_js:
-  - "8"
+  "8"
+sudo: required
 before_install:
-  - npm i -g npm@latest
+  npm i -g npm@latest
+cache:
+  npm: true
 install:
-  - npm run setup
+  npm run setup
 before_script:
-  - npm run build
+  npm run build
 script:
-  - npm run test-only
+  npm run test-only
